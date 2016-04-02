@@ -23,10 +23,10 @@ BUILD_DEPENDS= avr-gcc:devel/avr-gcc \
 OPTIONS_DEFINE= DOCS EXAMPLES
 
 DOCS_ALL_TARGET= doc
+DOCS_USE= tex=latex:build tex=pdftex:build tex=texmf:build
 
 EXAMPLES_ALL_TARGET= build-examples
-EXAMPLES_USE_XORG= xdamage xcb xext xfixes xrandr
-EXAMPLES_USE_GL= glut
+EXAMPLES_USE= xorg=xdamage xorg=xcb xorg=xext xorg=xfixes xorg=xrandr gl=glut
 
 post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}
