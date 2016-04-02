@@ -1,0 +1,13 @@
+--- examples/Makefile.opengl.orig	2016-04-02 01:56:35.166404000 +0200
++++ examples/Makefile.opengl	2016-04-02 01:56:55.163501000 +0200
+@@ -11,8 +11,8 @@
+ ifeq (${shell uname -o}, Msys)
+ LDFLAGS 	+= -mwindows -lopengl32 -lfreeglut
+ else
+-CPPFLAGS	+= ${shell pkg-config --cflags glu glut} -DFREEBSD=1
+-LDFLAGS 	+= ${shell pkg-config --libs glu glut}
++CPPFLAGS	+= ${shell pkg-config --cflags glu} -DFREEBSD=1
++LDFLAGS 	+= ${shell pkg-config --libs glu} -lglut
+ endif
+ endif
+ endif
