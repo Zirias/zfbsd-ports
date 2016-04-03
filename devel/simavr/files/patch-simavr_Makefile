@@ -1,6 +1,6 @@
---- simavr/Makefile.orig	2016-04-02 02:39:51.972644000 +0200
-+++ simavr/Makefile	2016-04-02 02:40:51.919764000 +0200
-@@ -73,10 +73,7 @@
+--- simavr/Makefile.orig	2016-01-19 09:41:55 UTC
++++ simavr/Makefile
+@@ -73,10 +73,7 @@ ${OBJ}/libsimavr.so		: ${OBJ}/libsimavr.
  	ln -sf libsimavr.so.1 $@
  
  libsimavr	: config ${OBJ}/libsimavr.a
@@ -11,7 +11,7 @@
  
  ${OBJ}/${target}.elf	: ${OBJ}/${target}.o
  
-@@ -103,15 +100,13 @@
+@@ -103,15 +100,13 @@ install : all
  	$(INSTALL) -m644 sim/avr/*.h $(DESTDIR)/include/simavr/avr/
  	$(MKDIR) $(DESTDIR)/lib
  	$(INSTALL) ${OBJ}/libsimavr.a $(DESTDIR)/lib/

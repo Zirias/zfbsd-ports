@@ -1,5 +1,5 @@
---- examples/parts/uart_pty.c.orig	2016-04-02 01:43:30.716107000 +0200
-+++ examples/parts/uart_pty.c	2016-04-02 01:44:36.824775000 +0200
+--- examples/parts/uart_pty.c.orig	2016-01-19 09:41:55 UTC
++++ examples/parts/uart_pty.c
 @@ -30,8 +30,15 @@
  #ifdef __APPLE__
  #include <util.h>

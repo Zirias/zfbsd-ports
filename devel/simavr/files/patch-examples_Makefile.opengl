@@ -1,6 +1,6 @@
---- examples/Makefile.opengl.orig	2016-04-02 01:56:35.166404000 +0200
-+++ examples/Makefile.opengl	2016-04-02 01:56:55.163501000 +0200
-@@ -11,8 +11,8 @@
+--- examples/Makefile.opengl.orig	2016-01-19 09:41:55 UTC
++++ examples/Makefile.opengl
+@@ -11,8 +11,8 @@ else
  ifeq (${shell uname -o}, Msys)
  LDFLAGS 	+= -mwindows -lopengl32 -lfreeglut
  else

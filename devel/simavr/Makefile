@@ -1,39 +1,46 @@
 # $FreeBSD$
 
-PORTNAME= simavr
-PORTVERSION= 1.3
-CATEGORIES= devel
+PORTNAME=	simavr
+PORTVERSION=	1.3
+CATEGORIES=	devel
 
-MAINTAINER= felix@palmen-it.de
-COMMENT= an AVR chip simulator
+MAINTAINER=	felix@palmen-it.de
+COMMENT=	Simulator for several Atmel AVR chips
 
-USE_GITHUB= yes
-GH_ACCOUNT= buserror
-GH_TAGNAME= v${PORTVERSION}
+LICENSE=	GPLv3
 
-USES= gmake
-ALL_TARGET= build-simavr
-MAKE_ARGS= "RELEASE=1 PREFIX=${PREFIX} DESTDIR=${STAGEDIR}${PREFIX}"
+BUILD_DEPENDS=	avr-gcc:devel/avr-gcc \
+		${LOCALBASE}/avr/lib/libc.a:devel/avr-libc
 
-USE_LDCONFIG= yes
+USE_GITHUB=	yes
+GH_ACCOUNT=	buserror
+GH_TAGNAME=	v${PORTVERSION}
 
-BUILD_DEPENDS= avr-gcc:devel/avr-gcc \
-	${LOCALBASE}/avr/lib/libc.a:devel/avr-libc
+USES=		gmake
+ALL_TARGET=	build-simavr
+MAKE_ARGS=	"RELEASE=1 PREFIX=${PREFIX} DESTDIR=${STAGEDIR}${PREFIX}"
 
-OPTIONS_DEFINE= DOCS EXAMPLES
+USE_LDCONFIG=	yes
 
-DOCS_ALL_TARGET= doc
-DOCS_USE= tex=latex:build tex=pdftex:build tex=texmf:build
+OPTIONS_DEFINE=		DOCS EXAMPLES
 
-EXAMPLES_ALL_TARGET= build-examples
-EXAMPLES_USE= xorg=xdamage xorg=xcb xorg=xext xorg=xfixes xorg=xrandr gl=glut
+DOCS_ALL_TARGET=	doc
+DOCS_USE=		tex=latex:build tex=pdftex:build tex=texmf:build
+
+EXAMPLES_ALL_TARGET=	build-examples
+EXAMPLES_USE=		xorg=xdamage xorg=xcb xorg=xext xorg=xfixes \
+			xorg=xrandr gl=glut
+
+OBJDIRNAME=		obj-${:!${CC} -dumpmachine!}
+
+post-install:
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/simavr
+	${STRIP_CMD} ${STAGEDIR}${PREFIX}/lib/libsimavr.so.1
 
 post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}
 	${INSTALL_MAN} ${WRKSRC}/doc/manual/manual.pdf ${STAGEDIR}${DOCSDIR}
 	${INSTALL_MAN} ${WRKSRC}/doc/simavr_callgraph.pdf ${STAGEDIR}${DOCSDIR}
-
-OBJDIRNAME= obj-${:!${CC} -dumpmachine!}
 
 post-install-EXAMPLES-on:
 .for BOARD ELF in \
@@ -52,10 +59,18 @@ post-install-EXAMPLES-on:
 			${WRKSRC}/examples/board_${BOARD}/Makefile \
 			${STAGEDIR}${EXAMPLESDIR}/board_${BOARD}/
 .endfor
-.for EXDIR in /parts /shared
-	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}${EXDIR}
-	${INSTALL_DATA} ${WRKSRC}/examples${EXDIR}/*.[hc] \
-			${STAGEDIR}${EXAMPLESDIR}${EXDIR}
+.for AXF in \
+		hd77480/atmega48_charlcd \
+		i2ctest/atmega1280_i2ctest \
+		ledramp/atmega48_ledramp \
+		ssd1306/atmega32_ssd1306 \
+		timer_64led/atmega168_timer_64led
+	${STRIP_CMD} ${STAGEDIR}${EXAMPLESDIR}/board_${AXF}.axf
+.endfor
+.for EXDIR in parts shared
+	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/${EXDIR}
+	${INSTALL_DATA} ${WRKSRC}/examples/${EXDIR}/*.[hc] \
+			${STAGEDIR}${EXAMPLESDIR}/${EXDIR}
 .endfor
 	${INSTALL_DATA} ${WRKSRC}/Makefile.common ${STAGEDIR}${EXAMPLESDIR}
 	${INSTALL_DATA} ${WRKSRC}/examples/Makefile ${STAGEDIR}${EXAMPLESDIR}
@@ -63,4 +78,3 @@ post-install-EXAMPLES-on:
 			${STAGEDIR}${EXAMPLESDIR}
 
 .include <bsd.port.mk>
-
