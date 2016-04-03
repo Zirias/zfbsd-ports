@@ -5,6 +5,8 @@ PORTNAME=	simavr
 PORTVERSION=	1.3
 CATEGORIES=	devel
 
+PATCH_DIST_STRIP=	-p1
+
 MAINTAINER=	felix@palmen-it.de
 COMMENT=	Simulator for several Atmel AVR chips
 
@@ -23,7 +25,8 @@ MAKE_ARGS=	"RELEASE=1 PREFIX=${PREFIX} DESTDIR=${STAGEDIR}${PREFIX}"
 
 USE_LDCONFIG=	yes
 
-OPTIONS_DEFINE=		DOCS EXAMPLES
+OPTIONS_DEFINE=		DOCS EXAMPLES THREADSAFE
+THREADSAFE_DESC=	Add a patch to make debugging output thread-safe
 
 DOCS_ALL_TARGET=	doc
 DOCS_USE=		tex=latex:build tex=pdftex:build tex=texmf:build
@@ -31,6 +34,9 @@ DOCS_USE=		tex=latex:build tex=pdftex:build tex=texmf:build
 EXAMPLES_ALL_TARGET=	build-examples
 EXAMPLES_USE=		xorg=xdamage xorg=xcb xorg=xext xorg=xfixes \
 			xorg=xrandr gl=glut
+
+THREADSAFE_PATCH_SITES=	https://github.com/zirias/simavr/commit/
+THREADSAFE_PATCHFILES=	4b7c8c5245e1bbb8cac04948564622f47178b5f0.diff
 
 OBJDIRNAME=		obj-${:!${CC} -dumpmachine!}
 
