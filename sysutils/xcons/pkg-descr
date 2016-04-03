@@ -1,0 +1,6 @@
+X CONsole Socket consists of two tools, one acts as a service to be piped
+to from syslogd, the other is a client designed to run in any X terminal
+emulator showing all messages coming from the service. This way it's
+possible to have an xconsole-like window using your favorite xterm.
+
+WWW: https://github.com/zirias/xcons

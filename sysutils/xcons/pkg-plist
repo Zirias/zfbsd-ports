@@ -1,0 +1,3 @@
+bin/xcons_curses
+bin/xcons_service
+@dir var/run
