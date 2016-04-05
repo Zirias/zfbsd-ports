@@ -20,7 +20,7 @@ USE_GITHUB=	yes
 GH_ACCOUNT=	buserror
 GH_TAGNAME=	v${PORTVERSION}
 
-USES=		gmake
+USES=		gmake pkgconfig
 ALL_TARGET=	build-simavr
 MAKE_ARGS=	"RELEASE=1 PREFIX=${PREFIX} DESTDIR=${STAGEDIR}${PREFIX}"
 
