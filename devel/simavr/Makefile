@@ -13,6 +13,7 @@ COMMENT=	Simulator for several Atmel AVR chips
 LICENSE=	GPLv3
 
 BUILD_DEPENDS=	avr-gcc:devel/avr-gcc \
+		bash:shells/bash \
 		${LOCALBASE}/avr/lib/libc.a:devel/avr-libc
 
 USE_GITHUB=	yes
