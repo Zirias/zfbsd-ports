@@ -39,7 +39,9 @@ EXAMPLES_USE=		xorg=xdamage xorg=xcb xorg=xext xorg=xfixes \
 THREADSAFE_PATCH_SITES=	https://github.com/zirias/simavr/commit/
 THREADSAFE_PATCHFILES=	4b7c8c5245e1bbb8cac04948564622f47178b5f0.diff
 
-OBJDIRNAME=		obj-${:!${CC} -dumpmachine!}
+AVR_STRIP_CMD?=	avr-strip
+MACHINENAME!=	${CC} -dumpmachine
+OBJDIRNAME=	obj-${MACHINENAME}
 
 post-install:
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/simavr
@@ -51,21 +53,18 @@ post-install-DOCS-on:
 	${INSTALL_MAN} ${WRKSRC}/doc/simavr_callgraph.pdf ${STAGEDIR}${DOCSDIR}
 
 post-install-EXAMPLES-on:
-.for BOARD ELF in \
-		hd77480 charlcd \
-		i2ctest i2ctest \
-		ledramp ledramp \
-		simduino simduino \
-		ssd1306 ssd1306demo \
-		timer_64led timer_64led
-	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/board_${BOARD}
+.for BOARDELF in hd77480,charlcd i2ctest ledramp simduino ssd1306,ssd1306demo timer_64led
+	BOARDELF=${BOARDELF}; \
+	BOARD=$${BOARDELF%%,*}; \
+	ELF=$${BOARDELF##*,}; \
+	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/board_$${BOARD}; \
 	${INSTALL_PROGRAM} \
-		${WRKSRC}/examples/board_${BOARD}/${OBJDIRNAME}/${ELF}.elf \
-		${STAGEDIR}${EXAMPLESDIR}/board_${BOARD}/${ELF}
-	${INSTALL_DATA} ${WRKSRC}/examples/board_${BOARD}/*.[aihc]* \
-			${WRKSRC}/examples/board_${BOARD}/README \
-			${WRKSRC}/examples/board_${BOARD}/Makefile \
-			${STAGEDIR}${EXAMPLESDIR}/board_${BOARD}/
+		${WRKSRC}/examples/board_$${BOARD}/${OBJDIRNAME}/$${ELF}.elf \
+		${STAGEDIR}${EXAMPLESDIR}/board_$${BOARD}/$${ELF}; \
+	${INSTALL_DATA} ${WRKSRC}/examples/board_$${BOARD}/*.[aihc]* \
+			${WRKSRC}/examples/board_$${BOARD}/README \
+			${WRKSRC}/examples/board_$${BOARD}/Makefile \
+			${STAGEDIR}${EXAMPLESDIR}/board_$${BOARD}/
 .endfor
 .for AXF in \
 		hd77480/atmega48_charlcd \
@@ -73,7 +72,7 @@ post-install-EXAMPLES-on:
 		ledramp/atmega48_ledramp \
 		ssd1306/atmega32_ssd1306 \
 		timer_64led/atmega168_timer_64led
-	${STRIP_CMD} ${STAGEDIR}${EXAMPLESDIR}/board_${AXF}.axf
+	${AVR_STRIP_CMD} ${STAGEDIR}${EXAMPLESDIR}/board_${AXF}.axf
 .endfor
 .for EXDIR in parts shared
 	${MKDIR} ${STAGEDIR}${EXAMPLESDIR}/${EXDIR}
