@@ -40,8 +40,8 @@ THREADSAFE_PATCH_SITES=	https://github.com/zirias/simavr/commit/
 THREADSAFE_PATCHFILES=	4b7c8c5245e1bbb8cac04948564622f47178b5f0.diff
 
 AVR_STRIP_CMD?=	avr-strip
-MACHINENAME!=	${CC} -dumpmachine
-OBJDIRNAME=	obj-${MACHINENAME}
+DUMPMACHINE=	${CC} -dumpmachine
+OBJDIRNAME=	obj-$$(${DUMPMACHINE})
 
 post-install:
 	${STRIP_CMD} ${STAGEDIR}${PREFIX}/bin/simavr
