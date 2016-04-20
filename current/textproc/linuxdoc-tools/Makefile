@@ -32,12 +32,9 @@ WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
 
 OPTIONS_DEFINE=	DOCS
 
-DOCS_BUILD_DEPENDS=	bash:shells/bash
+DOCS_BUILD_DEPENDS=	bash:shells/bash dvips:print/tex-dvipsk
 DOCS_USES=		makeinfo
-DOCS_MAKE_ENV=		LANG=C BUILD_DOCS=true
-
-post-patch:
-	@${REINPLACE_CMD} -E '/^(CC|CFLAGS)/ s|=|?=|' \
-		${WRKSRC}/rtf-fix/Makefile
+DOCS_CONFIGURE_ENABLE=	docs
+DOCS_MAKE_ENV=		LANG=C
 
 .include <bsd.port.mk>
