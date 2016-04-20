@@ -2,7 +2,7 @@
 # $FreeBSD: head/textproc/linuxdoc-tools/Makefile 412371 2016-04-01 20:17:25Z amdmi3 $
 
 PORTNAME=	linuxdoc-tools
-PORTVERSION=	0.9.69
+PORTVERSION=	0.9.71
 CATEGORIES=	textproc
 MASTER_SITES=	DEBIAN
 DISTNAME=	${PORTNAME}_${DISTVERSION}.orig
