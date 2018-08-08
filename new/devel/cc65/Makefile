@@ -2,61 +2,51 @@
 # $FreeBSD$
 
 PORTNAME=	cc65
-PORTVERSION=	2.13.3
-DISTVERSIONPREFIX=	sources-
-PORTREVISION=	1
+PORTVERSION=	2.17
+DISTVERSIONPREFIX=	V
 CATEGORIES=	devel
-MASTER_SITES=	http://bj.spline.de/cc65/ \
-		http://cc65.oldos.net/ \
-		ftp://ftp.musoftware.de/pub/uz/cc65/
+USE_GITHUB=	yes
 
-MAINTAINER=	ports@FreeBSD.org
+MAINTAINER=	felix@palmen-it.de
 COMMENT=	Cross-compiler for 6502-based systems, includes 65816 assembler
 
 LICENSE=	ZLIB
 
-WRKSRC=		${WRKDIR}/${PORTNAME}-${PORTVERSION}
+USES=		gmake
 
-USES=		gmake perl5 shebangfix tar:bzip2
-USE_PERL5=	build
-MAKEFILE=	${WRKSRC}/make/gcc.mak
-MAKE_JOBS_UNSAFE=yes
-SHEBANG_FILES=	src/ca65html/ca65html \
-		src/ca65/macpack/cvt-mac.pl \
-		src/ld65/cfg/cvt-cfg.pl
+MAKE_ARGS=	CC=cc PREFIX=${PREFIX}
+ALL_TARGET=	bin lib
 
-SUB_FILES=	pkg-message
+MAKE_JOBS_UNSAFE=	yes
+
+do-install:
+		gmake ${MAKE_ARGS} DESTDIR=${STAGEDIR} \
+			-C ${WRKSRC}/src install
+		gmake ${MAKE_ARGS} DESTDIR=${STAGEDIR} \
+			-C ${WRKSRC}/libsrc install
 
 OPTIONS_DEFINE=	DOCS EXAMPLES
 
-post-patch:
-	@${FIND} ${WRKSRC} -name "gcc.mak" | ${XARGS} ${REINPLACE_CMD} -e \
-		'/gcc/s|^CC|#CC| ; \
-		/-O2/s|^CFLAGS|#CFLAGS|'
-	@${REINPLACE_CMD} -E -e '/^prefix/s|=.*|= $${PREFIX}| ; \
-		 /^(docdir|CC65_DOC)/ s|=.*|=| ; \
-		 /^INSTALL_DATA/s|=.*|= $${BSD_INSTALL_DATA}| ; \
-		 /^INSTALL_PROG/s|=.*|= $${BSD_INSTALL_SCRIPT}| ; \
-		 /^INSTALL_STRIP/s|=.*|= $${BSD_INSTALL_PROGRAM}| ; \
-		 /^all:/s|docs|| ; /^install:/s|install-docs|| ; \
-		 s|MKDIR) |&-p $$(DESTDIR)|g ; \
-		 /INSTALL_(PROG|STRIP)/ s,bindir),DESTDIR)$$(&,g ; \
-		 /INSTALL_DATA/ s,(CA|CC|LD)65_(CFG|INC|HOME|LIB|OBJ),DESTDIR)$$(&,g' \
-		${WRKSRC}/make/gcc.mak
+DOCS_BUILD_DEPENDS=	linuxdoc:textproc/linuxdoc-tools makeinfo:print/texinfo
+DOCS_ALL_TARGET=	doc
+DOCS_INFO=		apple2 apple2enh ar65 atari atari2600 atari5200 atmos \
+			c128 c16 c64 ca65 cbm510 cbm610 cc65-intern cc65 \
+			chrcvt65 cl65 co65 coding creativision customizing \
+			da65 debugging dio funcref gamate geos grc65 index \
+			intro ld65 library lynx nes od65 osi pce pet plus4 \
+			sim65 smc sp65 supervision telestrat tgi using-make \
+			vic20
 
-# XXX: gmake>=3.82 hack:  beats the hell out of me.  Quick fix.
-pre-install:
-	@${MKDIR} ${STAGEDIR}${PREFIX}/lib/cc65/tgi
+do-install-DOCS-on:
+		gmake ${MAKE_ARGS} DESTDIR=${STAGEDIR} infodir=${PREFIX}/info \
+			-C ${WRKSRC}/doc install
 
-post-install-DOCS-on:
-	@${MKDIR} ${STAGEDIR}${DOCSDIR}
-.for i in BUGS CREDITS compile.txt internal.txt newvers.txt readme.1st
-	${INSTALL_DATA} ${WRKSRC}/doc/${i} ${STAGEDIR}${DOCSDIR}
-.endfor
-	${INSTALL_DATA} ${WRKSRC}/src/ca65/macpack/*.mac ${STAGEDIR}${DOCSDIR}
+do-build-EXAMPLES-on:
+		gmake CC65_HOME=${WRKSRC} CFLAGS= PREFIX=${PREFIX} \
+			-C ${WRKSRC}/samples
 
-post-install-EXAMPLES-on:
-	@${MKDIR} ${STAGEDIR}${EXAMPLESDIR}
-	(cd ${WRKSRC}/samples && ${COPYTREE_SHARE} . ${STAGEDIR}${EXAMPLESDIR})
+do-install-EXAMPLES-on:
+		gmake ${MAKE_ARGS} DESTDIR=${STAGEDIR} \
+			-C ${WRKSRC}/samples install
 
 .include <bsd.port.mk>
