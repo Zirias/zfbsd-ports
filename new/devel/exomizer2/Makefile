@@ -28,7 +28,7 @@ DATADIR=	${PREFIX}/share/exomizer
 DOCSDIR=	${PREFIX}/share/doc/exomizer
 
 do-extract:
-		@${MKDIR} -p ${WRKSRC}
+		@${MKDIR} ${WRKSRC}
 		@unzip -q -d ${WRKSRC} ${DISTDIR}/${DISTFILES}
 
 do-build:

@@ -24,7 +24,7 @@ CONFLICTS_INSTALL=	exomizer2
 USES=		gmake
 
 do-extract:
-		@${MKDIR} -p ${WRKSRC}
+		@${MKDIR} ${WRKSRC}
 		@unzip -q -d ${WRKSRC} ${DISTDIR}/${DISTFILES}
 
 do-build:
