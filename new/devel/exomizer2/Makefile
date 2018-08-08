@@ -1,9 +1,10 @@
 # Created by: Felix Palmen <felix@palmen-it.de>
 # $FreeBSD$
 
-PORTNAME=	exomizer
-PORTVERSION=	3.0.0
+PORTNAME=	exomizer2
+PORTVERSION=	2.0.11
 CATEGORIES=	devel
+DISTNAME=	exomizer-${DISTVERSION}
 MASTER_SITES=	https://bitbucket.org/magli143/exomizer/wiki/downloads/
 EXTRACT_SUFX=	.zip
 
@@ -20,8 +21,11 @@ LICENSE_TEXT_EXO=	The names of this software and/or it's copyright \
 LICENSE_PERMS_EXO=	dist-mirror no-dist-sell pkg-mirror no-pkg-sell \
 			auto-accept
 
-CONFLICTS_INSTALL=	exomizer2
+CONFLICTS_INSTALL=	exomizer
 USES=		gmake
+
+DATADIR=	${PREFIX}/share/exomizer
+DOCSDIR=	${PREFIX}/share/doc/exomizer
 
 do-extract:
 		@${MKDIR} -p ${WRKSRC}
