@@ -1,0 +1,15 @@
+bin/acme
+%%PORTDOCS%%%%DOCSDIR%%/65816.txt
+%%PORTDOCS%%%%DOCSDIR%%/AddrModes.txt
+%%PORTDOCS%%%%DOCSDIR%%/AllPOs.txt
+%%PORTDOCS%%%%DOCSDIR%%/Changes.txt
+%%PORTDOCS%%%%DOCSDIR%%/Errors.txt
+%%PORTDOCS%%%%DOCSDIR%%/Example.txt
+%%PORTDOCS%%%%DOCSDIR%%/Floats.txt
+%%PORTDOCS%%%%DOCSDIR%%/Help.txt
+%%PORTDOCS%%%%DOCSDIR%%/Illegals.txt
+%%PORTDOCS%%%%DOCSDIR%%/Lib.txt
+%%PORTDOCS%%%%DOCSDIR%%/QuickRef.txt
+%%PORTDOCS%%%%DOCSDIR%%/Source.txt
+%%PORTDOCS%%%%DOCSDIR%%/Upgrade.txt
+%%PORTDOCS%%%%DOCSDIR%%/cputypes.txt
