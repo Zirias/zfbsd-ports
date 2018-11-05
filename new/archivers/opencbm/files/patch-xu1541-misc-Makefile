@@ -1,0 +1,8 @@
+--- xu1541/misc/Makefile.orig	2018-11-04 13:51:16.892279000 +0100
++++ xu1541/misc/Makefile	2018-11-04 13:52:23.987757000 +0100
+@@ -84,4 +84,4 @@
+ $(EVENT_LOG)$(EXE_SUFFIX): xu1541lib
+ 
+ xu1541lib:
+-	make -C ../lib/
++	gmake -C ../lib/

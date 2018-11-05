@@ -1,0 +1,11 @@
+--- LINUX/Makefile.orig	2018-11-04 14:10:35.771433000 +0100
++++ LINUX/Makefile	2018-11-04 14:10:54.608629000 +0100
+@@ -21,7 +21,7 @@
+ 
+ SUBDIRS_PLUGIN_XUM1541 = opencbm/lib/plugin/xum1541 xum1541cfg
+ 
+-SUBDIRS_PLUGIN_XA1541 = opencbm/lib/plugin/xa1541 opencbm/sys/linux/
++SUBDIRS_PLUGIN_XA1541 = opencbm/lib/plugin/xa1541 #opencbm/sys/linux/
+ 
+ SUBDIRS_OPTIONAL = opencbm/addon opencbm/nibtools opencbm/mnib36 opencbm/cbmrpm41 opencbm/cbmlinetester
+ 
