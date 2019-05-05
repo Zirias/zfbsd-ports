@@ -1,10 +1,17 @@
-lib/libdriveio.so.0
-lib/libmakemkv.so.1
-lib/libmmbd.so.0
-share/MakeMKV/appdata.tar
-share/MakeMKV/blues.jar
-share/MakeMKV/blues.policy
-/usr/local/bin/makemkvcon
-/usr/local/sbin/update-makemkv-drives
-@postexec /usr/local/sbin/update-makemkv-drives
-@postunexec rm -fr /opt/makemkv
+@dir /opt
+@dir /opt/makemkv
+@dir /opt/makemkv/bin
+@dir /opt/makemkv/lib
+@dir /opt/makemkv/share
+@dir /opt/makemkv/share/MakeMKV
+/opt/makemkv/bin/makemkvcon
+/opt/makemkv/lib/libdriveio.so.0
+/opt/makemkv/lib/libmakemkv.so.1
+/opt/makemkv/lib/libmmbd.so.0
+/opt/makemkv/share/MakeMKV/appdata.tar
+/opt/makemkv/share/MakeMKV/blues.jar
+/opt/makemkv/share/MakeMKV/blues.policy
+bin/makemkvcon
+sbin/update-makemkv-drives
+@postexec update-makemkv-drives
+@preunexec rm -fr /opt/makemkv/devices; rm -fr /opt/makemkv/drivers

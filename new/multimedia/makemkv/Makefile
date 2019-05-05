@@ -8,21 +8,27 @@ DIST_SUBDIR=	${PORTNAME}
 
 FDKAACVERSION=	2.0.0
 FFMPEGVERSION=	4.1.3
+OPENSSLVERSION=	${"${linux_ARGS:Mc7}" != "":?1.0.2:1.0.1}
+OPENSSLPATCHLEVEL=	${"${linux_ARGS:Mc7}" != "":?k:e}
+OPENSSLFULLVER=	${OPENSSLVERSION}${OPENSSLPATCHLEVEL}
 
 MASTER_SITES=	http://www.makemkv.com/download/old/:makemkv \
 		http://www.makemkv.com/download/:makemkv \
 		SF/opencore-amr/fdk-aac/:fdkaac \
-		https://ffmpeg.org/releases/:ffmpeg
+		https://ffmpeg.org/releases/:ffmpeg \
+		https://www.openssl.org/source/old/${OPENSSLVERSION}/:openssl
 DISTFILES=	makemkv-oss-${PORTVERSION}.tar.gz:makemkv \
 		makemkv-bin-${PORTVERSION}.tar.gz:makemkv \
 		fdk-aac-${FDKAACVERSION}.tar.gz:fdkaac \
-		ffmpeg-${FFMPEGVERSION}.tar.bz2:ffmpeg
+		ffmpeg-${FFMPEGVERSION}.tar.bz2:ffmpeg \
+		openssl-${OPENSSLFULLVER}.tar.gz:openssl
+
 
 RESTRICTED=	yes
 RESTRICTED_FILES=	makemkv-bin-${PORTVERSION}.tar.gz
 ONLY_FOR_ARCHS=	i386 amd64
 
-LICENSE=	MAKEMKV FDK LGPL21+
+LICENSE=	MAKEMKV FDK LGPL21+ OpenSSL
 LICENSE_COMB=	multi
 LICENSE_NAME_MAKEMKV=	The MakeMKV EULA
 LICENSE_NAME_FDK=	The FDK AAC License
@@ -34,6 +40,7 @@ LICENSE_PERMS_FDK=	dist-mirror no-dist-sell pkg-mirror no-pkg-sell \
 			auto-accept
 LICENSE_DISTFILES_FDK=	fdk-aac-${FDKAACVERSION}.tar.gz
 LICENSE_DISTFILES_LGPL21+ =	ffmpeg-${FFMPEGVERSION}.tar.bz2
+LICENSE_DISTFILES_OpenSSL=	openssl-${OPENSSLFULLVER}.tar.gz
 LICENSE_DISTFILES_MAKEMKV=	makemkv-bin-${PORTVERSION}.tar.gz \
 				makemkv-oss-${PORTVERSION}.tar.gz
 
@@ -46,19 +53,22 @@ BUILD_DEPENDS=	nasm>0:devel/nasm \
 		${LOCALBASE}/include/expat.h:textproc/expat2 \
 		patchelf>0:sysutils/patchelf
 
-USES=	gmake linux pkgconfig ssl:build
+USES=	gmake linux pkgconfig perl5
 USE_LINUX=	base expat expat:build openssl openssl:build devtools:build
+USE_PERL5=	build
 
 LINUXTRIPLET=	${LINUX_ARCH}-redhat-linux
-LINUXLIBDIR=	${LINUXBASE}/${LINUX_ARCH:Mx86_64:?lib64:lib}
+LINUXLIBDIR=	${LINUXBASE}/${"${LINUX_ARCH:Mx86_64}" != "":?lib64:lib}
+OPENSSLTARGET=	${"${LINUX_ARCH:Mx86_64}" != "":?linux-x86_64:linux-elf}
 
-PREFIX=		/opt/makemkv
+OPTPREFIX=	/opt/makemkv
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=${PREFIX} --disable-gui --host=${LINUXTRIPLET}
+CONFIGURE_ARGS=	--prefix=${OPTPREFIX} --disable-gui --host=${LINUXTRIPLET}
 CONFIGURE_ENV=	CC=${LINUXTRIPLET}-gcc CXX=${LINUXTRIPLET}-g++ \
 		PATH=${WRKDIR}/staticlibs/bin:${PATH} \
 		PKG_CONFIG_PATH=${WRKDIR}/staticlibs/lib/pkgconfig \
 		CPPFLAGS=-I${LOCALBASE}/include \
+		CFLAGS="-DFORCE_OPENSSL_NO_EC -I${WRKDIR}/openssl-${OPENSSLFULLVER}/include" \
 		LDFLAGS=-L${WRKDIR}/staticlibs/lib
 
 MAKE_ENV=	PATH=${WRKDIR}/staticlibs/bin:${PATH}
@@ -105,21 +115,26 @@ pre-configure:
 		${MAKE_CMD} ARCH=x86 && \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
 		${MAKE_CMD} install
+		cd ${WRKDIR}/openssl-${OPENSSLFULLVER}; \
+		./Configure --openssldir= --prefix=/usr ${OPENSSLTARGET}
+
+pre-install:
+		${MKDIR} ${STAGEDIR}${OPTPREFIX}/lib
+		${MKDIR} ${STAGEDIR}${OPTPREFIX}/bin
+		${MKDIR} ${STAGEDIR}${OPTPREFIX}/share
 
 post-stage:
 		cd ${WRKDIR}/makemkv-bin-${PORTVERSION}; \
 		${MKDIR} tmp; \
 		echo accepted > tmp/eula_accepted; \
-		${MAKE_CMD} DESTDIR=${STAGEDIR} PREFIX=${PREFIX} install
-		patchelf --set-rpath ${PREFIX}/lib \
-			${STAGEDIR}${PREFIX}/bin/makemkvcon
+		${MAKE_CMD} DESTDIR=${STAGEDIR} PREFIX=${OPTPREFIX} install
+		patchelf --set-rpath ${OPTPREFIX}/lib \
+			${STAGEDIR}${OPTPREFIX}/bin/makemkvcon
 		sed -ie 's:/sys/bus/scsi:/opt/makemkv/:' \
-			${STAGEDIR}${PREFIX}/bin/makemkvcon
-		${MKDIR} ${STAGEDIR}${LOCALBASE}/bin
-		mv ${STAGEDIR}${PREFIX}/bin/makemkvcon \
-			${STAGEDIR}${LOCALBASE}/bin
-		${MKDIR} ${STAGEDIR}${LOCALBASE}/sbin
+			${STAGEDIR}${OPTPREFIX}/bin/makemkvcon
+		${INSTALL_SCRIPT} ${SCRIPTDIR}/makemkvcon \
+			${STAGEDIR}${PREFIX}/bin
 		${INSTALL_SCRIPT} ${SCRIPTDIR}/update-makemkv-drives \
-			${STAGEDIR}${LOCALBASE}/sbin
+			${STAGEDIR}${PREFIX}/sbin
 
 .include <bsd.port.mk>
