@@ -1,0 +1,10 @@
+lib/libdriveio.so.0
+lib/libmakemkv.so.1
+lib/libmmbd.so.0
+share/MakeMKV/appdata.tar
+share/MakeMKV/blues.jar
+share/MakeMKV/blues.policy
+/usr/local/bin/makemkvcon
+/usr/local/sbin/update-makemkv-drives
+@postexec /usr/local/sbin/update-makemkv-drives
+@postunexec rm -fr /opt/makemkv
