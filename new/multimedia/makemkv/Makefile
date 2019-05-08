@@ -74,12 +74,12 @@ CONFIGURE_ENV=	CC=${LINUXTRIPLET}-gcc CXX=${LINUXTRIPLET}-g++ \
 MAKE_ENV=	PATH=${WRKDIR}/staticlibs/bin:${PATH}
 
 do-patch:
-		sed -ie 's:INSTALL) -D:INSTALL):' ${WRKSRC}/Makefile.in
-		sed -ie 's:/bin/bash:/bin/sh:' \
+		sed -i '' -e 's:INSTALL) -D:INSTALL):' ${WRKSRC}/Makefile.in
+		sed -i '' -e 's:/bin/bash:/bin/sh:' \
 			${WRKDIR}/makemkv-bin-${PORTVERSION}/Makefile
-		sed -ie 's:x86_64:amd64:' \
+		sed -i '' -e 's:x86_64:amd64:' \
 			${WRKDIR}/makemkv-bin-${PORTVERSION}/Makefile
-		sed -ie 's:-t \([^ ]*\) \([^ ]*\):\2 \1:' \
+		sed -i '' -e 's:-t \([^ ]*\) \([^ ]*\):\2 \1:' \
 			${WRKDIR}/makemkv-bin-${PORTVERSION}/Makefile
 
 pre-configure:
@@ -130,7 +130,7 @@ post-stage:
 		${MAKE_CMD} DESTDIR=${STAGEDIR} PREFIX=${OPTPREFIX} install
 		patchelf --set-rpath ${OPTPREFIX}/lib \
 			${STAGEDIR}${OPTPREFIX}/bin/makemkvcon
-		sed -ie 's:/sys/bus/scsi:/opt/makemkv/:' \
+		sed -i '' -e 's:/sys/bus/scsi:/opt/makemkv/:' \
 			${STAGEDIR}${OPTPREFIX}/bin/makemkvcon
 		${INSTALL_SCRIPT} ${SCRIPTDIR}/makemkvcon \
 			${STAGEDIR}${PREFIX}/bin
