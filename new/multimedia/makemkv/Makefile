@@ -53,6 +53,8 @@ BUILD_DEPENDS=	nasm>0:devel/nasm \
 		${LOCALBASE}/include/expat.h:textproc/expat2 \
 		patchelf>0:sysutils/patchelf
 
+PATCHELF_CMD=	${LOCALBASE}/bin/patchelf
+
 USES=	gmake linux pkgconfig perl5
 USE_LINUX=	base expat expat:build openssl openssl:build devtools:build
 USE_PERL5=	build
@@ -73,26 +75,25 @@ CONFIGURE_ENV=	CC=${LINUXTRIPLET}-gcc CXX=${LINUXTRIPLET}-g++ \
 
 MAKE_ENV=	PATH=${WRKDIR}/staticlibs/bin:${PATH}
 
-do-patch:
-		sed -i '' -e 's:INSTALL) -D:INSTALL):' ${WRKSRC}/Makefile.in
-		sed -i '' -e 's:/bin/bash:/bin/sh:' \
-			${WRKDIR}/makemkv-bin-${PORTVERSION}/Makefile
-		sed -i '' -e 's:x86_64:amd64:' \
-			${WRKDIR}/makemkv-bin-${PORTVERSION}/Makefile
-		sed -i '' -e 's:-t \([^ ]*\) \([^ ]*\):\2 \1:' \
+post-patch:
+		@${REINPLACE_CMD} -e 's:INSTALL) -D:INSTALL):' \
+			${WRKSRC}/Makefile.in
+		@${REINPLACE_CMD} -e 's:/bin/bash:/bin/sh:' \
+			-e 's:x86_64:amd64:' \
+			-e 's:-t \([^ ]*\) \([^ ]*\):\2 \1:' \
 			${WRKDIR}/makemkv-bin-${PORTVERSION}/Makefile
 
 pre-configure:
 		${MKDIR} ${WRKDIR}/staticlibs/bin
 		cd ${WRKDIR}/staticlibs/bin; \
 		for t in gcc link ld objdump ar nm strip ranlib g++; do \
-			ln -s ${LINUXBASE}/bin/$$t ${LINUXTRIPLET}-$$t; \
+			${LN} -s ${LINUXBASE}/bin/$$t ${LINUXTRIPLET}-$$t; \
 		done
 		${MKDIR} ${WRKDIR}/staticlibs/lib
 		cd ${WRKDIR}/staticlibs/lib; \
-			ln -s ${LINUXLIBDIR}/libz.so.1 libz.so; \
-			ln -s ${LINUXLIBDIR}/libcrypto.so.10 libcrypto.so; \
-			ln -s ${LINUXLIBDIR}/libexpat.so.1 libexpat.so
+			${LN} -s ${LINUXLIBDIR}/libz.so.1 libz.so; \
+			${LN} -s ${LINUXLIBDIR}/libcrypto.so.10 libcrypto.so; \
+			${LN} -s ${LINUXLIBDIR}/libexpat.so.1 libexpat.so
 		cd ${WRKDIR}/fdk-aac-${FDKAACVERSION}; \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
 		LDFLAGS=-L${WRKDIR}/staticlibs/lib \
@@ -126,11 +127,11 @@ pre-install:
 post-stage:
 		cd ${WRKDIR}/makemkv-bin-${PORTVERSION}; \
 		${MKDIR} tmp; \
-		echo accepted > tmp/eula_accepted; \
+		${ECHO_CMD} accepted > tmp/eula_accepted; \
 		${MAKE_CMD} DESTDIR=${STAGEDIR} PREFIX=${OPTPREFIX} install
-		patchelf --set-rpath ${OPTPREFIX}/lib \
+		${PATCHELF_CMD} --set-rpath ${OPTPREFIX}/lib \
 			${STAGEDIR}${OPTPREFIX}/bin/makemkvcon
-		sed -i '' -e 's:/sys/bus/scsi:/opt/makemkv/:' \
+		${REINPLACE_CMD} -e 's:/sys/bus/scsi:/opt/makemkv/:' \
 			${STAGEDIR}${OPTPREFIX}/bin/makemkvcon
 		${INSTALL_SCRIPT} ${SCRIPTDIR}/makemkvcon \
 			${STAGEDIR}${PREFIX}/bin
