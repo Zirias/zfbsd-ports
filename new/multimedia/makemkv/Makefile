@@ -123,6 +123,9 @@ pre-install:
 		${MKDIR} ${STAGEDIR}${OPTPREFIX}/lib
 		${MKDIR} ${STAGEDIR}${OPTPREFIX}/bin
 		${MKDIR} ${STAGEDIR}${OPTPREFIX}/share
+		${MKDIR} ${STAGEDIR}${PREFIX}/man/man1
+		${INSTALL_MAN} ${FILESDIR}/makemkvcon.1 \
+			${STAGEDIR}${PREFIX}/man/man1
 
 post-stage:
 		cd ${WRKDIR}/makemkv-bin-${PORTVERSION}; \

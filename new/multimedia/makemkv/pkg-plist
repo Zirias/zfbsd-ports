@@ -12,6 +12,7 @@
 /opt/makemkv/share/MakeMKV/blues.jar
 /opt/makemkv/share/MakeMKV/blues.policy
 bin/makemkvcon
+man/man1/makemkvcon.1.gz
 sbin/update-makemkv-drives
 @postexec update-makemkv-drives
 @preunexec rm -fr /opt/makemkv/devices; rm -fr /opt/makemkv/drivers
