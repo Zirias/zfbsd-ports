@@ -4,14 +4,6 @@
 PORTNAME=	makemkv
 PORTVERSION=	1.14.3
 CATEGORIES=	multimedia
-DIST_SUBDIR=	${PORTNAME}
-
-FDKAACVERSION=	2.0.0
-FFMPEGVERSION=	4.1.3
-OPENSSLVERSION=	${"${linux_ARGS:Mc7}" != "":?1.0.2:1.0.1}
-OPENSSLPATCHLEVEL=	${"${linux_ARGS:Mc7}" != "":?k:e}
-OPENSSLFULLVER=	${OPENSSLVERSION}${OPENSSLPATCHLEVEL}
-
 MASTER_SITES=	http://www.makemkv.com/download/old/:makemkv \
 		http://www.makemkv.com/download/:makemkv \
 		SF/opencore-amr/fdk-aac/:fdkaac \
@@ -22,11 +14,10 @@ DISTFILES=	makemkv-oss-${PORTVERSION}.tar.gz:makemkv \
 		fdk-aac-${FDKAACVERSION}.tar.gz:fdkaac \
 		ffmpeg-${FFMPEGVERSION}.tar.bz2:ffmpeg \
 		openssl-${OPENSSLFULLVER}.tar.gz:openssl
+DIST_SUBDIR=	${PORTNAME}
 
-
-RESTRICTED=	yes
-RESTRICTED_FILES=	makemkv-bin-${PORTVERSION}.tar.gz
-ONLY_FOR_ARCHS=	i386 amd64
+MAINTAINER=	felix@palmen-it.de
+COMMENT=	Video converter reading from DVD and Bluray
 
 LICENSE=	MAKEMKV FDK LGPL21+ OpenSSL
 LICENSE_COMB=	multi
@@ -44,35 +35,41 @@ LICENSE_DISTFILES_OpenSSL=	openssl-${OPENSSLFULLVER}.tar.gz
 LICENSE_DISTFILES_MAKEMKV=	makemkv-bin-${PORTVERSION}.tar.gz \
 				makemkv-oss-${PORTVERSION}.tar.gz
 
-MAINTAINER=	felix@palmen-it.de
-COMMENT=	Video converter reading from DVD and Bluray
-
-WRKSRC=		${WRKDIR}/makemkv-oss-${PORTVERSION}
-
+ONLY_FOR_ARCHS=	amd64 i386
+USES=	gmake linux pkgconfig perl5
+USE_LINUX=	base expat expat:build openssl openssl:build devtools:build
+USE_PERL5=	build
 BUILD_DEPENDS=	nasm>0:devel/nasm \
 		${LOCALBASE}/include/expat.h:textproc/expat2 \
 		patchelf>0:sysutils/patchelf
 
-PATCHELF_CMD=	${LOCALBASE}/bin/patchelf
+RESTRICTED=	yes
+RESTRICTED_FILES=	makemkv-bin-${PORTVERSION}.tar.gz
 
-USES=	gmake linux pkgconfig perl5
-USE_LINUX=	base expat expat:build openssl openssl:build devtools:build
-USE_PERL5=	build
+WRKSRC=		${WRKDIR}/makemkv-oss-${PORTVERSION}
+
+FDKAACVERSION=	2.0.0
+FFMPEGVERSION=	4.1.3
+OPENSSLVERSION=	${"${linux_ARGS:Mc7}" != "":?1.0.2:1.0.1}
+OPENSSLPATCHLEVEL=	${"${linux_ARGS:Mc7}" != "":?k:e}
+OPENSSLFULLVER=	${OPENSSLVERSION}${OPENSSLPATCHLEVEL}
 
 LINUXTRIPLET=	${LINUX_ARCH}-redhat-linux
 LINUXLIBDIR=	${LINUXBASE}/${"${LINUX_ARCH:Mx86_64}" != "":?lib64:lib}
 OPENSSLTARGET=	${"${LINUX_ARCH:Mx86_64}" != "":?linux-x86_64:linux-elf}
 
+PATCHELF_CMD=	${LOCALBASE}/bin/patchelf
 OPTPREFIX=	/opt/makemkv
+
+CFLAGS+=	-DFORCE_OPENSSL_NO_EC \
+		-I${WRKDIR}/openssl-${OPENSSLFULLVER}/include
+CPPFLAGS+=	-I${LOCALBASE}/include
+LDFLAGS+=	-L${WRKDIR}/staticlibs/lib
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	--prefix=${OPTPREFIX} --disable-gui --host=${LINUXTRIPLET}
 CONFIGURE_ENV=	CC=${LINUXTRIPLET}-gcc CXX=${LINUXTRIPLET}-g++ \
 		PATH=${WRKDIR}/staticlibs/bin:${PATH} \
-		PKG_CONFIG_PATH=${WRKDIR}/staticlibs/lib/pkgconfig \
-		CPPFLAGS=-I${LOCALBASE}/include \
-		CFLAGS="-DFORCE_OPENSSL_NO_EC -I${WRKDIR}/openssl-${OPENSSLFULLVER}/include" \
-		LDFLAGS=-L${WRKDIR}/staticlibs/lib
-
+		PKG_CONFIG_PATH=${WRKDIR}/staticlibs/lib/pkgconfig
 MAKE_ENV=	PATH=${WRKDIR}/staticlibs/bin:${PATH}
 
 post-patch:
