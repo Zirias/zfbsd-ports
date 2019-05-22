@@ -5,3 +5,10 @@ be faked. The included script `update-makemkv-drives' creates these faked
 sysfs entries and is run automatically after installation. If your hardware
 configuration changes, make sure to re-run `update-makemkv-drives'.
 
+If makemkvcon refuses to work as root, check the permissions of
+/compat/linux/tmp -- it should be world-writable and sticky. To set these
+permissions, use the command
+
+  chmod 1777 /compat/linux/tmp
+
+

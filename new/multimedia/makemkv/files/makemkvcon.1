@@ -23,7 +23,7 @@ utility shows information about a video disc in an optical drive, the
 subcommand also converts selected titles from the disc to
 .Sy .mkv
 files in a given location.
-
+.sp
 The arguments are as follows:
 .Bl -tag -width Ds
 .It Fl -minlength= Ns Ar seconds
@@ -37,13 +37,15 @@ subcommand, make sure to pass the same value for
 as filtering out titles with a smaller length happens before
 numbering the titles.
 .It Ar source_spec
-Read video disc from the given source. Use
+Read video disc from the given source.
+Use
 .Dq disc:0
 here to have
 .Nm
 read from the first video disc it can find.
 .It Ar title_spec
-Determines which titles to read. This can be either a whole number from
+Determines which titles to read.
+This can be either a whole number from
 .Sy 0
 to
 .Sy n-1
@@ -67,26 +69,26 @@ as long as MakeMKV is in beta from
 .Lk https://www.makemkv.com/forum/ .
 .El
 .Sh EXAMPLES
-
-.Dl % makemkvcon mkv disc:0 0 Pf .
-
+.Bd -literal -offset indent
+% makemkvcon mkv disc:0 0 .
+.Ed
+.sp
 This command reads the first title from the first disc it can find and stores
 a converted
 .Sy .mkv
 file in the current directory.
 .Sh SEE ALSO
-This manpage only describes the most commonly used options. A more complete
-documentation is available online at
+This manpage only describes the most commonly used options.
+A more complete documentation is available online at
 .Lk https://www.makemkv.com/developers/usage.txt
-
+.sp
 For some examples what you can put in your configuration file, see
 .Lk http://wiki.indie-it.com/wiki/MakeMKV
 .Sh BUGS
 On
-.Fx
-.Ns ,
+.Fx Ns ,
 .Nm
-crashes with a signal 11 (segmentation fault) after finishing its job. Be aware
-this might leave a
+crashes with a signal 11 (segmentation fault) after finishing its job.
+Be aware this might leave a
 .Sy .core
 file on your file system.
