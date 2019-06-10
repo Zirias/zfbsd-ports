@@ -2,10 +2,10 @@
 # $FreeBSD$
 
 PORTNAME=	makemkv
-PORTVERSION=	1.14.3
+PORTVERSION=	1.14.4
 CATEGORIES=	multimedia
-MASTER_SITES=	http://www.makemkv.com/download/old/:makemkv \
-		http://www.makemkv.com/download/:makemkv \
+MASTER_SITES=	http://www.makemkv.com/download/:makemkv \
+		http://www.makemkv.com/download/old/:makemkv \
 		SF/opencore-amr/fdk-aac/:fdkaac \
 		https://ffmpeg.org/releases/:ffmpeg \
 		https://www.openssl.org/source/old/${OPENSSLVERSION}/:openssl
