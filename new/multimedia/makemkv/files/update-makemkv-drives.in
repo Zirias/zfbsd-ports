@@ -6,8 +6,8 @@ mkfifo $TMPFIFODIR/campipe
 
 SGDEVS=
 
-rm -fr /opt/makemkv/devices
-rm -fr /opt/makemkv/drivers
+rm -fr %%LINUXBASE%%/etc/makemkv/devices
+rm -fr %%LINUXBASE%%/etc/makemkv/drivers
 
 camcontrol devlist | grep -E '[(,]cd[0-9]+[,)]' > $TMPFIFODIR/campipe &
 while read line
@@ -35,10 +35,10 @@ EOF
 		fi
 		SGDEVS="$SGDEVS /dev/$SGDEV"
 		LOC=$SCBUS:0:$TARGET:$LUN
-		mkdir -p /opt/makemkv/devices/$LOC/scsi_generic/$SGDEV
-		mkdir -p /opt/makemkv/drivers/sr
-		ln -s ../../devices/$LOC /opt/makemkv/drivers/sr/$LOC
-		echo 5 >/opt/makemkv/devices/$LOC/type
+		mkdir -p %%LINUXBASE%%/etc/makemkv/devices/$LOC/scsi_generic/$SGDEV
+		mkdir -p %%LINUXBASE%%/etc/makemkv/drivers/sr
+		ln -s ../../devices/$LOC %%LINUXBASE%%/etc/makemkv/drivers/sr/$LOC
+		echo 5 >%%LINUXBASE%%/etc/makemkv/devices/$LOC/type
 	fi
 done < $TMPFIFODIR/campipe
 

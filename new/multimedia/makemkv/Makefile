@@ -48,6 +48,9 @@ RESTRICTED_FILES=	makemkv-bin-${PORTVERSION}.tar.gz
 
 WRKSRC=		${WRKDIR}/makemkv-oss-${PORTVERSION}
 
+SUB_FILES=	update-makemkv-drives
+SUB_LIST=	LINUXBASE=${LINUXBASE}
+
 FDKAACVERSION=	2.0.0
 FFMPEGVERSION=	4.1.3
 OPENSSLVERSION=	${"${linux_ARGS:Mc7}" != "":?1.0.2:1.0.1}
@@ -59,14 +62,14 @@ LINUXLIBDIR=	${LINUXBASE}/${"${LINUX_ARCH:Mx86_64}" != "":?lib64:lib}
 OPENSSLTARGET=	${"${LINUX_ARCH:Mx86_64}" != "":?linux-x86_64:linux-elf}
 
 PATCHELF_CMD=	${LOCALBASE}/bin/patchelf
-OPTPREFIX=	/opt/makemkv
 
 CFLAGS+=	-DFORCE_OPENSSL_NO_EC \
 		-I${WRKDIR}/openssl-${OPENSSLFULLVER}/include
 CPPFLAGS+=	-I${LOCALBASE}/include
 LDFLAGS+=	-L${WRKDIR}/staticlibs/lib
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	--prefix=${OPTPREFIX} --disable-gui --host=${LINUXTRIPLET}
+CONFIGURE_ARGS=	--prefix=${PREFIX} --disable-gui --host=${LINUXTRIPLET} \
+		--libdir=${PREFIX}/lib/makemkv
 CONFIGURE_ENV=	CC=${LINUXTRIPLET}-gcc CXX=${LINUXTRIPLET}-g++ \
 		PATH=${WRKDIR}/staticlibs/bin:${PATH} \
 		PKG_CONFIG_PATH=${WRKDIR}/staticlibs/lib/pkgconfig
@@ -117,25 +120,20 @@ pre-configure:
 		./Configure --openssldir= --prefix=/usr ${OPENSSLTARGET}
 
 pre-install:
-		${MKDIR} ${STAGEDIR}${OPTPREFIX}/lib
-		${MKDIR} ${STAGEDIR}${OPTPREFIX}/bin
-		${MKDIR} ${STAGEDIR}${OPTPREFIX}/share
-		${MKDIR} ${STAGEDIR}${PREFIX}/man/man1
+		${MKDIR} ${STAGEDIR}${PREFIX}/lib/makemkv
+
+post-install:
 		${INSTALL_MAN} ${FILESDIR}/makemkvcon.1 \
 			${STAGEDIR}${PREFIX}/man/man1
-
-post-stage:
 		cd ${WRKDIR}/makemkv-bin-${PORTVERSION}; \
 		${MKDIR} tmp; \
 		${ECHO_CMD} accepted > tmp/eula_accepted; \
-		${MAKE_CMD} DESTDIR=${STAGEDIR} PREFIX=${OPTPREFIX} install
-		${PATCHELF_CMD} --set-rpath ${OPTPREFIX}/lib \
-			${STAGEDIR}${OPTPREFIX}/bin/makemkvcon
-		${REINPLACE_CMD} -e 's:/sys/bus/scsi:/opt/makemkv/:' \
-			${STAGEDIR}${OPTPREFIX}/bin/makemkvcon
-		${INSTALL_SCRIPT} ${SCRIPTDIR}/makemkvcon \
-			${STAGEDIR}${PREFIX}/bin
-		${INSTALL_SCRIPT} ${SCRIPTDIR}/update-makemkv-drives \
+		${MAKE_CMD} DESTDIR=${STAGEDIR} PREFIX=${PREFIX} install
+		${PATCHELF_CMD} --set-rpath ${PREFIX}/lib/makemkv \
+			${STAGEDIR}${PREFIX}/bin/makemkvcon
+		${REINPLACE_CMD} -e 's:/sys/bus/scsi:/etc/makemkv/:' \
+			${STAGEDIR}${PREFIX}/bin/makemkvcon
+		${INSTALL_SCRIPT} ${WRKDIR}/update-makemkv-drives \
 			${STAGEDIR}${PREFIX}/sbin
 
 .include <bsd.port.mk>
