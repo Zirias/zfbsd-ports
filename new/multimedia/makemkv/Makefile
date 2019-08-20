@@ -58,9 +58,10 @@ OPENSSLVERSION=	${"${linux_ARGS:Mc7}" != "":?1.0.2:1.0.1}
 OPENSSLPATCHLEVEL=	${"${linux_ARGS:Mc7}" != "":?k:e}
 OPENSSLFULLVER=	${OPENSSLVERSION}${OPENSSLPATCHLEVEL}
 
-LINUXTRIPLET=	${LINUX_ARCH}-redhat-linux
-LINUXLIBDIR=	${LINUXBASE}/${"${LINUX_ARCH:Mx86_64}" != "":?lib64:lib}
-OPENSSLTARGET=	${"${LINUX_ARCH:Mx86_64}" != "":?linux-x86_64:linux-elf}
+LINUXARCH=	${ARCH:S/amd64/x86_64/}
+LINUXTRIPLET=	${LINUXARCH}-redhat-linux
+LINUXLIBDIR=	${LINUXBASE}/${"${LINUXARCH:Mx86_64}" != "":?lib64:lib}
+OPENSSLTARGET=	${"${LINUXARCH:Mx86_64}" != "":?linux-x86_64:linux-elf}
 
 PATCHELF_CMD=	${LOCALBASE}/bin/patchelf
 
@@ -111,7 +112,7 @@ pre-configure:
 		./configure --prefix=${WRKDIR}/staticlibs \
 			--disable-shared --enable-static --enable-pic \
 			--enable-libfdk-aac --pkg-config=pkg-config \
-			--cross-prefix=${LINUXTRIPLET}- --arch=${LINUX_ARCH} \
+			--cross-prefix=${LINUXTRIPLET}- --arch=${LINUXARCH} \
 			--target-os=linux --host-cc=${CC}; \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
 		${MAKE_CMD} ARCH=x86 && \
