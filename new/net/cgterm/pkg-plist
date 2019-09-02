@@ -1,0 +1,12 @@
+bin/cgchat
+bin/cgedit
+bin/cgterm
+%%DATADIR%%/10x12white.bmp
+%%DATADIR%%/10x12yellow.bmp
+%%DATADIR%%/bell.wav
+%%DATADIR%%/german.kbd
+%%DATADIR%%/lower.bmp
+%%DATADIR%%/swedish.kbd
+%%DATADIR%%/upper.bmp
+%%DATADIR%%/us.kbd
+%%DATADIR%%/windows.kbd
