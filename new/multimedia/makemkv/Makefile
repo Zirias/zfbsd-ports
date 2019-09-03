@@ -138,4 +138,10 @@ post-install:
 		${INSTALL_SCRIPT} ${WRKDIR}/update-makemkv-drives \
 			${STAGEDIR}${PREFIX}/sbin
 
-.include <bsd.port.mk>
+.include <bsd.port.pre.mk>
+
+.if ${linux_ARGS} == c6
+SSP_CFLAGS=	-fstack-protector
+.endif
+
+.include <bsd.port.post.mk>
