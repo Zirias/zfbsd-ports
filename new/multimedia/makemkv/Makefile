@@ -99,23 +99,27 @@ pre-configure:
 		cd ${WRKDIR}/fdk-aac-${FDKAACVERSION}; \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
 		LDFLAGS=-L${WRKDIR}/staticlibs/lib \
+		CXXFLAGS="${CFLAGS}" \
 		./configure --prefix=${WRKDIR}/staticlibs \
 			--disable-shared --enable-static --with-pic \
-			--host=${LINUXTRIPLET}; \
+			--host=${LINUXTRIPLET} --disable-silent-rules; \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
+		CXXFLAGS="${CFLAGS}" \
 		${MAKE_CMD} install
 		cd ${WRKDIR}/ffmpeg-${FFMPEGVERSION}; \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
 		PKG_CONFIG_PATH=${WRKDIR}/staticlibs/lib/pkgconfig \
 		CPPFLAGS="-Dcaddr_t=void\* -D__daddr_t_defined" \
 		LDFLAGS=-L${WRKDIR}/staticlibs/lib \
+		CFLAGS="${CFLAGS}" \
 		./configure --prefix=${WRKDIR}/staticlibs \
 			--disable-shared --enable-static --enable-pic \
 			--enable-libfdk-aac --pkg-config=pkg-config \
 			--cross-prefix=${LINUXTRIPLET}- --arch=${LINUXARCH} \
 			--target-os=linux --host-cc=${CC}; \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
-		${MAKE_CMD} ARCH=x86 && \
+		CFLAGS="${CFLAGS}" \
+		${MAKE_CMD} V=1 ARCH=x86 && \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
 		${MAKE_CMD} install
 		cd ${WRKDIR}/openssl-${OPENSSLFULLVER}; \
@@ -141,7 +145,7 @@ post-install:
 .include <bsd.port.pre.mk>
 
 .if ${linux_ARGS} == c6
-SSP_CFLAGS=	-fstack-protector
+SSP_CFLAGS?=	-fstack-protector
 .endif
 
 .include <bsd.port.post.mk>
