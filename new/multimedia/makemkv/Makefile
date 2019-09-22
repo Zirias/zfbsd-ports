@@ -2,7 +2,7 @@
 # $FreeBSD$
 
 PORTNAME=	makemkv
-PORTVERSION=	1.14.4
+PORTVERSION=	1.14.5
 CATEGORIES=	multimedia
 MASTER_SITES=	http://www.makemkv.com/download/:makemkv \
 		http://www.makemkv.com/download/old/:makemkv \
@@ -53,7 +53,7 @@ SUB_LIST=	LINUXBASE=${LINUXBASE}
 PLIST_SUB=	LINUXBASE=${LINUXBASE}
 
 FDKAACVERSION=	2.0.0
-FFMPEGVERSION=	4.1.3
+FFMPEGVERSION=	4.2.1
 OPENSSLVERSION=	${"${linux_ARGS:Mc7}" != "":?1.0.2:1.0.1}
 OPENSSLPATCHLEVEL=	${"${linux_ARGS:Mc7}" != "":?k:e}
 OPENSSLFULLVER=	${OPENSSLVERSION}${OPENSSLPATCHLEVEL}
