@@ -89,13 +89,13 @@ pre-configure:
 		${MKDIR} ${WRKDIR}/staticlibs/bin
 		cd ${WRKDIR}/staticlibs/bin; \
 		for t in gcc link ld objdump ar nm strip ranlib g++; do \
-			${LN} -s ${LINUXBASE}/bin/$$t ${LINUXTRIPLET}-$$t; \
+			${LN} -sf ${LINUXBASE}/bin/$$t ${LINUXTRIPLET}-$$t; \
 		done
 		${MKDIR} ${WRKDIR}/staticlibs/lib
 		cd ${WRKDIR}/staticlibs/lib; \
-			${LN} -s ${LINUXLIBDIR}/libz.so.1 libz.so; \
-			${LN} -s ${LINUXLIBDIR}/libcrypto.so.10 libcrypto.so; \
-			${LN} -s ${LINUXLIBDIR}/libexpat.so.1 libexpat.so
+			${LN} -sf ${LINUXLIBDIR}/libz.so.1 libz.so; \
+			${LN} -sf ${LINUXLIBDIR}/libcrypto.so.10 libcrypto.so; \
+			${LN} -sf ${LINUXLIBDIR}/libexpat.so.1 libexpat.so
 		cd ${WRKDIR}/fdk-aac-${FDKAACVERSION}; \
 		PATH=${WRKDIR}/staticlibs/bin:$$PATH \
 		LDFLAGS=-L${WRKDIR}/staticlibs/lib \
