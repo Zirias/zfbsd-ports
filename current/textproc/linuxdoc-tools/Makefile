@@ -1,8 +1,8 @@
 # Created by: Felix Palmen <felix@palmen-it.de>
-# $FreeBSD: head/textproc/linuxdoc-tools/Makefile 412371 2016-04-01 20:17:25Z amdmi3 $
+# $FreeBSD: head/textproc/linuxdoc-tools/Makefile 516897 2019-11-06 16:26:34Z antoine $
 
 PORTNAME=	linuxdoc-tools
-PORTVERSION=	0.9.71
+PORTVERSION=	0.9.75
 CATEGORIES=	textproc
 MASTER_SITES=	DEBIAN
 DISTNAME=	${PORTNAME}_${DISTVERSION}.orig
@@ -24,7 +24,7 @@ RUN_DEPENDS=	gawk:lang/gawk \
 		sgmlsasp:textproc/sgmls
 
 GNU_CONFIGURE=	yes
-USES=		gmake perl5
+USES=		gmake groff:both perl5
 CONFIGURE_ARGS=	--with-installed-sgmlsasp
 
 PORTDOCS=	*
@@ -36,6 +36,5 @@ DOCS_BUILD_DEPENDS=	bash:shells/bash
 DOCS_USE=		tex=latex:build tex=pdftex:build tex=dvipsk:build
 DOCS_USES=		makeinfo
 DOCS_CONFIGURE_ENABLE=	docs
-DOCS_MAKE_ENV=		LANG=C
 
 .include <bsd.port.mk>
