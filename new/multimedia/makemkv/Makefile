@@ -2,7 +2,7 @@
 # $FreeBSD$
 
 PORTNAME=	makemkv
-PORTVERSION=	1.14.5
+PORTVERSION=	1.15.0
 CATEGORIES=	multimedia
 MASTER_SITES=	http://www.makemkv.com/download/:makemkv \
 		http://www.makemkv.com/download/old/:makemkv \
@@ -18,6 +18,8 @@ DIST_SUBDIR=	${PORTNAME}
 
 MAINTAINER=	felix@palmen-it.de
 COMMENT=	Video converter reading from DVD and Bluray
+
+BROKEN=	requires CXXABI_1.3.9 which is not available in Centos 7
 
 LICENSE=	MAKEMKV FDK LGPL21+ OpenSSL
 LICENSE_COMB=	multi
@@ -52,10 +54,10 @@ SUB_FILES=	update-makemkv-drives
 SUB_LIST=	LINUXBASE=${LINUXBASE}
 PLIST_SUB=	LINUXBASE=${LINUXBASE}
 
-FDKAACVERSION=	2.0.0
-FFMPEGVERSION=	4.2.1
-OPENSSLVERSION=	${"${linux_ARGS:Mc7}" != "":?1.0.2:1.0.1}
-OPENSSLPATCHLEVEL=	${"${linux_ARGS:Mc7}" != "":?k:e}
+FDKAACVERSION=	2.0.1
+FFMPEGVERSION=	4.2.2
+OPENSSLVERSION=	1.0.2
+OPENSSLPATCHLEVEL=	k
 OPENSSLFULLVER=	${OPENSSLVERSION}${OPENSSLPATCHLEVEL}
 
 LINUXARCH=	${ARCH:S/amd64/x86_64/}
