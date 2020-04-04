@@ -92,3 +92,12 @@ crashes with a signal 11 (segmentation fault) after finishing its job.
 Be aware this might leave a
 .Sy .core
 file on your file system.
+.Sh KNOWN ISSUES
+To find optical drives,
+.Nm
+uses some entries from Linux' sysfs that aren't present on
+.Fx .
+A script `update-makemkv-drives` is included to fake these entries and is run
+automatically on installation.
+If your system's configuration changes, you must run this script as root
+manually, so new or changed drives can be found.
