@@ -27,8 +27,6 @@ USE_SDL=	sdl2 image2
 USE_GITHUB=	yes
 GH_ACCOUNT=	ThKattanek
 
-CFLAGS+=	-Wno-narrowing
-
 OPTIONS_DEFINE=	DOCS
 
 .include <bsd.port.mk>
