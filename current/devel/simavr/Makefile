@@ -3,6 +3,8 @@
 
 PORTNAME=	simavr
 PORTVERSION=	1.3
+PORTREVISION=	1
+DISTVERSIONPREFIX=	v
 CATEGORIES=	devel
 
 PATCH_DIST_STRIP=	-p1
@@ -18,9 +20,9 @@ BUILD_DEPENDS=	avr-gcc:devel/avr-gcc \
 
 USE_GITHUB=	yes
 GH_ACCOUNT=	buserror
-GH_TAGNAME=	v${PORTVERSION}
 
-USES=		gmake pkgconfig
+USES=		gmake pathfix pkgconfig
+PATHFIX_MAKEFILEIN=	Makefile
 ALL_TARGET=	build-simavr
 MAKE_ARGS=	"RELEASE=1 PREFIX=${PREFIX} DESTDIR=${STAGEDIR}${PREFIX}"
 
@@ -33,6 +35,7 @@ DOCS_ALL_TARGET=	doc
 DOCS_USE=		tex=latex:build tex=pdftex:build tex=texmf:build
 
 EXAMPLES_ALL_TARGET=	build-examples
+EXAMPLES_USES=		gl xorg
 EXAMPLES_USE=		xorg=xdamage xorg=xcb xorg=xext xorg=xfixes \
 			xorg=xrandr gl=glut
 
@@ -49,8 +52,8 @@ post-install:
 
 post-install-DOCS-on:
 	${MKDIR} ${STAGEDIR}${DOCSDIR}
-	${INSTALL_MAN} ${WRKSRC}/doc/manual/manual.pdf ${STAGEDIR}${DOCSDIR}
-	${INSTALL_MAN} ${WRKSRC}/doc/simavr_callgraph.pdf ${STAGEDIR}${DOCSDIR}
+	${INSTALL_DATA} ${WRKSRC}/doc/manual/manual.pdf ${STAGEDIR}${DOCSDIR}
+	${INSTALL_DATA} ${WRKSRC}/doc/simavr_callgraph.pdf ${STAGEDIR}${DOCSDIR}
 
 post-install-EXAMPLES-on:
 .for BOARDELF in hd77480,charlcd i2ctest ledramp simduino ssd1306,ssd1306demo timer_64led
