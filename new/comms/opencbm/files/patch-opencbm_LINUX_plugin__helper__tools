@@ -1,0 +1,22 @@
+--- opencbm/LINUX/plugin_helper_tools.orig	2020-05-27 06:25:14 UTC
++++ opencbm/LINUX/plugin_helper_tools
+@@ -34,7 +34,7 @@ get_location_etc_conf() {
+ }
+ 
+ do_rebuild() {
+-	LOCATION_ETC="$1"
++	LOCATION_ETC="${1:-/usr/local/etc}"
+ 
+ 	CONF_FILE="$LOCATION_ETC/opencbm.conf"
+ 
+@@ -44,8 +44,8 @@ do_rebuild() {
+ 	if [ $NO_OF_FILES  -ne 0 ]; then
+ 		echo ";" > $CONF_FILE
+ 		echo "; This is a GENERATED FILE! - DO NOT EDIT!" >> $CONF_FILE
+-		echo "; Modify the files in /$(basename $(dirname ${LOCATION_ETC_CONF}))/$(basename ${LOCATION_ETC_CONF})/ instead," >> $CONF_FILE
+-		echo "; and execute 'opencbm_$(basename ${0}) rebuild'..." >> $CONF_FILE
++		echo "; Modify the files in $(dirname ${LOCATION_ETC_CONF})/$(basename ${LOCATION_ETC_CONF})/ instead," >> $CONF_FILE
++		echo "; and execute '$(basename ${0}) rebuild'..." >> $CONF_FILE
+ 		echo ";" >> $CONF_FILE
+ 		echo "" >> $CONF_FILE
+ 		cat $LOCATION_ETC_CONF/*.conf >> $CONF_FILE
