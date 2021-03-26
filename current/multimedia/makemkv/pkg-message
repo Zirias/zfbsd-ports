@@ -10,5 +10,3 @@ If makemkvcon refuses to work as root, check the permissions of
 permissions, use the command
 
   chmod 1777 /compat/linux/tmp
-
-
