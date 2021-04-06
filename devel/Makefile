@@ -8177,6 +8177,7 @@
     SUBDIR += spdlog
     SUBDIR += spice-protocol
     SUBDIR += spin
+    SUBDIR += spindle
     SUBDIR += spirv-llvm-translator
     SUBDIR += splint
     SUBDIR += spr

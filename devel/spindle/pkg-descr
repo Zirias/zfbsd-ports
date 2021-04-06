@@ -1,0 +1,9 @@
+Spindle is an integrated linking, loading and crunching solution for C64
+trackmos. By hiding the details of the storage model, it allows the demo coder
+to focus on effects, transitions and flow.
+
+The core of Spindle is a cutting-edge IRQ loader featuring extremely fast
+scattered loading and decrunching, state of the art serial transfer routines
+and GCR decoding on the fly. On top of this, Spindle provides an optional
+linking framework that automates much of the tedious work traditionally
+associated with trackmo development.
