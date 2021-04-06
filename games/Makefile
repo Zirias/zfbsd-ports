@@ -622,6 +622,7 @@
     SUBDIR += memonix
     SUBDIR += meqcc
     SUBDIR += meritous
+    SUBDIR += micropolis-fbsd
     SUBDIR += mindfocus
     SUBDIR += minecraft-client
     SUBDIR += minecraft-server
