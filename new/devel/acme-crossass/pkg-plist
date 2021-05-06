@@ -12,4 +12,3 @@ bin/acme
 %%PORTDOCS%%%%DOCSDIR%%/QuickRef.txt
 %%PORTDOCS%%%%DOCSDIR%%/Source.txt
 %%PORTDOCS%%%%DOCSDIR%%/Upgrade.txt
-%%PORTDOCS%%%%DOCSDIR%%/cputypes.txt

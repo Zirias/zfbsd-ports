@@ -3,9 +3,9 @@
 
 PORTNAME=	acme-crossass
 DISTVERSIONPREFIX=	code-0-
-DISTVERSION=	r102
+DISTVERSION=	r319
 DISTVERSIONSUFFIX=	-trunk
-PORTVERSION=	0.96.4${DISTVERSION}
+PORTVERSION=	0.97${DISTVERSION}
 CATEGORIES=	devel
 MASTER_SITES=	https://sourceforge.net/code-snapshots/svn/a/ac/acme-crossass/code-0/
 EXTRACT_SUFX=	.zip

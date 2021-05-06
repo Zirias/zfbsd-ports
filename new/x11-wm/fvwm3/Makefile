@@ -1,0 +1,56 @@
+# Created by: Felix Palmen <felix@palmen-it.de>
+
+PORTNAME=	fvwm3
+PORTVERSION=	1.0.2
+CATEGORIES=	x11-wm
+MASTER_SITES=	https://github.com/fvwmorg/fvwm3/releases/download/${PORTVERSION}/
+
+MAINTAINER=	felix@palmen-it.de
+COMMENT=	F? Virtual Window Manager
+
+LICENSE=	GPLv2
+LICENSE_FILE=	${WRKSRC}/COPYING
+
+LIB_DEPENDS=	libbson-1.0.so:devel/libbson \
+		libevent.so:devel/libevent
+
+USES=	readline xorg python:run
+USE_XORG=	x11 xrandr xrender xt
+
+GNU_CONFIGURE=	yes
+CONFIGURE_ARGS=	ac_cv_path_PYTHON=${PYTHON_CMD}
+
+OPTIONS_DEFINE=	FRIBIDI MANPAGES NLS PERL PNG SVG XCURSOR XFT XSM
+OPTIONS_DEFAULT=	FRIBIDI MANPAGES PERL PNG SVG XCURSOR XFT XSM
+
+FRIBIDI_LIB_DEPENDS=	libfribidi.so:converters/fribidi
+FRIBIDI_CONFIGURE_ENABLE=	bidi
+
+MANPAGES_BUILD_DEPENDS=	rubygem-asciidoctor>0:textproc/rubygem-asciidoctor
+MANPAGES_USES=	gmake
+MANPAGES_CONFIGURE_ENABLE=	mandoc
+
+NLS_CONFIGURE_ENABLE=	nls
+
+PERL_USES=	perl5
+PERL_CONFIGURE_ENABLE=	perllib
+
+PNG_LIB_DEPENDS=	libpng.so:graphics/png
+PNG_CONFIGURE_ENABLE=	png
+
+SVG_LIB_DEPENDS=	librsvg-2.so:graphics/librsvg2-rust
+SVG_CONFIGURE_ENABLE=	rsvg
+
+XCURSOR_CONFIGURE_ENABLE=	xcursor
+XCURSOR_USE=	xorg=xcursor
+
+XFT_LIB_DEPENDS=	libfreetype.so:print/freetype2 \
+			libfontconfig.so:x11-fonts/fontconfig
+XFT_USE=	xorg=xft
+XFT_CONFIGURE_ENABLE=	xft
+
+XSM_DESC=	X11 session management support
+XSM_USE=	xorg=sm
+XSM_CONFIGURE_ENABLE=	sm
+
+.include <bsd.port.mk>

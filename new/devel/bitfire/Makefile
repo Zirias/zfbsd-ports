@@ -2,18 +2,31 @@
 # $FreeBSD$
 
 PORTNAME=	bitfire
-DISTVERSION=	0.6.a.20181001
+DISTVERSION=	1.0-alpha
+DISTVERSIONPREFIX=	v
 CATEGORIES=	devel
-USE_GITHUB=	yes
-GH_ACCOUNT=	bboxy
-GH_TAGNAME=	ba41b01
 
 MAINTAINER=	felix@palmen-it.de
 COMMENT=	C64 demo-loader/framework
 
 LICENSE=	PD
+
+BUILD_DEPENDS=	acme>0:devel/acme \
+		gsed>0:textproc/gsed
+
 USES=		gmake
-BUILD_DEPENDS=	acme:devel/acme-crossass
+
+USE_GITHUB=	yes
+GH_ACCOUNT=	bboxy
+
+post-patch:
+		${REINPLACE_CMD} -E -e 's:make:$$(MAKE):g' \
+			-e "s:$$(printf '\t')@:$$(printf '\t'):" \
+			-e 's#([^[:space:]]+\.h)#| \1#' \
+			-e 's:sed:gsed:g' \
+			${WRKSRC}/bitfire/Makefile \
+			${WRKSRC}/bitfire/benchmark/Makefile \
+			${WRKSRC}/bitfire/zx0/Makefile
 
 do-build:
 		gmake CC=cc -C ${WRKSRC}/bitfire
