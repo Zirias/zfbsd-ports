@@ -67,6 +67,10 @@ XSM_DESC=	X11 session management support
 XSM_USE=	xorg=sm
 XSM_CONFIGURE_ENABLE=	sm
 
+post-patch:
+	@${REINPLACE_CMD} -e 's,/etc/,${LOCALBASE}/etc/,g' \
+		${WRKSRC}/bin/fvwm-menu-desktop.in
+
 post-install-PERL-off:
 .for script in fvwm-convert-2.6 fvwm-menu-directory fvwm-menu-xlock fvwm-perllib
 	${RM} ${STAGEDIR}${PREFIX}/bin/${script}
