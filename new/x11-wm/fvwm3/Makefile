@@ -18,9 +18,10 @@ USES=	iconv:translit pkgconfig python:3.7+ readline xorg
 USE_XORG=	ice x11 xext xrandr xrender xt
 
 GNU_CONFIGURE=	yes
-CONFIGURE_ARGS=	ac_cv_path_PYTHON=${PYTHON_CMD}
+CONFIGURE_ARGS=	ac_cv_path_PYTHON=${PYTHON_CMD} \
+		--disable-golang
 
-OPTIONS_DEFINE=	FRIBIDI MANPAGES NLS PERL PNG SVG XCURSOR XFT XSM
+OPTIONS_DEFINE=	FRIBIDI MANPAGES NLS PERL PNG SVG XCURSOR XFT XPM XSM
 OPTIONS_DEFAULT=	FRIBIDI MANPAGES PERL PNG XCURSOR XFT XSM
 
 FRIBIDI_LIB_DEPENDS=	libfribidi.so:converters/fribidi
@@ -44,13 +45,16 @@ SVG_USES=	gnome
 SVG_USE=	gnome=cairo,glib20,gdkpixbuf2
 SVG_CONFIGURE_ENABLE=	rsvg
 
-XCURSOR_CONFIGURE_ENABLE=	xcursor
 XCURSOR_USE=	xorg=xcursor
+XCURSOR_CONFIGURE_ENABLE=	xcursor
 
 XFT_LIB_DEPENDS=	libfreetype.so:print/freetype2 \
 			libfontconfig.so:x11-fonts/fontconfig
 XFT_USE=	xorg=xft
 XFT_CONFIGURE_ENABLE=	xft
+
+XPM_USE=	xorg=xpm
+XPM_CONFIGURE_OFF=	--with-xpm-library=no
 
 XSM_DESC=	X11 session management support
 XSM_USE=	xorg=sm
