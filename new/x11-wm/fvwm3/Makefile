@@ -17,6 +17,8 @@ LIB_DEPENDS=	libbson-1.0.so:devel/libbson \
 USES=	pkgconfig python:3.7+ readline xorg
 USE_XORG=	ice x11 xext xrandr xrender xt
 
+CONFLICTS_INSTALL=	fvwm-2.*
+
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	ac_cv_path_PYTHON=${PYTHON_CMD} \
 		--disable-golang
