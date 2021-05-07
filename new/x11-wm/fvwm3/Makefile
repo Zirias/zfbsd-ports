@@ -3,7 +3,8 @@
 PORTNAME=	fvwm3
 PORTVERSION=	1.0.2
 CATEGORIES=	x11-wm
-MASTER_SITES=	https://github.com/fvwmorg/fvwm3/releases/download/${PORTVERSION}/
+MASTER_SITES=	https://github.com/fvwmorg/fvwm3/releases/download/${PORTVERSION}/ \
+		http://fvwm.sourceforge.net/generated/icon_download/:icons
 
 MAINTAINER=	felix@palmen-it.de
 COMMENT=	F? Virtual Window Manager
@@ -23,12 +24,17 @@ GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	ac_cv_path_PYTHON=${PYTHON_CMD} \
 		--disable-golang
 
-OPTIONS_DEFINE=	FRIBIDI ICONV MANPAGES NLS PERL PNG SVG XCURSOR XFT XPM XSM
+OPTIONS_DEFINE=	FRIBIDI ICONS ICONV MANPAGES NLS PERL PNG SVG \
+		XCURSOR XFT XPM XSM
 OPTIONS_DEFAULT=	FRIBIDI ICONV MANPAGES PERL PNG XCURSOR XFT XSM
 OPTIONS_SUB=	yes
 
 FRIBIDI_LIB_DEPENDS=	libfribidi.so:converters/fribidi
 FRIBIDI_CONFIGURE_ENABLE=	bidi
+
+FVWM_ICONS=	fvwm_icons-20070101
+ICONS_DISTFILES=	${DISTNAME}${EXTRACT_SUFX} ${FVWM_ICONS}.tar.bz2:icons
+ICONS_IMPLIES=	XPM
 
 ICONV_USES=	iconv:translit
 ICONV_CONFIGURE_ENABLE=	iconv
@@ -70,6 +76,11 @@ XSM_CONFIGURE_ENABLE=	sm
 post-patch:
 	@${REINPLACE_CMD} -e 's,/etc/,${LOCALBASE}/etc/,g' \
 		${WRKSRC}/bin/fvwm-menu-desktop.in
+
+post-install-ICONS-on:
+	${MKDIR} ${STAGEDIR}${PREFIX}/share/fvwm3/pixmaps
+	${INSTALL_DATA} ${WRKDIR}/${FVWM_ICONS}/*.xpm \
+		${STAGEDIR}${PREFIX}/share/fvwm3/pixmaps
 
 post-install-PERL-off:
 .for script in fvwm-convert-2.6 fvwm-menu-directory fvwm-menu-xlock fvwm-perllib
