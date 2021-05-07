@@ -14,8 +14,8 @@ LICENSE_FILE=	${WRKSRC}/COPYING
 LIB_DEPENDS=	libbson-1.0.so:devel/libbson \
 		libevent.so:devel/libevent
 
-USES=	readline xorg python:run
-USE_XORG=	x11 xrandr xrender xt
+USES=	iconv:translit pkgconfig python:run readline xorg
+USE_XORG=	ice x11 xext xrandr xrender xt
 
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	ac_cv_path_PYTHON=${PYTHON_CMD}
@@ -31,6 +31,7 @@ MANPAGES_USES=	gmake
 MANPAGES_CONFIGURE_ENABLE=	mandoc
 
 NLS_CONFIGURE_ENABLE=	nls
+NLS_USES=	gettext-runtime
 
 PERL_USES=	perl5
 PERL_CONFIGURE_ENABLE=	perllib
@@ -39,6 +40,8 @@ PNG_LIB_DEPENDS=	libpng.so:graphics/png
 PNG_CONFIGURE_ENABLE=	png
 
 SVG_LIB_DEPENDS=	librsvg-2.so:graphics/librsvg2-rust
+SVG_USES=	gnome
+SVG_USE=	gnome=cairo,glib20,gdkpixbuf2
 SVG_CONFIGURE_ENABLE=	rsvg
 
 XCURSOR_CONFIGURE_ENABLE=	xcursor
