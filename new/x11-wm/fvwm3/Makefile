@@ -14,22 +14,27 @@ LICENSE_FILE=	${WRKSRC}/COPYING
 LIB_DEPENDS=	libbson-1.0.so:devel/libbson \
 		libevent.so:devel/libevent
 
-USES=	iconv:translit pkgconfig python:3.7+ readline xorg
+USES=	pkgconfig python:3.7+ readline xorg
 USE_XORG=	ice x11 xext xrandr xrender xt
 
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	ac_cv_path_PYTHON=${PYTHON_CMD} \
 		--disable-golang
 
-OPTIONS_DEFINE=	FRIBIDI MANPAGES NLS PERL PNG SVG XCURSOR XFT XPM XSM
-OPTIONS_DEFAULT=	FRIBIDI MANPAGES PERL PNG XCURSOR XFT XSM
+OPTIONS_DEFINE=	FRIBIDI ICONV MANPAGES NLS PERL PNG SVG XCURSOR XFT XPM XSM
+OPTIONS_DEFAULT=	FRIBIDI ICONV MANPAGES PERL PNG XCURSOR XFT XSM
+OPTIONS_SUB=	yes
 
 FRIBIDI_LIB_DEPENDS=	libfribidi.so:converters/fribidi
 FRIBIDI_CONFIGURE_ENABLE=	bidi
 
+ICONV_USES=	iconv:translit
+ICONV_CONFIGURE_ENABLE=	iconv
+
 MANPAGES_BUILD_DEPENDS=	rubygem-asciidoctor>0:textproc/rubygem-asciidoctor
 MANPAGES_USES=	gmake
 MANPAGES_CONFIGURE_ENABLE=	mandoc
+MANPAGES_IMPLIES=	PERL
 
 NLS_CONFIGURE_ENABLE=	nls
 NLS_USES=	gettext-runtime
@@ -59,5 +64,13 @@ XPM_CONFIGURE_OFF=	--with-xpm-library=no
 XSM_DESC=	X11 session management support
 XSM_USE=	xorg=sm
 XSM_CONFIGURE_ENABLE=	sm
+
+post-install-PERL-off:
+.for script in fvwm-convert-2.6 fvwm-menu-directory fvwm-menu-xlock fvwm-perllib
+	${RM} ${STAGEDIR}${PREFIX}/bin/${script}
+.endfor
+.for script in FvwmConsoleC.pl FvwmPerl
+	${RM} ${STAGEDIR}${PREFIX}/libexec/fvwm3/${PORTVERSION}/${script}
+.endfor
 
 .include <bsd.port.mk>
