@@ -14,14 +14,14 @@ LICENSE_FILE=	${WRKSRC}/COPYING
 LIB_DEPENDS=	libbson-1.0.so:devel/libbson \
 		libevent.so:devel/libevent
 
-USES=	iconv:translit pkgconfig python:run readline xorg
+USES=	iconv:translit pkgconfig python:3.7+ readline xorg
 USE_XORG=	ice x11 xext xrandr xrender xt
 
 GNU_CONFIGURE=	yes
 CONFIGURE_ARGS=	ac_cv_path_PYTHON=${PYTHON_CMD}
 
 OPTIONS_DEFINE=	FRIBIDI MANPAGES NLS PERL PNG SVG XCURSOR XFT XSM
-OPTIONS_DEFAULT=	FRIBIDI MANPAGES PERL PNG SVG XCURSOR XFT XSM
+OPTIONS_DEFAULT=	FRIBIDI MANPAGES PERL PNG XCURSOR XFT XSM
 
 FRIBIDI_LIB_DEPENDS=	libfribidi.so:converters/fribidi
 FRIBIDI_CONFIGURE_ENABLE=	bidi
