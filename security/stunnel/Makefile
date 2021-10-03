@@ -12,9 +12,6 @@ WWW=		https://www.stunnel.org/
 
 LICENSE=	GPLv2+
 
-BROKEN_SSL=	libressl libressl-devel
-BROKEN_SSL_REASON=	missing upstream support
-
 USES=		cpe libtool perl5 shebangfix ssl
 USE_PERL5=	build
 USE_LDCONFIG=	yes
@@ -30,7 +27,7 @@ SUB_LIST=	STUNNEL_PIDFILE=${STUNNEL_PIDFILE} \
 		STUNNEL_USER=${STUNNEL_USER} \
 		STUNNEL_GROUP=${STUNNEL_GROUP}
 
-OPTIONS_DEFINE=			DOCS EXAMPLES FIPS IPV6 LIBWRAP
+OPTIONS_DEFINE=			DOCS EXAMPLES FIPS IPV6 LIBRESSL_PATCH LIBWRAP
 OPTIONS_SINGLE=			THREAD
 OPTIONS_SINGLE_THREAD=		FORK PTHREAD UCONTEXT
 OPTIONS_DEFAULT=		PTHREAD
@@ -41,6 +38,7 @@ LIBWRAP_CONFIGURE_ENABLE=	libwrap
 
 FIPS_DESC=			Enable OpenSSL FIPS mode
 FORK_DESC=			Use the fork(3) threading model
+LIBRESSL_PATCH_DESC=		Add unofficial patch to support LibreSSL
 PTHREAD_DESC=			Use the pthread(3) threading model
 UCONTEXT_DESC=			Use the ucontext(3) threading model
 
@@ -52,6 +50,10 @@ USERS=		${STUNNEL_USER}
 GROUPS=		${STUNNEL_GROUP}
 
 .include <bsd.port.options.mk>
+
+.if ${PORT_OPTIONS:MLIBRESSL_PATCH}
+EXTRA_PATCHES+=		${PATCHDIR}/extra-patch-libressl-compat
+.endif
 
 .if ${PORT_OPTIONS:MLIBWRAP}
 LDFLAGS+=		-lwrap
@@ -68,6 +70,14 @@ LDFLAGS+=	-lpthread
 .endif
 
 .include <bsd.port.pre.mk>
+
+.if !${PORT_OPTIONS:MLIBRESSL_PATCH} && ${SSL_DEFAULT:Mlibressl*}
+IGNORE=		Build with LibreSSL is broken and requires an extra patch, set LIBRESSL_PATCH option to use it
+.endif
+
+.if ${PORT_OPTIONS:MLIBRESSL_PATCH} && !${SSL_DEFAULT:Mlibressl*}
+IGNORE=		The LIBRESSL_PATCH option can only be used for building with LibreSSL
+.endif
 
 .if ${PORT_OPTIONS:MFIPS} && ${SSL_DEFAULT:Mlibressl*}
 IGNORE=		LibreSSL does not support FIPS standard
