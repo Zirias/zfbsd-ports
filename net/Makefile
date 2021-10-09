@@ -1221,6 +1221,7 @@
     SUBDIR += remmina
     SUBDIR += remotebox
     SUBDIR += remotedesk
+    SUBDIR += remusock
     SUBDIR += repeater
     SUBDIR += revsocks
     SUBDIR += rfbproxy
