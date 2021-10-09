@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# PROVIDE: remusock
+# REQUIRE: DAEMON
+# BEFORE:  LOGIN
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+name="remusock"
+desc="Remote unix domain socket access"
+rcvar="remusock_enable"
+start_precmd="remusock_prestart"
+
+load_rc_config ${name}
+
+: ${remusock_enable="NO"}
+: ${remusock_port=12345}
+: ${remusock_sockclient="NO"}
+
+command="%%PREFIX%%/bin/remusockd"
+pidfile="/var/run/remusock/remusockd.pid"
+command_args="-p \"${pidfile}\" ${remusock_flags} \"${remusock_socket}\" ${remusock_port} ${remusock_cert} ${remusock_key}"
+
+remusock_prestart()
+{
+	if [ -z "${remusock_socket}" ]; then
+		err 1 "remusock_socket must be configured."
+	fi
+	if [ -n "${remusock_bindaddr}" -a -n "${remusock_remotehost}" ]; then
+		err 1 "only one of remusock_bindaddr or remusock_remotehost allowed."
+	fi
+
+	local _piddir=$(dirname "${pidfile}")
+	mkdir -p "${_piddir}"
+	chmod 755 "${_piddir}"
+	if [ -n "${remusock_user}" ]; then
+		rc_flags="-u \"${remusock_user}\" ${rc_flags}"
+		chown "${remusock_user}" "${_piddir}"
+		if [ -z "${remusock_group}" ]; then
+			chgrp "$(id -g "${remusock_user}")" "${_piddir}"
+		fi
+	fi
+	if [ -n "${remusock_group}" ]; then
+		rc_flags="-g \"${remusock_group}\" ${rc_flags}"
+		chgrp "${remusock_group}" "${_piddir}"
+	fi
+	if [ -n "${remusock_mode}" ]; then
+		rc_flags="-m ${remusock_mode} ${rc_flags}"
+	fi
+	if [ -n "${remusock_bindaddr}" ]; then
+		rc_flags="-b ${remusock_bindaddr} ${rc_flags}"
+	fi
+	if [ -n "${remusock_remotehost}" ]; then
+		rc_flags="-r ${remusock_remotehost} ${rc_flags}"
+	fi
+	if [ -n "${remusock_cacerts}" ]; then
+		rc_flags="-C ${remusock_cacerts} ${rc_flags}"
+	fi
+	if [ -n "${remusock_hashes}" ]; then
+		rc_flags="-H ${remusock_hashes} ${rc_flags}"
+	fi
+	if checkyesno remusock_sockclient; then
+		rc_flags="-c ${rc_flags}"
+	fi
+
+	# remusock handles user and group itself
+	unset _user
+	unset _group
+
+	return 0
+}
+
+run_rc_command "$1"
