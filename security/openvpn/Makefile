@@ -86,23 +86,11 @@ CFLAGS+=		-DLOG_OPENVPN=${LOG_OPENVPN}
 
 .include <bsd.port.options.mk>
 
-.if ${PORT_OPTIONS:MLZO}
-IGNORE_SSL=libressl libressl-devel
-IGNORE_SSL_REASON=OpenVPN does not have permission to include LZO with LibreSSL. Compile against OpenSSL, or if your setups support it, disable LZO support
-.endif
-
 .if ! ${PORT_OPTIONS:MLZ4} && ! ${PORT_OPTIONS:MLZO}
 CONFIGURE_ARGS+=	--enable-comp-stub
 .endif
 
 .include <bsd.port.pre.mk>
-
-.if !empty(PORT_OPTIONS:MLZO) && !empty(SSL_DEFAULT:Nbase:Nopenssl*)
-# in-depth security net if Mk/Uses/ssl.mk changes
-pre-everything::
-	@${ECHO_CMD} >&2 "ERROR: OpenVPN is not licensed to combine LZO with other OpenSSL-licensed libraries than OpenSSL. Compile against OpenSSL, or if your setups support it, disable LZO support."
-	@${SHELL} -c 'exit 1'
-.endif
 
 post-patch:
 	${REINPLACE_CMD} -E -i '' -e 's/(user|group) nobody/\1 openvpn/' \
