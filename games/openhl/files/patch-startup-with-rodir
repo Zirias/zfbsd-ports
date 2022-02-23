@@ -1,0 +1,57 @@
+From 48454727693a255e827f83ff2393f3211e8f2a0d Mon Sep 17 00:00:00 2001
+From: Felix Palmen <felix@palmen-it.de>
+Date: Thu, 24 Feb 2022 13:45:51 +0100
+Subject: [PATCH] Separate write location in $HOME/.openhl/
+
+---
+ system/bin/hl    | 6 ++++--
+ system/bin/opfor | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/system/bin/hl b/system/bin/hl
+index a7f0e92..7adfd4e 100644
+--- a/system/bin/hl
++++ b/system/bin/hl
+@@ -3,13 +3,15 @@
+ PREFIX="$(cd "$(dirname "$(which "$0")")" && cd .. && pwd)"
+ 
+ if [ -z "$XASH3D_BASEDIR" ]; then
+- export XASH3D_BASEDIR="$PREFIX/share/xash3d/"
++ export XASH3D_BASEDIR="$HOME/.openhl/"
+ fi
+ 
+ XASH_BIN_PATH="$PREFIX/lib/xash3d"
+ HL_CLIENT_LIB="$PREFIX/lib/xash3d/valve/libclient.so"
+ HL_SERVER_LIB="$PREFIX/lib/xash3d/valve/libserver.so"
+ 
+-LD_LIBRARY_PATH="$XASH_BIN_PATH:$LD_LIBRARY_PATH" "$XASH_BIN_PATH/xash3d" \
++mkdir -p "$XASH3D_BASEDIR"
++LD_LIBRARY_PATH="$XASH_BIN_PATH:$LD_LIBRARY_PATH" exec \
++ "$XASH_BIN_PATH/xash3d" -rodir "$PREFIX/share/xash3d/" \
+  -clientlib "$HL_CLIENT_LIB" -dll "$HL_SERVER_LIB" -console "$@"
+ 
+diff --git a/system/bin/opfor b/system/bin/opfor
+index 28d6c3f..73cc74b 100644
+--- a/system/bin/opfor
++++ b/system/bin/opfor
+@@ -3,13 +3,15 @@
+ PREFIX="$(cd "$(dirname "$(which "$0")")" && cd .. && pwd)"
+ 
+ if [ -z "$XASH3D_BASEDIR" ]; then
+- export XASH3D_BASEDIR="$PREFIX/share/xash3d/"
++ export XASH3D_BASEDIR="$HOME/.openhl/"
+ fi
+ 
+ XASH_BIN_PATH="$PREFIX/lib/xash3d"
+ HL_CLIENT_LIB="$PREFIX/lib/xash3d/gearbox/libclient.so"
+ HL_SERVER_LIB="$PREFIX/lib/xash3d/gearbox/libserver.so"
+ 
+-LD_LIBRARY_PATH="$XASH_BIN_PATH:$LD_LIBRARY_PATH" "$XASH_BIN_PATH/xash3d" \
++mkdir -p "$XASH3D_BASEDIR"
++LD_LIBRARY_PATH="$XASH_BIN_PATH:$LD_LIBRARY_PATH" exec \
++ "$XASH_BIN_PATH/xash3d" -rodir "$PREFIX/share/xash3d/" \
+  -clientlib "$HL_CLIENT_LIB" -dll "$HL_SERVER_LIB" -console "$@"
+ 
+-- 
+2.35.1
+
