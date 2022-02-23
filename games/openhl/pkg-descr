@@ -1,0 +1,3 @@
+This project is an attempt at the digital preservation of Half-Life.
+The focus is not on features but instead to create a maintainable
+codebase which can be easily ported to future POSIX platforms.
