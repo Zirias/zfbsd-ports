@@ -2108,7 +2108,11 @@ TOUCH_FLAGS?=	-f
 DISTORIG?=	.bak.orig
 PATCH?=			/usr/bin/patch
 PATCH_STRIP?=	-p0
+.    if defined(USE_GITHUB) && !empty(GH_CHERRYPICK)
+PATCH_DIST_STRIP?=	-p1
+.    else
 PATCH_DIST_STRIP?=	-p0
+.    endif
 .    if defined(PATCH_DEBUG)
 PATCH_DEBUG_TMP=	yes
 PATCH_ARGS?=	--forward -E ${PATCH_STRIP}

@@ -267,9 +267,13 @@ DEV_WARNING+=	"MASTER_SITES contains ${MASTER_SITES:M*/github.com/*/archive/*}, 
 #
 # GH_TUPLE      - above shortened to account:project:tagname[:group][/subdir]
 #
+# GH_CHERRYPICK	- list of commit hashes to automatically apply as patches
+# 		  This will also set DIST_SUBDIR to ${PORTNAME} if not defined.
+# 		  default: empty
+#
 .  if defined(USE_GITHUB)
-.    if defined(GH_TAGNAME) && ${GH_TAGNAME} == master
-IGNORE?=	Using master as GH_TAGNAME is invalid. \
+.    if defined(GH_TAGNAME) && (${GH_TAGNAME} == master || ${GH_TAGNAME} == main)
+IGNORE?=	Using ${GH_TAGNAME} as GH_TAGNAME is invalid. \
 		Must use a tag or commit hash so the upstream does \
 		not "reroll" as soon as the branch is updated
 .    endif
@@ -303,9 +307,12 @@ GH_PROJECT?=	${GH_PROJECT_DEFAULT}
 # Use full PREFIX/SUFFIX and converted DISTVERSION
 GH_TAGNAME_DEFAULT=	${DISTVERSIONFULL}
 GH_TAGNAME?=	${GH_TAGNAME_DEFAULT}
-# Iterate over GH_ACCOUNT, GH_PROJECT, GH_TAGNAME and GH_SUBDIR to extract groups
+GH_CHERRYPICK_DEFAULT=
+GH_CHERRYPICK?=	${GH_CHERRYPICK_DEFAULT}
+# Iterate over GH_ACCOUNT, GH_PROJECT, GH_TAGNAME, GH_SUBDIR and GH_CHERRYPICK
+# to extract groups
 _GITHUB_GROUPS= DEFAULT
-.    for _gh_v in GH_ACCOUNT GH_PROJECT GH_TAGNAME GH_SUBDIR
+.    for _gh_v in GH_ACCOUNT GH_PROJECT GH_TAGNAME GH_SUBDIR GH_CHERRYPICK
 .      for _v_ex in ${${_gh_v}}
 _GH_GROUPS=	${_v_ex:S/^${_v_ex:C@:[^/:]+$@@}//:S/^://}
 .        if !empty(_GH_GROUPS)
@@ -332,6 +339,7 @@ GH_ACCOUNT:=	${GH_ACCOUNT_DEFAULT}
 GH_PROJECT:=	${GH_PROJECT_DEFAULT}
 GH_TAGNAME:=	${GH_TAGNAME_DEFAULT}
 GH_SUBDIR:=	${GH_SUBDIR_DEFAULT}
+GH_CHERRYPICK:=	${GH_CHERRYPICK_DEFAULT}
 .    if defined(GH_TAGNAME)
 # If you change either of the _SANITIZED or _EXTRACT variables, please keep the
 # changes in sync with the GH_TAGNAME_${_group}_* variables 50 lines below.
@@ -371,6 +379,13 @@ post-extract-gh-DEFAULT:
 	@${MKDIR} ${WRKSRC}/${GH_SUBDIR_DEFAULT:H} 2>/dev/null || :
 	@${LN} -s ${GH_SUBDIR_DEFAULT:C/[^\/]//g:C/\//..\//g:S/^$/./} ${WRKSRC}/${GH_SUBDIR_DEFAULT}
 .    endif
+.    if !empty(GH_CHERRYPICK)
+DIST_SUBDIR?=	${PORTNAME}
+PATCH_SITE_DEFAULT=	https://github.com/${GH_ACCOUNT}/${GH_PROJECT}/commit/
+PATCH_SITES+=	${PATCH_SITE_DEFAULT}
+PATCHFILES_DEFAULT=	${GH_CHERRYPICK:S/$/.diff/}
+PATCHFILES+=	${PATCHFILES_DEFAULT}
+.    endif
 # If there are non default groups
 .    if !empty(_GITHUB_GROUPS:NDEFAULT)
 # Then for each of the remaining groups, add DISTFILES and MASTER_SITES
@@ -400,6 +415,13 @@ post-extract-gh-${_group}:
 	@${MKDIR} ${WRKSRC}/${GH_SUBDIR_${_group}:H} 2>/dev/null || :
 	@${MV} ${WRKSRC_${_group}} ${WRKSRC}/${GH_SUBDIR_${_group}}
 	@${LN} -s ${WRKSRC:T}/${GH_SUBDIR_${_group}} ${WRKSRC_${_group}}
+.        endif
+.        if !empty(GH_CHERRYPICK_${_group})
+DIST_SUBDIR?=	${PORTNAME}
+PATCH_SITE_${_group}=	https://github.com/${GH_ACCOUNT_${_group}}/${GH_PROJECT_${_group}}/commit/:${_group}
+PATCH_SITES+=	${PATCH_SITE_${_group}}
+PATCHFILES_${_group}=	${GH_CHERRYPICK_${_group}:S/$/.diff:${_group}/}
+PATCHFILES+=	${PATCHFILES_${_group}}
 .        endif
 git-clone: git-clone-${_group}
 git-clone-${_group}: ${_GITHUB_CLONE_DIR}
