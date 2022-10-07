@@ -49,6 +49,7 @@
     SUBDIR += keitairc2
     SUBDIR += konversation
     SUBDIR += kvirc
+    SUBDIR += libircbot
     SUBDIR += libircclient
     SUBDIR += miau
     SUBDIR += muh
