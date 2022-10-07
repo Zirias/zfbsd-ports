@@ -1,0 +1,16 @@
+include/ircbot/decl.h
+include/ircbot/hashtable.h
+include/ircbot/ircbot.h
+include/ircbot/ircchannel.h
+include/ircbot/irccommand.h
+include/ircbot/ircmessage.h
+include/ircbot/ircserver.h
+include/ircbot/list.h
+include/ircbot/log.h
+include/ircbot/queue.h
+include/ircbot/stringbuilder.h
+include/ircbot/util.h
+lib/libircbot.so
+lib/libircbot.so.1
+lib/libircbot.so.1.0.0
+libdata/pkgconfig/ircbot.pc
