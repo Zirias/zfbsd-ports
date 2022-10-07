@@ -41,6 +41,7 @@
     SUBDIR += irssistats
     SUBDIR += konversation
     SUBDIR += kvirc
+    SUBDIR += libircbot
     SUBDIR += libircclient
     SUBDIR += muh
     SUBDIR += ngircd
