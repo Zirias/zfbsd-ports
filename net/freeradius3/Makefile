@@ -15,10 +15,6 @@ WWW=		https://www.freeradius.org/
 
 LICENSE=	GPLv2
 
-BROKEN_SSL=			libressl libressl-devel
-BROKEN_SSL_REASON_libressl=	LibreSSL is no longer supported
-BROKEN_SSL_REASON_libressl-devel=	${BROKEN_SSL_REASON_libressl}
-
 LIB_DEPENDS=	libgdbm.so:databases/gdbm \
 		libtalloc.so:devel/talloc
 
@@ -307,6 +303,9 @@ post-patch:
 .if empty(PORT_OPTIONS:MRUBY)
 	@${RM} -r ${WRKSRC}/src/modules/rlm_ruby/
 .endif
+
+post-extract:
+	@${RM} -r ${WRKSRC}/src/modules/rlm_eap/types/rlm_eap_teap
 
 post-build:
 	@${FIND} ${WRKSRC}/build/lib -type f -name '*.so' -exec ${STRIP_CMD} {} \;

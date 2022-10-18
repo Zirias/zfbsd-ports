@@ -168,9 +168,6 @@ include/freeradius/vqp.h
 %%LIBDIR%%/rlm_eap_sim.a
 %%LIBDIR%%/rlm_eap_sim.la
 %%LIBDIR%%/rlm_eap_sim.so
-%%LIBDIR%%/rlm_eap_teap.a
-%%LIBDIR%%/rlm_eap_teap.la
-%%LIBDIR%%/rlm_eap_teap.so
 %%LIBDIR%%/rlm_eap_tls.a
 %%LIBDIR%%/rlm_eap_tls.la
 %%LIBDIR%%/rlm_eap_tls.so
