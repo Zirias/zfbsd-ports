@@ -16,10 +16,6 @@ WWW=		https://www.freeradius.org/
 
 LICENSE=	GPLv2
 
-BROKEN_SSL=			libressl libressl-devel
-BROKEN_SSL_REASON_libressl=	LibreSSL is no longer supported
-BROKEN_SSL_REASON_libressl-devel=	${BROKEN_SSL_REASON_libressl}
-
 LIB_DEPENDS=	libgdbm.so:databases/gdbm \
 		libtalloc.so:devel/talloc
 
