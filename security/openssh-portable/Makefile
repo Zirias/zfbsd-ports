@@ -170,6 +170,10 @@ IGNORE=	KERB_GSSAPI requires one of MIT HEIMDAL or HEIMDAL_BASE
 .	endif
 .endif
 
+.if ${ARCH:Mi386}
+EXTRA_PATCHES+=		${FILESDIR}/extra-patch-time_t-sign-compare
+.endif
+
 .if ${OPENSSLBASE} != "/usr"
 CONFIGURE_ARGS+=	--with-ssl-dir=${OPENSSLBASE}
 .endif
