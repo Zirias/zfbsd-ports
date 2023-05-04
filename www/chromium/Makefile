@@ -198,7 +198,7 @@ LTO_VARS=		GN_ARGS+=use_thin_lto=true \
 			WANTSPACE="14 GB"
 LTO_VARS_OFF=		GN_ARGS+=use_thin_lto=false
 
-MIT_LIB_DEPENDS=	libkrb.so.3:security/krb5
+MIT_LIB_DEPENDS=	libkrb5.so.3:security/krb5
 
 PIPEWIRE_DESC=		Screen capture via PipeWire
 PIPEWIRE_LIB_DEPENDS=	libpipewire-0.3.so:multimedia/pipewire
