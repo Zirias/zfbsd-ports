@@ -1557,6 +1557,7 @@
     SUBDIR += lutok
     SUBDIR += luv
     SUBDIR += lwp
+    SUBDIR += lxcross-binutils
     SUBDIR += lxcross-binutils-bootstrap
     SUBDIR += lxcross-glibc
     SUBDIR += lxcross-linuxheaders44
