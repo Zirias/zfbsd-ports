@@ -1,0 +1,19 @@
+@preexec [ -n "`/sbin/sysctl -q %%SYSCTLMIB%%`" ] || ( echo "Cannot install package: kernel missing 64-bit Linux support" >&2; exit 1 )
+bin
+sbin
+lib
+%%LIB64%%lib64
+@dir %%LINUXBASE%%
+@dir etc
+@dir usr/lib
+%%LIB64%%@dir usr/lib64
+@dir var
+@dir var/cache
+@comment These directories may have filesystems mounted and then it may not be
+@comment possible to change their mode and timestamp like @dir tries to do.
+@postexec mkdir -p %D/dev/shm
+@postunexec rmdir %D/dev/shm 2>/dev/null && rmdir %D/dev 2>/dev/null || true
+@postexec mkdir -p %D/proc
+@postunexec rmdir %D/proc 2>/dev/null || true
+@postexec mkdir -p %D/sys
+@postunexec rmdir %D/sys 2>/dev/null || true
