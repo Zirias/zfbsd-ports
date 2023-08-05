@@ -1486,6 +1486,7 @@
     SUBDIR += linux-ltp
     SUBDIR += linux-sublime-merge
     SUBDIR += linux_libusb
+    SUBDIR += linuxheaders44
     SUBDIR += lion
     SUBDIR += listserialc
     SUBDIR += liteide
@@ -1556,6 +1557,7 @@
     SUBDIR += luv
     SUBDIR += lwp
     SUBDIR += lxcross-binutils-bootstrap
+    SUBDIR += lxcross-linuxheaders44
     SUBDIR += lxqt-build-tools
     SUBDIR += lyra
     SUBDIR += m17n-db
