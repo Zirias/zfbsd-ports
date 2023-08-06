@@ -1558,6 +1558,7 @@
     SUBDIR += luv
     SUBDIR += lwp
     SUBDIR += lxcross-binutils-bootstrap
+    SUBDIR += lxcross-glibc
     SUBDIR += lxcross-linuxheaders44
     SUBDIR += lxcross-linuxheaders515
     SUBDIR += lxqt-build-tools
