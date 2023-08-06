@@ -1,0 +1,3 @@
+GCC, the GNU Compiler Collection, supports a number of languages.
+This port installs a minimal bootstrapping version with only C enabled
+for cross-building a Linux toolchain.
