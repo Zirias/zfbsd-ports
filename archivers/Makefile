@@ -73,6 +73,7 @@
     SUBDIR += libzip
     SUBDIR += libzippp
     SUBDIR += linux-c7-lz4
+    SUBDIR += linuxsrc-zlib
     SUBDIR += lizard
     SUBDIR += lrzip
     SUBDIR += lua-lzlib

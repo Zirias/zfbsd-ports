@@ -1,0 +1,7 @@
+usr/include/zconf.h
+usr/include/zlib.h
+usr/%%LXLIBDIRNAME%%/libz.so
+usr/%%LXLIBDIRNAME%%/libz.so.1
+usr/%%LXLIBDIRNAME%%/libz.so.%%DISTVERSION%%
+usr/%%LXLIBDIRNAME%%/pkgconfig/zlib.pc
+usr/share/man/man3/zlib.3.gz
