@@ -1555,6 +1555,7 @@
     SUBDIR += lutok
     SUBDIR += luv
     SUBDIR += lwp
+    SUBDIR += lxcross-binutils-bootstrap
     SUBDIR += lxqt-build-tools
     SUBDIR += lyra
     SUBDIR += m17n-db

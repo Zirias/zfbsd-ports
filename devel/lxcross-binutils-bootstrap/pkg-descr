@@ -1,0 +1,7 @@
+The GNU Binutils are a collection of binary tools. The main ones are:
+
+* ld - the GNU linker.
+* as - the GNU assembler.
+
+This port provides a minimal bootstrapping version of binutils targeting
+Linux, needed to build a full cross toolchain.
