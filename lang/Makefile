@@ -187,6 +187,7 @@
     SUBDIR += luajit
     SUBDIR += luajit-devel
     SUBDIR += luajit-openresty
+    SUBDIR += lxcross-gcc
     SUBDIR += lxcross-gcc-bootstrap
     SUBDIR += malbolge
     SUBDIR += maude

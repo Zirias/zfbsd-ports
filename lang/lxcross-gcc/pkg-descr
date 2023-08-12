@@ -1,0 +1,3 @@
+GCC, the GNU Compiler Collection, supports a number of languages.
+This port installs a version with C and C++ enabled and libstdc++ included
+for cross-building targeting Linux. 

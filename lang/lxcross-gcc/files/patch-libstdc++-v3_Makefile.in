@@ -1,0 +1,11 @@
+--- libstdc++-v3/Makefile.in.orig	2023-08-12 11:37:25 UTC
++++ libstdc++-v3/Makefile.in
+@@ -386,7 +386,7 @@ target_vendor = @target_vendor@
+ target_cpu = @target_cpu@
+ target_os = @target_os@
+ target_vendor = @target_vendor@
+-thread_header = @thread_header@
++thread_header = gthr-posix.h
+ tmake_file = @tmake_file@
+ top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
