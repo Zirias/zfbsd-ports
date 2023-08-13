@@ -1488,6 +1488,7 @@
     SUBDIR += linux_libusb
     SUBDIR += linuxheaders44
     SUBDIR += linuxheaders515
+    SUBDIR += linuxsrc-binutils
     SUBDIR += linuxsrc-glibc
     SUBDIR += lion
     SUBDIR += listserialc
