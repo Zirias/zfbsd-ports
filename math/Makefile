@@ -470,6 +470,7 @@
     SUBDIR += lingeling
     SUBDIR += linpack
     SUBDIR += linuxsrc-gmp
+    SUBDIR += linuxsrc-mpc
     SUBDIR += linuxsrc-mpfr
     SUBDIR += lis
     SUBDIR += lll_spect
