@@ -1,0 +1,13 @@
+usr/include/gmp.h
+usr/include/gmpxx.h
+usr/%%LXLIBDIRNAME%%/libgmp.so
+usr/%%LXLIBDIRNAME%%/libgmp.so.10
+usr/%%LXLIBDIRNAME%%/libgmp.so.10.5.0
+usr/%%LXLIBDIRNAME%%/libgmpxx.so
+usr/%%LXLIBDIRNAME%%/libgmpxx.so.4
+usr/%%LXLIBDIRNAME%%/libgmpxx.so.4.7.0
+usr/%%LXLIBDIRNAME%%/pkgconfig/gmp.pc
+usr/%%LXLIBDIRNAME%%/pkgconfig/gmpxx.pc
+usr/share/info/gmp.info
+usr/share/info/gmp.info-1
+usr/share/info/gmp.info-2
