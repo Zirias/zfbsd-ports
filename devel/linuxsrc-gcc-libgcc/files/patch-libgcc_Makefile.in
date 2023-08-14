@@ -1,0 +1,11 @@
+--- libgcc/Makefile.in.orig	2023-08-12 11:36:48 UTC
++++ libgcc/Makefile.in
+@@ -49,7 +49,7 @@ sfp_machine_header = @sfp_machine_header@
+ unwind_header = @unwind_header@
+ md_unwind_header = @md_unwind_header@
+ sfp_machine_header = @sfp_machine_header@
+-thread_header = @thread_header@
++thread_header = gthr-posix.h
+ 
+ host_noncanonical = @host_noncanonical@
+ real_host_noncanonical = @real_host_noncanonical@
