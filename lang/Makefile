@@ -180,6 +180,7 @@
     SUBDIR += linux-dotnet11-runtime
     SUBDIR += linux-dotnet11-sdk
     SUBDIR += linux-j
+    SUBDIR += linuxsrc-gcc
     SUBDIR += lua51
     SUBDIR += lua52
     SUBDIR += lua53
