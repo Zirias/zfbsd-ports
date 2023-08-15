@@ -74,6 +74,7 @@
     SUBDIR += libzippp
     SUBDIR += linux-c7-lz4
     SUBDIR += linuxsrc-bzip2
+    SUBDIR += linuxsrc-xz
     SUBDIR += linuxsrc-zlib
     SUBDIR += linuxsrc-zstd
     SUBDIR += lizard
