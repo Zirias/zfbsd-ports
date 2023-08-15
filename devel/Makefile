@@ -1490,6 +1490,7 @@
     SUBDIR += linuxheaders515
     SUBDIR += linuxsrc-binutils
     SUBDIR += linuxsrc-gcc-libgcc
+    SUBDIR += linuxsrc-gcc-libstdc++
     SUBDIR += linuxsrc-glibc
     SUBDIR += lion
     SUBDIR += listserialc
