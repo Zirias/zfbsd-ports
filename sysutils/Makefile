@@ -685,6 +685,7 @@
     SUBDIR += linux-miniconda-installer
     SUBDIR += linux-rkbin
     SUBDIR += linuxfdisk
+    SUBDIR += linuxsrc-ncurses
     SUBDIR += lizardfs
     SUBDIR += lmmon
     SUBDIR += lmon
