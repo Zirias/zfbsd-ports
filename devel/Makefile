@@ -1493,6 +1493,7 @@
     SUBDIR += linuxsrc-gcc-libstdc++
     SUBDIR += linuxsrc-glibc
     SUBDIR += linuxsrc-make
+    SUBDIR += linuxsrc-readline
     SUBDIR += lion
     SUBDIR += listserialc
     SUBDIR += liteide
