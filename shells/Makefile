@@ -28,6 +28,7 @@
     SUBDIR += ksh
     SUBDIR += ksh-devel
     SUBDIR += ksh93
+    SUBDIR += linuxsrc-bash
     SUBDIR += mksh
     SUBDIR += modernish
     SUBDIR += murex
