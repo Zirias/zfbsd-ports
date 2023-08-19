@@ -243,6 +243,7 @@
     SUBDIR += lifelines
     SUBDIR += lightgbm
     SUBDIR += lingoteach
+    SUBDIR += linuxsrc-glibc-localedata
     SUBDIR += locale-en_DK
     SUBDIR += localedata
     SUBDIR += logsurfer

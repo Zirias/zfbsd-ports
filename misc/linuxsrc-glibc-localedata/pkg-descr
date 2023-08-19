@@ -1,0 +1,3 @@
+Locale data from GNU glibc.
+This builds/installs all locales supported by glibc for the Linuxulator
+userland.
