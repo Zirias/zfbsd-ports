@@ -687,6 +687,7 @@
     SUBDIR += linuxfdisk
     SUBDIR += linuxsrc-acl
     SUBDIR += linuxsrc-attr
+    SUBDIR += linuxsrc-libcap
     SUBDIR += linuxsrc-ncurses
     SUBDIR += lizardfs
     SUBDIR += lmmon
