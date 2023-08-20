@@ -1,0 +1,4 @@
+GNU make is a tool that controls the generation of executables and other
+non-source files from source files.
+
+This port installs the Linux version.

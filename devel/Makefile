@@ -1492,6 +1492,7 @@
     SUBDIR += linuxsrc-gcc-libgcc
     SUBDIR += linuxsrc-gcc-libstdc++
     SUBDIR += linuxsrc-glibc
+    SUBDIR += linuxsrc-make
     SUBDIR += lion
     SUBDIR += listserialc
     SUBDIR += liteide
