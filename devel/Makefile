@@ -1492,6 +1492,7 @@
     SUBDIR += linuxsrc-gcc-libgcc
     SUBDIR += linuxsrc-gcc-libstdc++
     SUBDIR += linuxsrc-glibc
+    SUBDIR += linuxsrc-libsigsegv
     SUBDIR += linuxsrc-make
     SUBDIR += linuxsrc-readline
     SUBDIR += lion
