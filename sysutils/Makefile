@@ -688,6 +688,7 @@
     SUBDIR += linuxsrc-acl
     SUBDIR += linuxsrc-attr
     SUBDIR += linuxsrc-coreutils
+    SUBDIR += linuxsrc-less
     SUBDIR += linuxsrc-libcap
     SUBDIR += linuxsrc-ncurses
     SUBDIR += lizardfs
