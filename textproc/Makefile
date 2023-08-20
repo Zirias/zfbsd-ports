@@ -442,6 +442,7 @@
     SUBDIR += linux-c7-libxslt
     SUBDIR += linuxdoc
     SUBDIR += linuxdoc-tools
+    SUBDIR += linuxsrc-sed
     SUBDIR += localize
     SUBDIR += lookatme
     SUBDIR += loook
