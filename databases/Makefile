@@ -159,6 +159,7 @@
     SUBDIR += linux-c7-unixODBC
     SUBDIR += linux-oracle-instantclient-basic
     SUBDIR += linux-oracle-instantclient-sdk
+    SUBDIR += linuxsrc-gdbm
     SUBDIR += liquibase
     SUBDIR += litestream
     SUBDIR += lmdb
