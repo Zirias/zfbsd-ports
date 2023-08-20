@@ -443,6 +443,7 @@
     SUBDIR += linuxdoc
     SUBDIR += linuxdoc-tools
     SUBDIR += linuxsrc-grep
+    SUBDIR += linuxsrc-groff
     SUBDIR += linuxsrc-sed
     SUBDIR += localize
     SUBDIR += lookatme
