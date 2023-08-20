@@ -690,6 +690,7 @@
     SUBDIR += linuxsrc-coreutils
     SUBDIR += linuxsrc-less
     SUBDIR += linuxsrc-libcap
+    SUBDIR += linuxsrc-man-db
     SUBDIR += linuxsrc-ncurses
     SUBDIR += lizardfs
     SUBDIR += lmmon
