@@ -442,6 +442,7 @@
     SUBDIR += linux-c7-libxslt
     SUBDIR += linuxdoc
     SUBDIR += linuxdoc-tools
+    SUBDIR += linuxsrc-expat
     SUBDIR += linuxsrc-grep
     SUBDIR += linuxsrc-groff
     SUBDIR += linuxsrc-sed

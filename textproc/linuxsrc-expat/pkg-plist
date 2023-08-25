@@ -1,0 +1,15 @@
+usr/bin/xmlwf
+usr/include/expat.h
+usr/include/expat_config.h
+usr/include/expat_external.h
+usr/%%LXLIBDIRNAME%%/cmake/expat-%%DISTVERSION%%/expat-config-version.cmake
+usr/%%LXLIBDIRNAME%%/cmake/expat-%%DISTVERSION%%/expat-config.cmake
+usr/%%LXLIBDIRNAME%%/cmake/expat-%%DISTVERSION%%/expat-noconfig.cmake
+usr/%%LXLIBDIRNAME%%/cmake/expat-%%DISTVERSION%%/expat.cmake
+usr/%%LXLIBDIRNAME%%/libexpat.a
+usr/%%LXLIBDIRNAME%%/libexpat.so
+usr/%%LXLIBDIRNAME%%/libexpat.so.1
+usr/%%LXLIBDIRNAME%%/libexpat.so.1.8.10
+usr/%%LXLIBDIRNAME%%/pkgconfig/expat.pc
+usr/share/doc/expat/AUTHORS
+usr/share/doc/expat/changelog

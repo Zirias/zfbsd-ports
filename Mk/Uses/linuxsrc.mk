@@ -86,6 +86,9 @@ LINUXSRC_V_GMP=		6.3.0
 LINUXSRC_V_MPC=		1.3.1
 LINUXSRC_V_MPFR=	4.2.0
 
+# optional components
+_linuxsrc_expat=	textproc:expat
+
 # standard Linux variables
 LINUXSRC_ARCH=		${ARCH:S/amd64/x86_64/}
 LINUXSRC_TRIPLET=	${LINUXSRC_ARCH:S/i386/i686/}-freebsd-linux-gnu
