@@ -186,6 +186,8 @@ NO_BUILD=		yes
 NO_WRKSUBDIR=		yes
 USE_LINUX_PREFIX=	yes
 
+CONFLICTS+=		linuxheaders* linuxsrc-*
+
 .  endif # USE_LINUX_RPM
 
 .endif # ! _INCLUDE_USES_LINUX_MK
