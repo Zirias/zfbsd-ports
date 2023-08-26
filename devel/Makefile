@@ -1497,6 +1497,7 @@
     SUBDIR += linuxsrc-libpipeline
     SUBDIR += linuxsrc-libsigsegv
     SUBDIR += linuxsrc-libunistring
+    SUBDIR += linuxsrc-libuuid
     SUBDIR += linuxsrc-make
     SUBDIR += linuxsrc-pcre2
     SUBDIR += linuxsrc-readline
