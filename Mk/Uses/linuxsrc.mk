@@ -89,6 +89,7 @@ LINUXSRC_V_MPFR=	4.2.0
 # optional components
 _linuxsrc_expat=	textproc:expat
 _linuxsrc_libarchive=	archivers:libarchive
+_linuxsrc_libffi=	devel:libffi
 
 # standard Linux variables
 LINUXSRC_ARCH=		${ARCH:S/amd64/x86_64/}

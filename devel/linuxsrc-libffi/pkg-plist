@@ -1,0 +1,11 @@
+usr/include/ffi.h
+usr/include/ffitarget.h
+usr/%%LXLIBDIRNAME%%/libffi.so
+usr/%%LXLIBDIRNAME%%/libffi.so.8
+usr/%%LXLIBDIRNAME%%/libffi.so.8.1.2
+usr/%%LXLIBDIRNAME%%/pkgconfig/libffi.pc
+usr/share/info/libffi.info
+usr/share/man/man3/ffi.3.gz
+usr/share/man/man3/ffi_call.3.gz
+usr/share/man/man3/ffi_prep_cif.3.gz
+usr/share/man/man3/ffi_prep_cif_var.3.gz
