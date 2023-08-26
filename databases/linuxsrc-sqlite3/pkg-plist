@@ -1,0 +1,9 @@
+usr/bin/sqlite3
+usr/include/sqlite3.h
+usr/include/sqlite3ext.h
+usr/lib/tcl8.6/sqlite3/libtclsqlite3.so
+usr/lib/tcl8.6/sqlite3/pkgIndex.tcl
+usr/%%LXLIBDIRNAME%%/libsqlite3.so
+usr/%%LXLIBDIRNAME%%/libsqlite3.so.0
+usr/%%LXLIBDIRNAME%%/libsqlite3.so.0.8.6
+usr/%%LXLIBDIRNAME%%/pkgconfig/sqlite3.pc

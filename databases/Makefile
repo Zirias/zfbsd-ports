@@ -160,6 +160,7 @@
     SUBDIR += linux-oracle-instantclient-basic
     SUBDIR += linux-oracle-instantclient-sdk
     SUBDIR += linuxsrc-gdbm
+    SUBDIR += linuxsrc-sqlite3
     SUBDIR += liquibase
     SUBDIR += litestream
     SUBDIR += lmdb
