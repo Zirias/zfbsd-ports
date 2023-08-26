@@ -182,6 +182,7 @@
     SUBDIR += linux-j
     SUBDIR += linuxsrc-gawk
     SUBDIR += linuxsrc-gcc
+    SUBDIR += linuxsrc-tcl
     SUBDIR += lua51
     SUBDIR += lua52
     SUBDIR += lua53
