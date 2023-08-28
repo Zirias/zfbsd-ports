@@ -89,6 +89,7 @@ LINUXSRC_V_MPFR=	4.2.0
 # optional components
 _linuxsrc_autoconf=	devel:autoconf
 _linuxsrc_automake=	devel:automake
+_linuxsrc_cmake=	devel:cmake
 _linuxsrc_expat=	textproc:expat
 _linuxsrc_jsoncpp=	devel:jsoncpp
 _linuxsrc_libarchive=	archivers:libarchive

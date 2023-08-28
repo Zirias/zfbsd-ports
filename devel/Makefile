@@ -1491,6 +1491,7 @@
     SUBDIR += linuxsrc-autoconf
     SUBDIR += linuxsrc-automake
     SUBDIR += linuxsrc-binutils
+    SUBDIR += linuxsrc-cmake
     SUBDIR += linuxsrc-devtools
     SUBDIR += linuxsrc-gcc-libgcc
     SUBDIR += linuxsrc-gcc-libstdc++
