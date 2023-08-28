@@ -182,6 +182,7 @@
     SUBDIR += linux-j
     SUBDIR += linuxsrc-gawk
     SUBDIR += linuxsrc-gcc
+    SUBDIR += linuxsrc-perl
     SUBDIR += linuxsrc-python
     SUBDIR += linuxsrc-tcl
     SUBDIR += lua51

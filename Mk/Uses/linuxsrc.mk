@@ -95,6 +95,7 @@ _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_m4=		devel:m4
 _linuxsrc_meson=	devel:meson
 _linuxsrc_ninja=	devel:ninja
+_linuxsrc_perl=		lang:perl
 _linuxsrc_pybuild=	devel:py-build
 _linuxsrc_pyflit=	devel:py-flit-core
 _linuxsrc_pyinst=	devel:py-installer
