@@ -91,6 +91,7 @@ _linuxsrc_expat=	textproc:expat
 _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libuuid=	devel:libuuid
+_linuxsrc_meson=	devel:meson
 _linuxsrc_ninja=	devel:ninja
 _linuxsrc_pybuild=	devel:py-build
 _linuxsrc_pyflit=	devel:py-flit-core
