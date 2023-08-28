@@ -211,6 +211,7 @@
     SUBDIR += linux-c7-libv4l
     SUBDIR += linux-tsmuxer
     SUBDIR += linux_dvbwrapper-kmod
+    SUBDIR += linuxsrc-aom
     SUBDIR += livego
     SUBDIR += lives
     SUBDIR += lms
