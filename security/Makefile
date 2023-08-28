@@ -343,6 +343,7 @@
     SUBDIR += linux-c7-trousers
     SUBDIR += linuxsrc-libxcrypt
     SUBDIR += linuxsrc-openssl
+    SUBDIR += linuxsrc-rhash
     SUBDIR += local-php-security-checker
     SUBDIR += logcheck
     SUBDIR += lua-argon2
