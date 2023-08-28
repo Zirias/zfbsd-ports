@@ -1503,6 +1503,7 @@
     SUBDIR += linuxsrc-pcre2
     SUBDIR += linuxsrc-py-flit-core
     SUBDIR += linuxsrc-py-installer
+    SUBDIR += linuxsrc-py-pyproject_hooks
     SUBDIR += linuxsrc-py-setuptools
     SUBDIR += linuxsrc-readline
     SUBDIR += lion
