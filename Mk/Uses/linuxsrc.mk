@@ -94,6 +94,7 @@ _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_ninja=	devel:ninja
 _linuxsrc_pyflit=	devel:py-flit-core
 _linuxsrc_pyinst=	devel:py-installer
+_linuxsrc_pypkg=	devel:py-packaging
 _linuxsrc_pyprhooks=	devel:py-pyproject_hooks
 _linuxsrc_pysetup=	devel:py-setuptools
 _linuxsrc_python=	lang:python
