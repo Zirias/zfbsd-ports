@@ -92,6 +92,7 @@ _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_ninja=	devel:ninja
+_linuxsrc_pyflit=	devel:py-flit-core
 _linuxsrc_pysetup=	devel:py-setuptools
 _linuxsrc_python=	lang:python
 _linuxsrc_sqlite=	databases:sqlite3
