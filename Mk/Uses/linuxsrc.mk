@@ -95,6 +95,7 @@ _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libtool=	devel:libtool
 _linuxsrc_libuuid=	devel:libuuid
+_linuxsrc_libuv=	devel:libuv
 _linuxsrc_m4=		devel:m4
 _linuxsrc_meson=	devel:meson
 _linuxsrc_ninja=	devel:ninja

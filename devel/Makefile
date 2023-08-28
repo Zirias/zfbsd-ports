@@ -1502,6 +1502,7 @@
     SUBDIR += linuxsrc-libtool
     SUBDIR += linuxsrc-libunistring
     SUBDIR += linuxsrc-libuuid
+    SUBDIR += linuxsrc-libuv
     SUBDIR += linuxsrc-m4
     SUBDIR += linuxsrc-make
     SUBDIR += linuxsrc-meson
