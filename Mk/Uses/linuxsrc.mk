@@ -91,6 +91,7 @@ _linuxsrc_expat=	textproc:expat
 _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libuuid=	devel:libuuid
+_linuxsrc_ninja=	devel:ninja
 _linuxsrc_python=	lang:python
 _linuxsrc_sqlite=	databases:sqlite3
 _linuxsrc_tcl=		lang:tcl

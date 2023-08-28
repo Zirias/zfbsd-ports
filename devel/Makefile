@@ -1499,6 +1499,7 @@
     SUBDIR += linuxsrc-libunistring
     SUBDIR += linuxsrc-libuuid
     SUBDIR += linuxsrc-make
+    SUBDIR += linuxsrc-ninja
     SUBDIR += linuxsrc-pcre2
     SUBDIR += linuxsrc-readline
     SUBDIR += lion
