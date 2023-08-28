@@ -98,6 +98,7 @@ _linuxsrc_pyinst=	devel:py-installer
 _linuxsrc_pypkg=	devel:py-packaging
 _linuxsrc_pyprhooks=	devel:py-pyproject_hooks
 _linuxsrc_pysetup=	devel:py-setuptools
+_linuxsrc_pywheel=	devel:py-wheel
 _linuxsrc_python=	lang:python
 _linuxsrc_sqlite=	databases:sqlite3
 _linuxsrc_tcl=		lang:tcl

@@ -1507,6 +1507,7 @@
     SUBDIR += linuxsrc-py-packaging
     SUBDIR += linuxsrc-py-pyproject_hooks
     SUBDIR += linuxsrc-py-setuptools
+    SUBDIR += linuxsrc-py-wheel
     SUBDIR += linuxsrc-readline
     SUBDIR += lion
     SUBDIR += listserialc
