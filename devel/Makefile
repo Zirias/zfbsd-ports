@@ -1502,6 +1502,7 @@
     SUBDIR += linuxsrc-ninja
     SUBDIR += linuxsrc-pcre2
     SUBDIR += linuxsrc-py-flit-core
+    SUBDIR += linuxsrc-py-installer
     SUBDIR += linuxsrc-py-setuptools
     SUBDIR += linuxsrc-readline
     SUBDIR += lion
