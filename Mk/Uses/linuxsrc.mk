@@ -92,6 +92,7 @@ _linuxsrc_jsoncpp=	devel:jsoncpp
 _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libuuid=	devel:libuuid
+_linuxsrc_m4=		devel:m4
 _linuxsrc_meson=	devel:meson
 _linuxsrc_ninja=	devel:ninja
 _linuxsrc_pybuild=	devel:py-build

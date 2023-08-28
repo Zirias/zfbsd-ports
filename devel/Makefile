@@ -1499,6 +1499,7 @@
     SUBDIR += linuxsrc-libsigsegv
     SUBDIR += linuxsrc-libunistring
     SUBDIR += linuxsrc-libuuid
+    SUBDIR += linuxsrc-m4
     SUBDIR += linuxsrc-make
     SUBDIR += linuxsrc-meson
     SUBDIR += linuxsrc-ninja
