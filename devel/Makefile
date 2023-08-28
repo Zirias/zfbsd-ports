@@ -1501,6 +1501,7 @@
     SUBDIR += linuxsrc-make
     SUBDIR += linuxsrc-ninja
     SUBDIR += linuxsrc-pcre2
+    SUBDIR += linuxsrc-py-setuptools
     SUBDIR += linuxsrc-readline
     SUBDIR += lion
     SUBDIR += listserialc
