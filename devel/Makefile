@@ -1501,6 +1501,7 @@
     SUBDIR += linuxsrc-make
     SUBDIR += linuxsrc-ninja
     SUBDIR += linuxsrc-pcre2
+    SUBDIR += linuxsrc-py-build
     SUBDIR += linuxsrc-py-flit-core
     SUBDIR += linuxsrc-py-installer
     SUBDIR += linuxsrc-py-packaging
