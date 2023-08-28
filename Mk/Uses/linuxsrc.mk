@@ -93,6 +93,7 @@ _linuxsrc_expat=	textproc:expat
 _linuxsrc_jsoncpp=	devel:jsoncpp
 _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libffi=	devel:libffi
+_linuxsrc_libtool=	devel:libtool
 _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_m4=		devel:m4
 _linuxsrc_meson=	devel:meson

@@ -1499,6 +1499,7 @@
     SUBDIR += linuxsrc-libffi
     SUBDIR += linuxsrc-libpipeline
     SUBDIR += linuxsrc-libsigsegv
+    SUBDIR += linuxsrc-libtool
     SUBDIR += linuxsrc-libunistring
     SUBDIR += linuxsrc-libuuid
     SUBDIR += linuxsrc-m4
