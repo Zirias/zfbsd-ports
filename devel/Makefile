@@ -1496,6 +1496,7 @@
     SUBDIR += linuxsrc-elfutils
     SUBDIR += linuxsrc-gcc-libgcc
     SUBDIR += linuxsrc-gcc-libstdc++
+    SUBDIR += linuxsrc-gettext
     SUBDIR += linuxsrc-glibc
     SUBDIR += linuxsrc-icu
     SUBDIR += linuxsrc-jsoncpp
