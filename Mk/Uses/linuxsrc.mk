@@ -92,6 +92,7 @@ _linuxsrc_autoconf=	devel:autoconf
 _linuxsrc_automake=	devel:automake
 _linuxsrc_brotli=	archivers:brotli
 _linuxsrc_cmake=	devel:cmake
+_linuxsrc_elfutils=	devel:elfutils
 _linuxsrc_expat=	textproc:expat
 _linuxsrc_freetype=	print:freetype
 _linuxsrc_graphite2=	graphics:graphite2
