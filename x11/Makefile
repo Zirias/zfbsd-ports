@@ -218,6 +218,7 @@
     SUBDIR += linux-nvidia-libs-340
     SUBDIR += linux-nvidia-libs-390
     SUBDIR += linux-nvidia-libs-470
+    SUBDIR += linuxsrc-pixman
     SUBDIR += listres
     SUBDIR += lsw
     SUBDIR += luit

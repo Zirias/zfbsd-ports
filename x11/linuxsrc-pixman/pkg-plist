@@ -1,0 +1,6 @@
+usr/include/pixman-1/pixman-version.h
+usr/include/pixman-1/pixman.h
+usr/%%LXLIBDIRNAME%%/libpixman-1.so
+usr/%%LXLIBDIRNAME%%/libpixman-1.so.0
+usr/%%LXLIBDIRNAME%%/libpixman-1.so.0.42.2
+usr/%%LXLIBDIRNAME%%/pkgconfig/pixman-1.pc
