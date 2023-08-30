@@ -168,6 +168,7 @@
     SUBDIR += linux-c7-fontconfig
     SUBDIR += linuxlibertine
     SUBDIR += linuxlibertine-g
+    SUBDIR += linuxsrc-fontconfig
     SUBDIR += lohit
     SUBDIR += manrope
     SUBDIR += manu-gothica
