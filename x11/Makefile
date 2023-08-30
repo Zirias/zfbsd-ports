@@ -220,6 +220,7 @@
     SUBDIR += linux-nvidia-libs-470
     SUBDIR += linuxsrc-libXau
     SUBDIR += linuxsrc-libXdmcp
+    SUBDIR += linuxsrc-libxcb
     SUBDIR += linuxsrc-pixman
     SUBDIR += linuxsrc-xcb-proto
     SUBDIR += linuxsrc-xorgproto

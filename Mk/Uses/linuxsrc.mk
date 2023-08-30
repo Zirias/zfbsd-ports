@@ -108,6 +108,7 @@ _linuxsrc_libpng=	graphics:libpng
 _linuxsrc_libtool=	devel:libtool
 _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_libuv=	devel:libuv
+_linuxsrc_libxcb=	x11:libxcb
 _linuxsrc_libxml2=	textproc:libxml2
 _linuxsrc_m4=		devel:m4
 _linuxsrc_meson=	devel:meson
