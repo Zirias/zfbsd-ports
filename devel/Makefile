@@ -1496,6 +1496,7 @@
     SUBDIR += linuxsrc-gcc-libgcc
     SUBDIR += linuxsrc-gcc-libstdc++
     SUBDIR += linuxsrc-glibc
+    SUBDIR += linuxsrc-icu
     SUBDIR += linuxsrc-jsoncpp
     SUBDIR += linuxsrc-libffi
     SUBDIR += linuxsrc-libpipeline
