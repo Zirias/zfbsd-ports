@@ -94,6 +94,7 @@ _linuxsrc_brotli=	archivers:brotli
 _linuxsrc_cmake=	devel:cmake
 _linuxsrc_expat=	textproc:expat
 _linuxsrc_freetype=	print:freetype
+_linuxsrc_graphite2=	graphics:graphite2
 _linuxsrc_icu=		devel:icu
 _linuxsrc_jsoncpp=	devel:jsoncpp
 _linuxsrc_libarchive=	archivers:libarchive
