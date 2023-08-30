@@ -126,6 +126,7 @@ _linuxsrc_rhash=	security:rhash
 _linuxsrc_sqlite=	databases:sqlite3
 _linuxsrc_tcl=		lang:tcl
 _linuxsrc_xau=		x11:libXau
+_linuxsrc_xdmcp=	x11:libXdmcp
 _linuxsrc_xmacros=	devel:util-macros
 _linuxsrc_xorgproto=	x11:xorgproto
 
