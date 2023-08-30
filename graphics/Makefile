@@ -544,6 +544,7 @@
     SUBDIR += linux-c7-sdl_ttf
     SUBDIR += linux-c7-tiff
     SUBDIR += linux-c7-wayland
+    SUBDIR += linuxsrc-libpng
     SUBDIR += lua-gd
     SUBDIR += luminance-qt5
     SUBDIR += lux
