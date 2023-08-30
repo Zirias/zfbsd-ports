@@ -96,6 +96,7 @@ _linuxsrc_elfutils=	devel:elfutils
 _linuxsrc_expat=	textproc:expat
 _linuxsrc_freetype=	print:freetype
 _linuxsrc_gettext=	devel:gettext
+_linuxsrc_glib=		devel:glib
 _linuxsrc_graphite2=	graphics:graphite2
 _linuxsrc_icu=		devel:icu
 _linuxsrc_jsoncpp=	devel:jsoncpp
