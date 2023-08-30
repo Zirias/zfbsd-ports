@@ -218,6 +218,7 @@
     SUBDIR += linux-nvidia-libs-340
     SUBDIR += linux-nvidia-libs-390
     SUBDIR += linux-nvidia-libs-470
+    SUBDIR += linuxsrc-libXau
     SUBDIR += linuxsrc-pixman
     SUBDIR += linuxsrc-xorgproto
     SUBDIR += listres

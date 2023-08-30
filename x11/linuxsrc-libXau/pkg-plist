@@ -1,0 +1,14 @@
+usr/include/X11/Xauth.h
+usr/%%LXLIBDIRNAME%%/libXau.so
+usr/%%LXLIBDIRNAME%%/libXau.so.6
+usr/%%LXLIBDIRNAME%%/libXau.so.6.0.0
+usr/%%LXLIBDIRNAME%%/pkgconfig/xau.pc
+usr/share/man/man3/Xau.3.gz
+usr/share/man/man3/XauDisposeAuth.3.gz
+usr/share/man/man3/XauFileName.3.gz
+usr/share/man/man3/XauGetAuthByAddr.3.gz
+usr/share/man/man3/XauGetBestAuthByAddr.3.gz
+usr/share/man/man3/XauLockAuth.3.gz
+usr/share/man/man3/XauReadAuth.3.gz
+usr/share/man/man3/XauUnlockAuth.3.gz
+usr/share/man/man3/XauWriteAuth.3.gz
