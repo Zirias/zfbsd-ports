@@ -1522,6 +1522,7 @@
     SUBDIR += linuxsrc-py-setuptools
     SUBDIR += linuxsrc-py-wheel
     SUBDIR += linuxsrc-readline
+    SUBDIR += linuxsrc-util-macros
     SUBDIR += lion
     SUBDIR += listserialc
     SUBDIR += liteide

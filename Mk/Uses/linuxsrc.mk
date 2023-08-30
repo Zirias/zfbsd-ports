@@ -125,6 +125,7 @@ _linuxsrc_python=	lang:python
 _linuxsrc_rhash=	security:rhash
 _linuxsrc_sqlite=	databases:sqlite3
 _linuxsrc_tcl=		lang:tcl
+_linuxsrc_xmacros=	devel:util-macros
 
 # standard Linux variables
 LINUXSRC_ARCH=		${ARCH:S/amd64/x86_64/}
