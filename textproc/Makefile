@@ -445,6 +445,7 @@
     SUBDIR += linuxsrc-expat
     SUBDIR += linuxsrc-grep
     SUBDIR += linuxsrc-groff
+    SUBDIR += linuxsrc-libxml2
     SUBDIR += linuxsrc-sed
     SUBDIR += localize
     SUBDIR += lookatme
