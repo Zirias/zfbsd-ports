@@ -100,6 +100,7 @@
     SUBDIR += linux-c7-freetype
     SUBDIR += linux-c7-harfbuzz
     SUBDIR += linux-jabref
+    SUBDIR += linuxsrc-freetype
     SUBDIR += lout
     SUBDIR += lprps
     SUBDIR += lyx
