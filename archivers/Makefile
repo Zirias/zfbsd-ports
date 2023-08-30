@@ -73,6 +73,7 @@
     SUBDIR += libzip
     SUBDIR += libzippp
     SUBDIR += linux-c7-lz4
+    SUBDIR += linuxsrc-brotli
     SUBDIR += linuxsrc-bzip2
     SUBDIR += linuxsrc-libarchive
     SUBDIR += linuxsrc-xz
