@@ -229,6 +229,7 @@
     SUBDIR += linuxsrc-libXdmcp
     SUBDIR += linuxsrc-libXext
     SUBDIR += linuxsrc-libXfixes
+    SUBDIR += linuxsrc-libXi
     SUBDIR += linuxsrc-libXpm
     SUBDIR += linuxsrc-libXrender
     SUBDIR += linuxsrc-libxcb
