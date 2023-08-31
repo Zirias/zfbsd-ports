@@ -134,6 +134,7 @@ _linuxsrc_xau=		x11:libXau
 _linuxsrc_xaw=		x11-toolkits:libXaw
 _linuxsrc_xcbproto=	x11:xcb-proto
 _linuxsrc_xcomposite=	x11:libXcomposite
+_linuxsrc_xcursor=	x11:libXcursor
 _linuxsrc_xdmcp=	x11:libXdmcp
 _linuxsrc_xext=		x11:libXext
 _linuxsrc_xfixes=	x11:libXfixes
