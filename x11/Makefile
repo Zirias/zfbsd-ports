@@ -242,6 +242,7 @@
     SUBDIR += linuxsrc-libXxf86vm
     SUBDIR += linuxsrc-libxcb
     SUBDIR += linuxsrc-libxkbfile
+    SUBDIR += linuxsrc-libxshmfence
     SUBDIR += linuxsrc-pixman
     SUBDIR += linuxsrc-xcb-proto
     SUBDIR += linuxsrc-xorgproto
