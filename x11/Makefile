@@ -218,6 +218,7 @@
     SUBDIR += linux-nvidia-libs-340
     SUBDIR += linux-nvidia-libs-390
     SUBDIR += linux-nvidia-libs-470
+    SUBDIR += linuxsrc-libX11
     SUBDIR += linuxsrc-libXau
     SUBDIR += linuxsrc-libXdmcp
     SUBDIR += linuxsrc-libxcb

@@ -126,6 +126,7 @@ _linuxsrc_python=	lang:python
 _linuxsrc_rhash=	security:rhash
 _linuxsrc_sqlite=	databases:sqlite3
 _linuxsrc_tcl=		lang:tcl
+_linuxsrc_x11=		x11:libX11
 _linuxsrc_xau=		x11:libXau
 _linuxsrc_xcbproto=	x11:xcb-proto
 _linuxsrc_xdmcp=	x11:libXdmcp
