@@ -225,6 +225,7 @@
     SUBDIR += linuxsrc-libXau
     SUBDIR += linuxsrc-libXcomposite
     SUBDIR += linuxsrc-libXcursor
+    SUBDIR += linuxsrc-libXdamage
     SUBDIR += linuxsrc-libXdmcp
     SUBDIR += linuxsrc-libXext
     SUBDIR += linuxsrc-libXfixes
