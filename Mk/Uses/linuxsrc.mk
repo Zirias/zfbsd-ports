@@ -135,6 +135,7 @@ _linuxsrc_xcbproto=	x11:xcb-proto
 _linuxsrc_xdmcp=	x11:libXdmcp
 _linuxsrc_xext=		x11:libXext
 _linuxsrc_xmacros=	devel:util-macros
+_linuxsrc_xmu=		x11-toolkits:libXmu
 _linuxsrc_xorgproto=	x11:xorgproto
 _linuxsrc_xscrnsaver=	x11:libXScrnSaver
 _linuxsrc_xt=		x11-toolkits:libXt
