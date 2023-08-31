@@ -135,6 +135,7 @@ _linuxsrc_xaw=		x11-toolkits:libXaw
 _linuxsrc_xcbproto=	x11:xcb-proto
 _linuxsrc_xdmcp=	x11:libXdmcp
 _linuxsrc_xext=		x11:libXext
+_linuxsrc_xfixes=	x11:libXfixes
 _linuxsrc_xmacros=	devel:util-macros
 _linuxsrc_xmu=		x11-toolkits:libXmu
 _linuxsrc_xorgproto=	x11:xorgproto

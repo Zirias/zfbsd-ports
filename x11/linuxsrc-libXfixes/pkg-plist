@@ -1,0 +1,6 @@
+usr/include/X11/extensions/Xfixes.h
+usr/%%LXLIBDIRNAME%%/libXfixes.so
+usr/%%LXLIBDIRNAME%%/libXfixes.so.3
+usr/%%LXLIBDIRNAME%%/libXfixes.so.3.1.0
+usr/%%LXLIBDIRNAME%%/pkgconfig/xfixes.pc
+usr/share/man/man3/Xfixes.3.gz
