@@ -342,6 +342,7 @@
     SUBDIR += linux-c7-p11-kit
     SUBDIR += linux-c7-trousers
     SUBDIR += linuxsrc-libxcrypt
+    SUBDIR += linuxsrc-nettle
     SUBDIR += linuxsrc-openssl
     SUBDIR += linuxsrc-rhash
     SUBDIR += local-php-security-checker

@@ -126,6 +126,7 @@ _linuxsrc_libxcb=	x11:libxcb
 _linuxsrc_libxml2=	textproc:libxml2
 _linuxsrc_m4=		devel:m4
 _linuxsrc_meson=	devel:meson
+_linuxsrc_nettle=	security:nettle
 _linuxsrc_ninja=	devel:ninja
 _linuxsrc_perl=		lang:perl
 _linuxsrc_pixman=	x11:pixman
