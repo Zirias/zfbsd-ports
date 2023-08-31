@@ -238,6 +238,7 @@
     SUBDIR += linuxsrc-libXtst
     SUBDIR += linuxsrc-libXv
     SUBDIR += linuxsrc-libXvMC
+    SUBDIR += linuxsrc-libXxf86dga
     SUBDIR += linuxsrc-libxcb
     SUBDIR += linuxsrc-pixman
     SUBDIR += linuxsrc-xcb-proto

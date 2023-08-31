@@ -137,6 +137,7 @@ _linuxsrc_xcbproto=	x11:xcb-proto
 _linuxsrc_xcomposite=	x11:libXcomposite
 _linuxsrc_xcursor=	x11:libXcursor
 _linuxsrc_xdamage=	x11:libXdamage
+_linuxsrc_xdga=		x11:libXxf86dga
 _linuxsrc_xdmcp=	x11:libXdmcp
 _linuxsrc_xext=		x11:libXext
 _linuxsrc_xfixes=	x11:libXfixes
