@@ -158,6 +158,7 @@ _linuxsrc_xt=		x11-toolkits:libXt
 _linuxsrc_xtrans=	x11:xtrans
 _linuxsrc_xtst=		x11:libXtst
 _linuxsrc_xv=		x11:libXv
+_linuxsrc_xvm=		x11:libXxf86vm
 _linuxsrc_xvmc=		x11:libXvMC
 
 # standard Linux variables
