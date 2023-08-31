@@ -221,6 +221,7 @@
     SUBDIR += linuxsrc-libX11
     SUBDIR += linuxsrc-libXau
     SUBDIR += linuxsrc-libXdmcp
+    SUBDIR += linuxsrc-libXext
     SUBDIR += linuxsrc-libxcb
     SUBDIR += linuxsrc-pixman
     SUBDIR += linuxsrc-xcb-proto

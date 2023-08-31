@@ -130,6 +130,7 @@ _linuxsrc_x11=		x11:libX11
 _linuxsrc_xau=		x11:libXau
 _linuxsrc_xcbproto=	x11:xcb-proto
 _linuxsrc_xdmcp=	x11:libXdmcp
+_linuxsrc_xext=		x11:libXext
 _linuxsrc_xmacros=	devel:util-macros
 _linuxsrc_xorgproto=	x11:xorgproto
 _linuxsrc_xtrans=	x11:xtrans
