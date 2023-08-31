@@ -1,0 +1,7 @@
+usr/include/X11/SM/SM.h
+usr/include/X11/SM/SMlib.h
+usr/include/X11/SM/SMproto.h
+usr/%%LXLIBDIRNAME%%/libSM.so
+usr/%%LXLIBDIRNAME%%/libSM.so.6
+usr/%%LXLIBDIRNAME%%/libSM.so.6.0.1
+usr/%%LXLIBDIRNAME%%/pkgconfig/sm.pc
