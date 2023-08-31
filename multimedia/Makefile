@@ -213,6 +213,7 @@
     SUBDIR += linux_dvbwrapper-kmod
     SUBDIR += linuxsrc-aom
     SUBDIR += linuxsrc-dav1d
+    SUBDIR += linuxsrc-gavl
     SUBDIR += linuxsrc-libass
     SUBDIR += livego
     SUBDIR += lives
