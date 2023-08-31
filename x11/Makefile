@@ -230,6 +230,7 @@
     SUBDIR += linuxsrc-libXext
     SUBDIR += linuxsrc-libXfixes
     SUBDIR += linuxsrc-libXi
+    SUBDIR += linuxsrc-libXinerama
     SUBDIR += linuxsrc-libXpm
     SUBDIR += linuxsrc-libXrender
     SUBDIR += linuxsrc-libxcb
