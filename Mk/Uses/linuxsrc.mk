@@ -97,6 +97,7 @@ _linuxsrc_elfutils=	devel:elfutils
 _linuxsrc_expat=	textproc:expat
 _linuxsrc_fontconfig=	x11-fonts:fontconfig
 _linuxsrc_freetype=	print:freetype
+_linuxsrc_fribidi=	converters:fribidi
 _linuxsrc_gettext=	devel:gettext
 _linuxsrc_gintrospect=	devel:gobject-introspection
 _linuxsrc_glib=		devel:glib
