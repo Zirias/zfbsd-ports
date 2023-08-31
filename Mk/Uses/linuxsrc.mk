@@ -115,6 +115,7 @@ _linuxsrc_libice=	x11:libICE
 _linuxsrc_libpng=	graphics:libpng
 _linuxsrc_libsm=	x11:libSM
 _linuxsrc_libtool=	devel:libtool
+_linuxsrc_libunibreak=	textproc:libunibreak
 _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_libuv=	devel:libuv
 _linuxsrc_libxcb=	x11:libxcb
