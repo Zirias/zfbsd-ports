@@ -221,6 +221,7 @@
     SUBDIR += linuxsrc-libICE
     SUBDIR += linuxsrc-libSM
     SUBDIR += linuxsrc-libX11
+    SUBDIR += linuxsrc-libXScrnSaver
     SUBDIR += linuxsrc-libXau
     SUBDIR += linuxsrc-libXdmcp
     SUBDIR += linuxsrc-libXext

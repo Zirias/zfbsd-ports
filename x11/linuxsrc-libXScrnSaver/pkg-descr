@@ -1,0 +1,4 @@
+This package contains libXScrnSaver, the X11 Screen Saver extension
+client library.
+
+This port installs the Linux version.
