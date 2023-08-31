@@ -104,6 +104,7 @@ _linuxsrc_icu=		devel:icu
 _linuxsrc_jsoncpp=	devel:jsoncpp
 _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libffi=	devel:libffi
+_linuxsrc_libfs=	x11-fonts:libFS
 _linuxsrc_libpng=	graphics:libpng
 _linuxsrc_libtool=	devel:libtool
 _linuxsrc_libuuid=	devel:libuuid
