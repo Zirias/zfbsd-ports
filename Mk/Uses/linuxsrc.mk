@@ -141,6 +141,7 @@ _linuxsrc_xdmcp=	x11:libXdmcp
 _linuxsrc_xext=		x11:libXext
 _linuxsrc_xfixes=	x11:libXfixes
 _linuxsrc_xfont=	x11-fonts:libXfont
+_linuxsrc_xfont2=	x11-fonts:libXfont2
 _linuxsrc_xmacros=	devel:util-macros
 _linuxsrc_xmu=		x11-toolkits:libXmu
 _linuxsrc_xorgproto=	x11:xorgproto
