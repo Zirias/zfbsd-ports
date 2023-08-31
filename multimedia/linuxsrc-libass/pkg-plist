@@ -1,0 +1,6 @@
+usr/include/ass/ass.h
+usr/include/ass/ass_types.h
+usr/%%LXLIBDIRNAME%%/libass.so
+usr/%%LXLIBDIRNAME%%/libass.so.9
+usr/%%LXLIBDIRNAME%%/libass.so.9.2.1
+usr/%%LXLIBDIRNAME%%/pkgconfig/libass.pc

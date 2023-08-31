@@ -108,6 +108,7 @@ _linuxsrc_harfbuzz=	print:harfbuzz
 _linuxsrc_icu=		devel:icu
 _linuxsrc_jsoncpp=	devel:jsoncpp
 _linuxsrc_libarchive=	archivers:libarchive
+_linuxsrc_libass=	multimedia:libass
 _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libfontenc=	x11-fonts:libfontenc
 _linuxsrc_libfs=	x11-fonts:libFS

@@ -212,6 +212,7 @@
     SUBDIR += linux-tsmuxer
     SUBDIR += linux_dvbwrapper-kmod
     SUBDIR += linuxsrc-aom
+    SUBDIR += linuxsrc-libass
     SUBDIR += livego
     SUBDIR += lives
     SUBDIR += lms
