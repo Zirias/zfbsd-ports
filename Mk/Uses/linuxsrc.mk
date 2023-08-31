@@ -156,6 +156,7 @@ _linuxsrc_xscrnsaver=	x11:libXScrnSaver
 _linuxsrc_xt=		x11-toolkits:libXt
 _linuxsrc_xtrans=	x11:xtrans
 _linuxsrc_xtst=		x11:libXtst
+_linuxsrc_xv=		x11:libXv
 
 # standard Linux variables
 LINUXSRC_ARCH=		${ARCH:S/amd64/x86_64/}

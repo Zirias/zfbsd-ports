@@ -236,6 +236,7 @@
     SUBDIR += linuxsrc-libXrender
     SUBDIR += linuxsrc-libXres
     SUBDIR += linuxsrc-libXtst
+    SUBDIR += linuxsrc-libXv
     SUBDIR += linuxsrc-libxcb
     SUBDIR += linuxsrc-pixman
     SUBDIR += linuxsrc-xcb-proto
