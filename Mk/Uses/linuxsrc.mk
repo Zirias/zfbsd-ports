@@ -141,6 +141,7 @@ _linuxsrc_xmacros=	devel:util-macros
 _linuxsrc_xmu=		x11-toolkits:libXmu
 _linuxsrc_xorgproto=	x11:xorgproto
 _linuxsrc_xpm=		x11:libXpm
+_linuxsrc_xrender=	x11:libXrender
 _linuxsrc_xscrnsaver=	x11:libXScrnSaver
 _linuxsrc_xt=		x11-toolkits:libXt
 _linuxsrc_xtrans=	x11:xtrans
