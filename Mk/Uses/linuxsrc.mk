@@ -151,6 +151,7 @@ _linuxsrc_xorgproto=	x11:xorgproto
 _linuxsrc_xpm=		x11:libXpm
 _linuxsrc_xrandr=	x11:libXrandr
 _linuxsrc_xrender=	x11:libXrender
+_linuxsrc_xres=		x11:libXres
 _linuxsrc_xscrnsaver=	x11:libXScrnSaver
 _linuxsrc_xt=		x11-toolkits:libXt
 _linuxsrc_xtrans=	x11:xtrans
