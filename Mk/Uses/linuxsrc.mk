@@ -98,6 +98,7 @@ _linuxsrc_fontconfig=	x11-fonts:fontconfig
 _linuxsrc_freetype=	print:freetype
 _linuxsrc_gettext=	devel:gettext
 _linuxsrc_glib=		devel:glib
+_linuxsrc_glvnd=	graphics:libglvnd
 _linuxsrc_gperf=	devel:gperf
 _linuxsrc_graphite2=	graphics:graphite2
 _linuxsrc_icu=		devel:icu

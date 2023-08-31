@@ -545,6 +545,7 @@
     SUBDIR += linux-c7-tiff
     SUBDIR += linux-c7-wayland
     SUBDIR += linuxsrc-graphite2
+    SUBDIR += linuxsrc-libglvnd
     SUBDIR += linuxsrc-libpng
     SUBDIR += lua-gd
     SUBDIR += luminance-qt5
