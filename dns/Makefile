@@ -101,6 +101,7 @@
     SUBDIR += libnspsl
     SUBDIR += libpsl
     SUBDIR += linux-c7-libasyncns
+    SUBDIR += linuxsrc-libidn2
     SUBDIR += lua-resty-dns
     SUBDIR += luaunbound
     SUBDIR += mDNSResponder_nss
