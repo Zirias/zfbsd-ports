@@ -223,6 +223,7 @@
     SUBDIR += linuxsrc-libX11
     SUBDIR += linuxsrc-libXScrnSaver
     SUBDIR += linuxsrc-libXau
+    SUBDIR += linuxsrc-libXcomposite
     SUBDIR += linuxsrc-libXdmcp
     SUBDIR += linuxsrc-libXext
     SUBDIR += linuxsrc-libXfixes
