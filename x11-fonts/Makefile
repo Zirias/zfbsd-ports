@@ -172,6 +172,7 @@
     SUBDIR += linuxsrc-libFS
     SUBDIR += linuxsrc-libXfont
     SUBDIR += linuxsrc-libXfont2
+    SUBDIR += linuxsrc-libXft
     SUBDIR += linuxsrc-libfontenc
     SUBDIR += lohit
     SUBDIR += manrope
