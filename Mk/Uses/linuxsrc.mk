@@ -105,6 +105,7 @@ _linuxsrc_gettext=	devel:gettext
 _linuxsrc_gintrospect=	devel:gobject-introspection
 _linuxsrc_glib=		devel:glib
 _linuxsrc_glvnd=	graphics:libglvnd
+_linuxsrc_gnutls=	security:gnutls
 _linuxsrc_gperf=	devel:gperf
 _linuxsrc_graphite2=	graphics:graphite2
 _linuxsrc_harfbuzz=	print:harfbuzz
