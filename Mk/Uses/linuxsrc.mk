@@ -131,6 +131,7 @@ _linuxsrc_xcbproto=	x11:xcb-proto
 _linuxsrc_xdmcp=	x11:libXdmcp
 _linuxsrc_xmacros=	devel:util-macros
 _linuxsrc_xorgproto=	x11:xorgproto
+_linuxsrc_xtrans=	x11:xtrans
 
 # standard Linux variables
 LINUXSRC_ARCH=		${ARCH:S/amd64/x86_64/}

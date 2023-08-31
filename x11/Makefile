@@ -224,6 +224,7 @@
     SUBDIR += linuxsrc-pixman
     SUBDIR += linuxsrc-xcb-proto
     SUBDIR += linuxsrc-xorgproto
+    SUBDIR += linuxsrc-xtrans
     SUBDIR += listres
     SUBDIR += lsw
     SUBDIR += luit
