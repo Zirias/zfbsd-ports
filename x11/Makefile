@@ -232,6 +232,7 @@
     SUBDIR += linuxsrc-libXi
     SUBDIR += linuxsrc-libXinerama
     SUBDIR += linuxsrc-libXpm
+    SUBDIR += linuxsrc-libXrandr
     SUBDIR += linuxsrc-libXrender
     SUBDIR += linuxsrc-libxcb
     SUBDIR += linuxsrc-pixman
