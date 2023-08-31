@@ -1,0 +1,11 @@
+usr/include/X11/extensions/XvMClib.h
+usr/include/X11/extensions/vldXvMC.h
+usr/%%LXLIBDIRNAME%%/libXvMC.so
+usr/%%LXLIBDIRNAME%%/libXvMC.so.1
+usr/%%LXLIBDIRNAME%%/libXvMC.so.1.0.0
+usr/%%LXLIBDIRNAME%%/libXvMCW.so
+usr/%%LXLIBDIRNAME%%/libXvMCW.so.1
+usr/%%LXLIBDIRNAME%%/libXvMCW.so.1.0.0
+usr/%%LXLIBDIRNAME%%/pkgconfig/xvmc-wrapper.pc
+usr/%%LXLIBDIRNAME%%/pkgconfig/xvmc.pc
+usr/share/doc/libXvMC/XvMC_API.txt

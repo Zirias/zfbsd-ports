@@ -157,6 +157,7 @@ _linuxsrc_xt=		x11-toolkits:libXt
 _linuxsrc_xtrans=	x11:xtrans
 _linuxsrc_xtst=		x11:libXtst
 _linuxsrc_xv=		x11:libXv
+_linuxsrc_xvmc=		x11:libXvMC
 
 # standard Linux variables
 LINUXSRC_ARCH=		${ARCH:S/amd64/x86_64/}
