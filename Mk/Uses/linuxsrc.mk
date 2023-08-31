@@ -91,6 +91,7 @@ _linuxsrc_aom=		multimedia:aom
 _linuxsrc_autoconf=	devel:autoconf
 _linuxsrc_automake=	devel:automake
 _linuxsrc_brotli=	archivers:brotli
+_linuxsrc_cairo=	graphics:cairo
 _linuxsrc_cmake=	devel:cmake
 _linuxsrc_elfutils=	devel:elfutils
 _linuxsrc_expat=	textproc:expat
