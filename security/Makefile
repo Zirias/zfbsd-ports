@@ -341,6 +341,7 @@
     SUBDIR += linux-c7-openssl-devel
     SUBDIR += linux-c7-p11-kit
     SUBDIR += linux-c7-trousers
+    SUBDIR += linuxsrc-libtasn1
     SUBDIR += linuxsrc-libxcrypt
     SUBDIR += linuxsrc-nettle
     SUBDIR += linuxsrc-openssl
