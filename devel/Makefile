@@ -1499,6 +1499,7 @@
     SUBDIR += linuxsrc-gettext
     SUBDIR += linuxsrc-glib
     SUBDIR += linuxsrc-glibc
+    SUBDIR += linuxsrc-gobject-introspection
     SUBDIR += linuxsrc-gperf
     SUBDIR += linuxsrc-icu
     SUBDIR += linuxsrc-jsoncpp
