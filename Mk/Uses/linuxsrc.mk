@@ -122,6 +122,7 @@ _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libfontenc=	x11-fonts:libfontenc
 _linuxsrc_libfs=	x11-fonts:libFS
 _linuxsrc_libice=	x11:libICE
+_linuxsrc_libogg=	audio:libogg
 _linuxsrc_libpciaccess=	devel:libpciaccess
 _linuxsrc_libpng=	graphics:libpng
 _linuxsrc_libsm=	x11:libSM
