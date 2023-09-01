@@ -552,6 +552,7 @@
     SUBDIR += linuxsrc-libdrm
     SUBDIR += linuxsrc-libglvnd
     SUBDIR += linuxsrc-libpng
+    SUBDIR += linuxsrc-libwebp
     SUBDIR += lua-gd
     SUBDIR += luminance-qt5
     SUBDIR += lux

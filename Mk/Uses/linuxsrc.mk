@@ -135,6 +135,7 @@ _linuxsrc_libvpx=	multimedia:libvpx
 _linuxsrc_libunibreak=	textproc:libunibreak
 _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_libuv=	devel:libuv
+_linuxsrc_libwebp=	graphics:libwebp
 _linuxsrc_libxcb=	x11:libxcb
 _linuxsrc_libxml2=	textproc:libxml2
 _linuxsrc_m4=		devel:m4
