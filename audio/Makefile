@@ -424,6 +424,7 @@
     SUBDIR += linuxsrc-alsa-lib
     SUBDIR += linuxsrc-lame
     SUBDIR += linuxsrc-libogg
+    SUBDIR += linuxsrc-libvorbis
     SUBDIR += linuxsrc-opus
     SUBDIR += linuxwave
     SUBDIR += liquidsfz

@@ -1,0 +1,16 @@
+usr/include/vorbis/codec.h
+usr/include/vorbis/vorbisenc.h
+usr/include/vorbis/vorbisfile.h
+usr/%%LXLIBDIRNAME%%/libvorbis.so
+usr/%%LXLIBDIRNAME%%/libvorbis.so.0
+usr/%%LXLIBDIRNAME%%/libvorbis.so.0.4.9
+usr/%%LXLIBDIRNAME%%/libvorbisenc.so
+usr/%%LXLIBDIRNAME%%/libvorbisenc.so.2
+usr/%%LXLIBDIRNAME%%/libvorbisenc.so.2.0.12
+usr/%%LXLIBDIRNAME%%/libvorbisfile.so
+usr/%%LXLIBDIRNAME%%/libvorbisfile.so.3
+usr/%%LXLIBDIRNAME%%/libvorbisfile.so.3.3.8
+usr/%%LXLIBDIRNAME%%/pkgconfig/vorbis.pc
+usr/%%LXLIBDIRNAME%%/pkgconfig/vorbisenc.pc
+usr/%%LXLIBDIRNAME%%/pkgconfig/vorbisfile.pc
+usr/share/aclocal/vorbis.m4
