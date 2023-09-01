@@ -113,6 +113,7 @@ _linuxsrc_icu=		devel:icu
 _linuxsrc_jpeg=		graphics:jpeg-turbo
 _linuxsrc_jsoncpp=	devel:jsoncpp
 _linuxsrc_lame=		audio:lame
+_linuxsrc_lcms2=	graphics:lcms2
 _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libass=	multimedia:libass
 _linuxsrc_libffi=	devel:libffi
