@@ -1,0 +1,9 @@
+usr/include/vdpau/vdpau.h
+usr/include/vdpau/vdpau_x11.h
+usr/%%LXLIBDIRNAME%%/libvdpau.so
+usr/%%LXLIBDIRNAME%%/libvdpau.so.1
+usr/%%LXLIBDIRNAME%%/libvdpau.so.1.0.0
+usr/%%LXLIBDIRNAME%%/pkgconfig/vdpau.pc
+usr/%%LXLIBDIRNAME%%/vdpau/libvdpau_trace.so
+usr/%%LXLIBDIRNAME%%/vdpau/libvdpau_trace.so.1
+usr/%%LXLIBDIRNAME%%/vdpau/libvdpau_trace.so.1.0.0
