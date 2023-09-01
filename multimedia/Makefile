@@ -221,6 +221,7 @@
     SUBDIR += linuxsrc-libx264
     SUBDIR += linuxsrc-svt-av1
     SUBDIR += linuxsrc-v4l-utils
+    SUBDIR += linuxsrc-x265
     SUBDIR += livego
     SUBDIR += lives
     SUBDIR += lms
