@@ -215,6 +215,7 @@
     SUBDIR += linuxsrc-dav1d
     SUBDIR += linuxsrc-gavl
     SUBDIR += linuxsrc-libass
+    SUBDIR += linuxsrc-svt-av1
     SUBDIR += livego
     SUBDIR += lives
     SUBDIR += lms
