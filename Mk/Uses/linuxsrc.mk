@@ -131,6 +131,7 @@ _linuxsrc_libtool=	devel:libtool
 _linuxsrc_libva=	multimedia:libva
 _linuxsrc_libvdpau=	multimedia:libvdpau
 _linuxsrc_libvorbis=	audio:libvorbis
+_linuxsrc_libvpx=	multimedia:libvpx
 _linuxsrc_libunibreak=	textproc:libunibreak
 _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_libuv=	devel:libuv

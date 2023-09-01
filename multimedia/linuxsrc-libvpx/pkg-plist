@@ -1,0 +1,17 @@
+usr/bin/vpxdec
+usr/bin/vpxenc
+usr/include/vpx/vp8.h
+usr/include/vpx/vp8cx.h
+usr/include/vpx/vp8dx.h
+usr/include/vpx/vpx_codec.h
+usr/include/vpx/vpx_decoder.h
+usr/include/vpx/vpx_encoder.h
+usr/include/vpx/vpx_ext_ratectrl.h
+usr/include/vpx/vpx_frame_buffer.h
+usr/include/vpx/vpx_image.h
+usr/include/vpx/vpx_integer.h
+usr/%%LXLIBDIRNAME%%/libvpx.so
+usr/%%LXLIBDIRNAME%%/libvpx.so.8
+usr/%%LXLIBDIRNAME%%/libvpx.so.8.0
+usr/%%LXLIBDIRNAME%%/libvpx.so.8.0.0
+usr/%%LXLIBDIRNAME%%/pkgconfig/vpx.pc

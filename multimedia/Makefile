@@ -217,6 +217,7 @@
     SUBDIR += linuxsrc-libass
     SUBDIR += linuxsrc-libva
     SUBDIR += linuxsrc-libvdpau
+    SUBDIR += linuxsrc-libvpx
     SUBDIR += linuxsrc-svt-av1
     SUBDIR += linuxsrc-v4l-utils
     SUBDIR += livego
