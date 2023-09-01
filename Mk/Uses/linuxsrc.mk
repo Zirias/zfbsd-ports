@@ -127,6 +127,7 @@ _linuxsrc_libpng=	graphics:libpng
 _linuxsrc_libsm=	x11:libSM
 _linuxsrc_libtasn1=	security:libtasn1
 _linuxsrc_libtool=	devel:libtool
+_linuxsrc_libva=	multimedia:libva
 _linuxsrc_libunibreak=	textproc:libunibreak
 _linuxsrc_libuuid=	devel:libuuid
 _linuxsrc_libuv=	devel:libuv
