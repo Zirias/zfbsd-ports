@@ -117,6 +117,7 @@ _linuxsrc_lame=		audio:lame
 _linuxsrc_lcms2=	graphics:lcms2
 _linuxsrc_libarchive=	archivers:libarchive
 _linuxsrc_libass=	multimedia:libass
+_linuxsrc_libdrm=	graphics:libdrm
 _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libfontenc=	x11-fonts:libfontenc
 _linuxsrc_libfs=	x11-fonts:libFS

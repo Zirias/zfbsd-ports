@@ -549,6 +549,7 @@
     SUBDIR += linuxsrc-graphite2
     SUBDIR += linuxsrc-jpeg-turbo
     SUBDIR += linuxsrc-lcms2
+    SUBDIR += linuxsrc-libdrm
     SUBDIR += linuxsrc-libglvnd
     SUBDIR += linuxsrc-libpng
     SUBDIR += lua-gd
