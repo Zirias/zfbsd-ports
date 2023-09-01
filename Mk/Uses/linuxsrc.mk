@@ -110,6 +110,7 @@ _linuxsrc_gperf=	devel:gperf
 _linuxsrc_graphite2=	graphics:graphite2
 _linuxsrc_harfbuzz=	print:harfbuzz
 _linuxsrc_icu=		devel:icu
+_linuxsrc_jpeg=		graphics:jpeg-turbo
 _linuxsrc_jsoncpp=	devel:jsoncpp
 _linuxsrc_lame=		audio:lame
 _linuxsrc_libarchive=	archivers:libarchive
