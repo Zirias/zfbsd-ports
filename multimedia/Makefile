@@ -213,6 +213,7 @@
     SUBDIR += linux_dvbwrapper-kmod
     SUBDIR += linuxsrc-aom
     SUBDIR += linuxsrc-dav1d
+    SUBDIR += linuxsrc-ffmpeg
     SUBDIR += linuxsrc-gavl
     SUBDIR += linuxsrc-libass
     SUBDIR += linuxsrc-libva

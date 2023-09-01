@@ -97,6 +97,7 @@ _linuxsrc_cmake=	devel:cmake
 _linuxsrc_dav1d=	multimedia:dav1d
 _linuxsrc_elfutils=	devel:elfutils
 _linuxsrc_expat=	textproc:expat
+_linuxsrc_ffmpeg=	multimedia:ffmpeg
 _linuxsrc_fontconfig=	x11-fonts:fontconfig
 _linuxsrc_freetype=	print:freetype
 _linuxsrc_frei0r=	graphics:frei0r
