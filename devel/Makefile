@@ -1504,6 +1504,7 @@
     SUBDIR += linuxsrc-icu
     SUBDIR += linuxsrc-jsoncpp
     SUBDIR += linuxsrc-libffi
+    SUBDIR += linuxsrc-libpciaccess
     SUBDIR += linuxsrc-libpipeline
     SUBDIR += linuxsrc-libsigsegv
     SUBDIR += linuxsrc-libtool
