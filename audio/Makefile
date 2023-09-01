@@ -421,6 +421,7 @@
     SUBDIR += linux-c7-sdl_mixer
     SUBDIR += linux-laudio
     SUBDIR += linuxsampler
+    SUBDIR += linuxsrc-lame
     SUBDIR += linuxwave
     SUBDIR += liquidsfz
     SUBDIR += listener
