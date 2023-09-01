@@ -149,6 +149,7 @@ _linuxsrc_rhash=	security:rhash
 _linuxsrc_sqlite=	databases:sqlite3
 _linuxsrc_svtav1=	multimedia:svt-av1
 _linuxsrc_tcl=		lang:tcl
+_linuxsrc_v4l=		multimedia:v4l-utils
 _linuxsrc_x11=		x11:libX11
 _linuxsrc_xau=		x11:libXau
 _linuxsrc_xaw=		x11-toolkits:libXaw

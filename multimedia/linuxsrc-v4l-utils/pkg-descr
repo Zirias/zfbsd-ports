@@ -1,0 +1,5 @@
+The v4l-utils are a series of packages for handling media devices.
+It provides a series of libraries and utilities to be used to control several
+aspect of the media boards.
+
+This port installs the Linux version.
