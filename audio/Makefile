@@ -422,6 +422,7 @@
     SUBDIR += linux-laudio
     SUBDIR += linuxsampler
     SUBDIR += linuxsrc-lame
+    SUBDIR += linuxsrc-opus
     SUBDIR += linuxwave
     SUBDIR += liquidsfz
     SUBDIR += listener

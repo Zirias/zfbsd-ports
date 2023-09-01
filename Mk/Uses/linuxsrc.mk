@@ -133,6 +133,7 @@ _linuxsrc_m4=		devel:m4
 _linuxsrc_meson=	devel:meson
 _linuxsrc_nettle=	security:nettle
 _linuxsrc_ninja=	devel:ninja
+_linuxsrc_opus=		audio:opus
 _linuxsrc_perl=		lang:perl
 _linuxsrc_pixman=	x11:pixman
 _linuxsrc_pybuild=	devel:py-build
