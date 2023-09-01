@@ -421,6 +421,7 @@
     SUBDIR += linux-c7-sdl_mixer
     SUBDIR += linux-laudio
     SUBDIR += linuxsampler
+    SUBDIR += linuxsrc-alsa-lib
     SUBDIR += linuxsrc-lame
     SUBDIR += linuxsrc-opus
     SUBDIR += linuxwave
