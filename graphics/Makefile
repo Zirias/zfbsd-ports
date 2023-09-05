@@ -546,6 +546,7 @@
     SUBDIR += linux-c7-wayland
     SUBDIR += linuxsrc-cairo
     SUBDIR += linuxsrc-frei0r
+    SUBDIR += linuxsrc-gdk-pixbuf
     SUBDIR += linuxsrc-graphite2
     SUBDIR += linuxsrc-jpeg-turbo
     SUBDIR += linuxsrc-lcms2

@@ -105,6 +105,7 @@ _linuxsrc_freetype=	print:freetype
 _linuxsrc_frei0r=	graphics:frei0r
 _linuxsrc_fribidi=	converters:fribidi
 _linuxsrc_gavl=		multimedia:gavl
+_linuxsrc_gdkpixbuf=	graphics:gdk-pixbuf
 _linuxsrc_gettext=	devel:gettext
 _linuxsrc_gintrospect=	devel:gobject-introspection
 _linuxsrc_glib=		devel:glib
