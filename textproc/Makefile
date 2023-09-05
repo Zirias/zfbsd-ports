@@ -447,6 +447,7 @@
     SUBDIR += linuxsrc-groff
     SUBDIR += linuxsrc-libunibreak
     SUBDIR += linuxsrc-libxml2
+    SUBDIR += linuxsrc-libxslt
     SUBDIR += linuxsrc-sed
     SUBDIR += localize
     SUBDIR += lookatme

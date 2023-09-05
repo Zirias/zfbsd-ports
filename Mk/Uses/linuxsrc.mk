@@ -144,6 +144,7 @@ _linuxsrc_libwebp=	graphics:libwebp
 _linuxsrc_libx264=	multimedia:libx264
 _linuxsrc_libxcb=	x11:libxcb
 _linuxsrc_libxml2=	textproc:libxml2
+_linuxsrc_libxslt=	textproc:libxslt
 _linuxsrc_m4=		devel:m4
 _linuxsrc_meson=	devel:meson
 _linuxsrc_nettle=	security:nettle
