@@ -89,6 +89,7 @@ LINUXSRC_V_MPFR=	4.2.0
 # optional components
 _linuxsrc_alsa=		audio:alsa-lib
 _linuxsrc_aom=		multimedia:aom
+_linuxsrc_atk=		accessibility:at-spi2-core
 _linuxsrc_autoconf=	devel:autoconf
 _linuxsrc_automake=	devel:automake
 _linuxsrc_brotli=	archivers:brotli

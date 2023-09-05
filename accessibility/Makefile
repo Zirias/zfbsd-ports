@@ -16,6 +16,7 @@
     SUBDIR += linux-c7-at-spi2-atk
     SUBDIR += linux-c7-at-spi2-core
     SUBDIR += linux-c7-atk
+    SUBDIR += linuxsrc-at-spi2-core
     SUBDIR += orca
     SUBDIR += py-atspi
     SUBDIR += py-speech-dispatcher
