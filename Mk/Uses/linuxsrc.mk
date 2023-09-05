@@ -177,6 +177,7 @@ _linuxsrc_xfont2=	x11-fonts:libXfont2
 _linuxsrc_xft=		x11-fonts:libXft
 _linuxsrc_xi=		x11:libXi
 _linuxsrc_xinerama=	x11:libXinerama
+_linuxsrc_xkbcommon=	x11:libxkbcommon
 _linuxsrc_xkbfile=	x11:libxkbfile
 _linuxsrc_xmacros=	devel:util-macros
 _linuxsrc_xmu=		x11-toolkits:libXmu

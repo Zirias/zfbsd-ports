@@ -241,6 +241,7 @@
     SUBDIR += linuxsrc-libXxf86dga
     SUBDIR += linuxsrc-libXxf86vm
     SUBDIR += linuxsrc-libxcb
+    SUBDIR += linuxsrc-libxkbcommon
     SUBDIR += linuxsrc-libxkbfile
     SUBDIR += linuxsrc-libxshmfence
     SUBDIR += linuxsrc-pixman
