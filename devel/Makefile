@@ -1492,6 +1492,7 @@
     SUBDIR += linuxsrc-automake
     SUBDIR += linuxsrc-binutils
     SUBDIR += linuxsrc-cmake
+    SUBDIR += linuxsrc-dbus
     SUBDIR += linuxsrc-devtools
     SUBDIR += linuxsrc-elfutils
     SUBDIR += linuxsrc-gcc-libgcc

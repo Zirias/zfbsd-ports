@@ -95,6 +95,7 @@ _linuxsrc_brotli=	archivers:brotli
 _linuxsrc_cairo=	graphics:cairo
 _linuxsrc_cmake=	devel:cmake
 _linuxsrc_dav1d=	multimedia:dav1d
+_linuxsrc_dbus=		devel:dbus
 _linuxsrc_elfutils=	devel:elfutils
 _linuxsrc_expat=	textproc:expat
 _linuxsrc_ffmpeg=	multimedia:ffmpeg
