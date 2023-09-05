@@ -342,6 +342,7 @@
     SUBDIR += linux-c7-p11-kit
     SUBDIR += linux-c7-trousers
     SUBDIR += linuxsrc-gnutls
+    SUBDIR += linuxsrc-libgcrypt
     SUBDIR += linuxsrc-libgpg-error
     SUBDIR += linuxsrc-libtasn1
     SUBDIR += linuxsrc-libxcrypt

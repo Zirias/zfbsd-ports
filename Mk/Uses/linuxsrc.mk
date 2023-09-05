@@ -124,6 +124,7 @@ _linuxsrc_libdrm=	graphics:libdrm
 _linuxsrc_libffi=	devel:libffi
 _linuxsrc_libfontenc=	x11-fonts:libfontenc
 _linuxsrc_libfs=	x11-fonts:libFS
+_linuxsrc_libgcrypt=	security:libgcrypt
 _linuxsrc_libgpgerror=	security:libgpg-error
 _linuxsrc_libice=	x11:libICE
 _linuxsrc_libogg=	audio:libogg
