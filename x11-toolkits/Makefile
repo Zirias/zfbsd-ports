@@ -89,6 +89,7 @@
     SUBDIR += linuxsrc-libXaw
     SUBDIR += linuxsrc-libXmu
     SUBDIR += linuxsrc-libXt
+    SUBDIR += linuxsrc-pango
     SUBDIR += movingmotif
     SUBDIR += mowitz
     SUBDIR += mygui
