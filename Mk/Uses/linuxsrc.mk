@@ -113,6 +113,7 @@ _linuxsrc_glvnd=	graphics:libglvnd
 _linuxsrc_gnutls=	security:gnutls
 _linuxsrc_gperf=	devel:gperf
 _linuxsrc_graphite2=	graphics:graphite2
+_linuxsrc_gtk2=		x11-toolkits:gtk2
 _linuxsrc_harfbuzz=	print:harfbuzz
 _linuxsrc_icu=		devel:icu
 _linuxsrc_jpeg=		graphics:jpeg-turbo
