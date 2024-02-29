@@ -50,7 +50,7 @@
 -#define HMAC_crunch(ctx, buf, len)	HMAC_Update(&ctx, (unsigned char *)buf, len)
 -#define HMAC_finish(ctx, dig, dlen)	HMAC_Final(&ctx, (unsigned char *)dig, &dlen);
 -#define HMAC_close(ctx)	HMAC_CTX_cleanup(&ctx)
-+#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
 +#define HMAC_setup(ctx, key, len)	do { \
 +		if (ctx == NULL) \
 +			ctx = calloc(1, sizeof(*ctx)); \
@@ -66,7 +66,7 @@
  #endif
 +#define HMAC_crunch(ctx, buf, len)	HMAC_Update(ctx, (unsigned char *)buf, len)
 +#define HMAC_finish(ctx, dig, dlen)	HMAC_Final(ctx, (unsigned char *)dig, &dlen);
-+#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
 +#define HMAC_close(ctx)	do { \
 +		HMAC_CTX_cleanup(ctx); \
 +		free(ctx); \
@@ -83,7 +83,7 @@
  
  extern void RTMP_TLS_Init();
  extern TLS_CTX RTMP_TLS_ctx;
-@@ -298,7 +337,7 @@ struct info
+@@ -298,7 +337,7 @@ leave:
  struct info
  {
    z_stream *zs;

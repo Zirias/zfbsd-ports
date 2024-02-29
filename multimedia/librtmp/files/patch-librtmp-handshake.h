@@ -1,4 +1,4 @@
---- librtmp/handshake.h.orig	2016-02-29 01:15:13 UTC
+--- librtmp/handshake.h.orig	2019-03-30 21:33:00 UTC
 +++ librtmp/handshake.h
 @@ -31,9 +31,13 @@
  #define SHA256_DIGEST_LENGTH	32
@@ -46,7 +46,7 @@
 -#define HMAC_setup(ctx, key, len)	HMAC_CTX_init(&ctx); HMAC_Init_ex(&ctx, key, len, EVP_sha256(), 0)
 -#define HMAC_crunch(ctx, buf, len)	HMAC_Update(&ctx, buf, len)
 -#define HMAC_finish(ctx, dig, dlen)	HMAC_Final(&ctx, dig, &dlen); HMAC_CTX_cleanup(&ctx)
-+#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
 +#define HMAC_setup(ctx, key, len)	do { \
 +		if (ctx == NULL) \
 +			ctx = calloc(1, sizeof(*ctx)); \
@@ -63,7 +63,7 @@
 +	} while (0)
 +#endif
 +#define HMAC_crunch(ctx, buf, len)	HMAC_Update(ctx, buf, len)
-+#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
 +#define HMAC_finish(ctx, dig, dlen)	do { \
 +		HMAC_Final(ctx, dig, &dlen); \
 +		HMAC_CTX_cleanup(ctx); \
@@ -89,7 +89,7 @@
  
    RC4_alloc(rc4keyIn);
    RC4_alloc(rc4keyOut);
-@@ -266,7 +305,7 @@ HMACsha256(const uint8_t *message, size_
+@@ -266,7 +305,7 @@ HMACsha256(const uint8_t *message, size_t messageLen, 
  	   size_t keylen, uint8_t *digest)
  {
    unsigned int digestLen;
