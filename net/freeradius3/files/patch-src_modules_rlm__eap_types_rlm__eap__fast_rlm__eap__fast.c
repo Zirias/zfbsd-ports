@@ -1,14 +1,5 @@
---- src/modules/rlm_eap/types/rlm_eap_fast/rlm_eap_fast.c.orig	2022-10-03 21:51:59 UTC
+--- src/modules/rlm_eap/types/rlm_eap_fast/rlm_eap_fast.c.orig	2023-05-26 13:56:52 UTC
 +++ src/modules/rlm_eap/types/rlm_eap_fast/rlm_eap_fast.c
-@@ -200,7 +200,7 @@ static void eap_fast_session_ticket(tls_session_t *tls
- }
- 
- // hostap:src/crypto/tls_openssl.c:tls_sess_sec_cb()
--#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
-+#if OPENSSL_VERSION_NUMBER < 0x10100000L
- static int _session_secret(SSL *s, void *secret, int *secret_len,
- 			   UNUSED STACK_OF(SSL_CIPHER) *peer_ciphers,
- 			   UNUSED SSL_CIPHER **cipher, void *arg)
 @@ -224,7 +224,7 @@ static int _session_secret(SSL *s, void *secret, int *
  
  	RDEBUG("processing PAC-Opaque");
