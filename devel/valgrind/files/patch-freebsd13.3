@@ -1,0 +1,121 @@
+--- configure.ac.orig	2023-10-31 17:25:52 UTC
++++ configure.ac
+@@ -396,6 +396,8 @@ case "${host_os}" in
+         freebsd_13_1=1310
+         AC_DEFINE([FREEBSD_13_2], 1320, [FREEBSD_VERS value for FreeBSD 13.2])
+         freebsd_13_2=1320
++        AC_DEFINE([FREEBSD_13_3], 1330, [FREEBSD_VERS value for FreeBSD 13.3])
++        freebsd_13_3=1330
+         AC_DEFINE([FREEBSD_14], 1400, [FREEBSD_VERS value for FreeBSD 14.x])
+         freebsd_14=1400
+         AC_DEFINE([FREEBSD_15], 1500, [FREEBSD_VERS value for FreeBSD 15.x])
+@@ -445,6 +447,11 @@ case "${host_os}" in
+               AC_MSG_RESULT([FreeBSD 13.2 (${kernel})])
+               AC_DEFINE([FREEBSD_VERS], FREEBSD_13_2, [FreeBSD version])
+               freebsd_vers=$freebsd_13_2
++              ;;
++           13.3-*)
++              AC_MSG_RESULT([FreeBSD 13.3 (${kernel})])
++              AC_DEFINE([FREEBSD_VERS], FREEBSD_13_3, [FreeBSD version])
++              freebsd_vers=$freebsd_13_3
+               ;;
+            *)
+               AC_MSG_RESULT([unsupported (${kernel})])
+--- coregrind/m_syswrap/priv_syswrap-freebsd.h.orig	2023-10-31 17:25:52 UTC
++++ coregrind/m_syswrap/priv_syswrap-freebsd.h
+@@ -561,9 +561,12 @@ DECL_TEMPLATE(freebsd, sys___specialfd) // 577
+ DECL_TEMPLATE(freebsd, sys_swapoff) // 582
+ #endif
+ 
+-#if (FREEBSD_VERS >= FREEBSD_15)
++#if (FREEBSD_VERS >= FREEBSD_15) || (FREEBSD_VERS >= FREEBSD_13_3)
+ DECL_TEMPLATE(freebsd, sys_kqueuex); // 583
+ DECL_TEMPLATE(freebsd, sys_membarrier); // 584
++#endif
++
++#if (FREEBSD_VERS >= FREEBSD_15)
+ DECL_TEMPLATE(freebsd, sys_timerfd_create); // 585
+ DECL_TEMPLATE(freebsd, sys_timerfd_gettime); // 586
+ DECL_TEMPLATE(freebsd, sys_timerfd_settime); // 587
+--- coregrind/m_syswrap/syswrap-freebsd.c.orig	2023-10-31 17:25:52 UTC
++++ coregrind/m_syswrap/syswrap-freebsd.c
+@@ -4621,7 +4621,7 @@ PRE(sys__umtx_op)
+                     struct umtx_robust_lists_params *, obj, int, op, unsigned long, flags);
+       PRE_MEM_READ( "_umtx_op_robust_lists(mutex)", ARG3, sizeof(struct vki_umtx_robust_lists_params) );
+       break;
+-#if (FREEBSD_VERS >= FREEBSD_14)
++#if (FREEBSD_VERS >= FREEBSD_13_3)
+    case VKI_UMTX_OP_GET_MIN_TIMEOUT:
+       PRINT( "sys__umtx_op ( GET_MIN_TIMEOUT, %#" FMT_REGWORD "x)", ARG4);
+       // bit of a pain just reads args 2 and 4
+@@ -4709,7 +4709,7 @@ POST(sys__umtx_op)
+    case VKI_UMTX_OP_SHM:
+    case VKI_UMTX_OP_ROBUST_LISTS:
+       break;
+-#if (FREEBSD_VERS >= FREEBSD_14)
++#if (FREEBSD_VERS >= FREEBSD_13_3)
+    case VKI_UMTX_OP_GET_MIN_TIMEOUT:
+       POST_MEM_WRITE( ARG4, sizeof(long int) );
+       break;
+@@ -6790,7 +6790,7 @@ PRE(sys_swapoff)
+ 
+ #endif
+ 
+-#if (FREEBSD_VERS >= FREEBSD_15)
++#if (FREEBSD_VERS >= FREEBSD_15) || (FREEBSD_VERS >= FREEBSD_13_3)
+ 
+ // SYS_kqueuex 583
+ // int kqueuex(u_int flags);
+@@ -6824,6 +6824,10 @@ PRE(sys_membarrier)
+    PRE_REG_READ3(int, "membarrier", int, cmd, unsigned, flags, int, cpu_id);
+ }
+ 
++#endif
++
++#if (FREEBSD_VERS >= FREEBSD_15)
++
+ // SYS_timerfd_create 585
+ // int timerfd_create(int clockid, int flags);
+ PRE(sys_timerfd_create)
+@@ -7616,9 +7620,11 @@ const SyscallTableEntry ML_(syscall_table)[] = {
+    BSDX_(__NR_swapoff,          sys_swapoff),           // 582
+ #endif
+ 
+-#if (FREEBSD_VERS >= FREEBSD_15)
++#if (FREEBSD_VERS >= FREEBSD_15) || (FREEBSD_VERS >= FREEBSD_13_3)
+    BSDXY(__NR_kqueuex,          sys_kqueuex),           // 583
+    BSDX_(__NR_membarrier,       sys_membarrier),        // 584
++#endif
++#if (FREEBSD_VERS >= FREEBSD_15)
+    BSDXY(__NR_timerfd_create,   sys_timerfd_create),    // 585
+    BSDXY(__NR_timerfd_settime,  sys_timerfd_settime),   // 586
+    BSDXY(__NR_timerfd_gettime,  sys_timerfd_gettime),   // 587
+--- include/vki/vki-freebsd.h.orig	2023-10-31 17:25:52 UTC
++++ include/vki/vki-freebsd.h
+@@ -2073,7 +2073,7 @@ struct vki_umtx_robust_lists_params {
+ #define VKI_UMTX_OP_SEM2_WAKE       24
+ #define VKI_UMTX_OP_SHM             25
+ #define VKI_UMTX_OP_ROBUST_LISTS    26
+-#if (FREEBSD_VERS >= FREEBSD_14)
++#if (FREEBSD_VERS >= FREEBSD_13_3)
+ #define VKI_UMTX_OP_GET_MIN_TIMEOUT 27
+ #define VKI_UMTX_OP_SET_MIN_TIMEOUT 28
+ #endif
+--- include/vki/vki-scnums-freebsd.h.orig	2023-10-31 17:25:52 UTC
++++ include/vki/vki-scnums-freebsd.h
+@@ -672,10 +672,14 @@
+ 
+ #endif
+ 
+-#if (FREEBSD_VERS >= FREEBSD_15)
++#if (FREEBSD_VERS >= FREEBSD_15) || (FREEBSD_VERS >= FREEBSD_13_3)
+ 
+ #define __NR_kqueuex             583
+ #define __NR_membarrier          584
++
++#endif
++
++#if (FREEBSD_VERS >= FREEBSD_15)
+ #define __NR_timerfd_create      585
+ #define __NR_timerfd_gettime     586
+ #define __NR_timerfd_settime     587
