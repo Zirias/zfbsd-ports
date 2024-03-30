@@ -60,6 +60,13 @@ PLIST_SUB=			DOTNET_ARCH=${DOTNET_ARCH} FULL_DOTNETVERSION=${PORTVERSION} \
 				SDKVERSION=${SDKVERSION} SDKVERSIONSUFFIX=${SDKVERSIONSUFFIX} \
 				DOTNET_NETVERSION=net${DOTNETVERSION}
 
+OPTIONS_DEFINE=		NUPKG
+OPTIONS_DEFAULT=	NUPKG
+OPTIONS_SUB=		yes
+NUPKG_DESC=		Install FreeBSD runtime NuGet packages
+NUPKG_SUB_FILES=	post-install-register-nuget
+NUPKG_VARS=		PKGPOSTINSTALL+=${WRKDIR}/post-install-register-nuget
+
 .include <bsd.port.pre.mk>
 
 .if ${OSVERSION} >= 1400000
@@ -108,6 +115,10 @@ do-install:
 	${FIND} ${STAGEDIR}${PREFIX}/dotnet -name "*.so" -exec ${STRIP_CMD} -s "{}" ";"
 
 	${RLN} ${STAGEDIR}${PREFIX}/dotnet/dotnet ${STAGEDIR}${PREFIX}/bin/dotnet
+
+post-install-NUPKG-on:
+	${MKDIR} ${STAGEDIR}${PREFIX}/dotnet/packages
+	${INSTALL_DATA} ${WRKSRC}/artifacts/obj/${DOTNET_ARCH}/Release/blob-feed/packages/*freebsd-${DOTNET_ARCH}*.nupkg ${STAGEDIR}${PREFIX}/dotnet/packages
 
 bootstrap-makesum:
 	@cd ${WRKSRC}/artifacts/${DOTNET_ARCH}/Release && sha256 ${SOURCEBUILT_ARTIFACTS_DISTNAME}${EXTRACT_SUFX}

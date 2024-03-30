@@ -1,0 +1,14 @@
+ETCFILE=/etc/opt/NuGet/Config/NuGetDefaults.Config
+if [ -f ${ETCFILE} ]; then
+	echo ${ETCFILE} exists, skipping.
+else
+	echo Registering local NuGet repo in ${ETCFILE}
+	mkdir -p $(dirname ${ETCFILE}) || exit 1;
+	echo >${ETCFILE} "\
+<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<configuration>
+  <packageSources>
+    <add key=\"FreeBSD runtime\" value=\"%%PREFIX%%/dotnet/packages\" />
+  </packageSources>
+</configuration>"
+fi
