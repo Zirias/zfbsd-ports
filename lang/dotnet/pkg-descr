@@ -2,3 +2,9 @@
 many different types of applications. It provides a standard set of base class
 libraries and APIs that are common to all .NET applications. .NET apps can be
 written in such languages as C#, F#, or Visual Basic.
+
+Using LibreSSL is not supported. Enabling the LIBRESSL port option will patch
+the sources, so building with LibreSSL works, but this will just disable some
+functionality and also interfere with runtime detection of OpenSSL APIs. .NET
+projects built with this option set might fail to work correctly and are likely
+to fail on machines using OpenSSL.
