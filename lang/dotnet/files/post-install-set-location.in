@@ -1,0 +1,8 @@
+ETCFILE=/etc/dotnet/install_location
+if [ -f ${ETCFILE} ]; then
+	echo ${ETCFILE} exists, skipping.
+else
+	echo Writing dotnet location to ${ETCFILE}
+	mkdir -p $(dirname ${ETCFILE}) || exit 1;
+	echo "%%PREFIX%%/dotnet" >${ETCFILE}
+fi
