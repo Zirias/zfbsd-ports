@@ -1,0 +1,9 @@
+--- global.json.orig	2024-03-30 12:26:07 UTC
++++ global.json
+@@ -1,5 +1,5 @@
+ {
+   "sdk": {
+-    "version": "8.0.101"
++    "version": "8.0.100"
+   }
+ }
