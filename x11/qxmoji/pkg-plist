@@ -1,0 +1,10 @@
+bin/qxmoji
+share/applications/qxmoji.desktop
+%%PORTDOCS%%%%DOCSDIR%%/README.md
+%%PORTDOCS%%%%DOCSDIR%%/TRANSLATE.md
+share/icons/hicolor/16x16/apps/qxmoji.png
+share/icons/hicolor/256x256/apps/qxmoji.png
+share/icons/hicolor/32x32/apps/qxmoji.png
+share/icons/hicolor/48x48/apps/qxmoji.png
+%%DATADIR%%/translations/emojidata_de.qm
+%%DATADIR%%/translations/qxmoji_de.qm
