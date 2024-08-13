@@ -11,6 +11,7 @@ PKGNAMESUFFIX=		${PKGNAME_X:S/--/-/:C/-$//}
 
 PATCH_SITES=		http://web.mit.edu/kerberos/advisories/
 PATCH_DIST_STRIP=	-p2
+EXTRA_PATCHES=		${PATCHDIR}/extra-patch-remove-pkinit-rsa:-p2
 
 MAINTAINER=		cy@FreeBSD.org
 COMMENT=		MIT implementation of RFC 4120 network authentication service
