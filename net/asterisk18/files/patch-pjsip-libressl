@@ -1,0 +1,15 @@
+--- /dev/null	2024-08-14 14:51:15.875036000 +0200
++++ third-party/pjproject/patches/9999-fix-libressl.patch	2024-08-14 14:47:37.672027000 +0200
+@@ -0,0 +1,12 @@
++diff -Nru a/pjlib/src/pj/ssl_sock_ossl.c b/pjlib/src/pj/ssl_sock_ossl.c
++--- a/pjlib/src/pj/ssl_sock_ossl.c	2023-07-05 05:59:07.000000000 +0200
+++++ b/pjlib/src/pj/ssl_sock_ossl.c	2024-08-14 14:45:03.463105000 +0200
++@@ -159,7 +159,7 @@
++                               pj_ssl_cert_info *remote_cert_info,
++                               pj_bool_t is_verify);
++ 
++-#if !USING_LIBRESSL && OPENSSL_VERSION_NUMBER >= 0x10100000L
+++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
++ #  define OPENSSL_NO_SSL2           /* seems to be removed in 1.1.0 */
++ #  define M_ASN1_STRING_data(x)     ASN1_STRING_get0_data(x)
++ #  define M_ASN1_STRING_length(x)   ASN1_STRING_length(x)
