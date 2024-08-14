@@ -1,0 +1,49 @@
+--- src/kssl/kopenssl.cpp.orig	2024-08-14 07:37:27 UTC
++++ src/kssl/kopenssl.cpp
+@@ -80,7 +80,7 @@ extern "C" {
+     static void (*K_X509_LOOKUP_free)(X509_LOOKUP *) = nullptr;
+     static int (*K_X509_LOOKUP_ctrl)(X509_LOOKUP *, int, const char *, long, char **) = nullptr;
+     static void (*K_X509_STORE_CTX_init)(X509_STORE_CTX *, X509_STORE *, X509 *, STACK_OF(X509) *) = nullptr;
+-#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
+     static void (*K_CRYPTO_free)(void *) = nullptr;
+ #else
+     static void (*K_CRYPTO_free)(void *, const char *, int) = nullptr;
+@@ -429,7 +429,7 @@ KOpenSSLProxy::KOpenSSLProxy()
+         K_RAND_load_file = (int (*)(const char *, long)) d->cryptoLib->resolve("RAND_load_file");
+         K_RAND_file_name = (const char *(*)(char *, size_t)) d->cryptoLib->resolve("RAND_file_name");
+         K_RAND_write_file = (int (*)(const char *)) d->cryptoLib->resolve("RAND_write_file");
+-#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
+         K_CRYPTO_free = (void (*)(void *)) d->cryptoLib->resolve("CRYPTO_free");
+ #else
+         K_CRYPTO_free = (void (*)(void *, const char *, int)) d->cryptoLib->resolve("CRYPTO_free");
+@@ -484,7 +484,7 @@ KOpenSSLProxy::KOpenSSLProxy()
+         K_X509_STORE_CTX_get_current_cert = (X509 * (*)(X509_STORE_CTX *)) d->cryptoLib->resolve("X509_STORE_CTX_get_current_cert");
+         K_X509_STORE_CTX_set_error = (void (*)(X509_STORE_CTX *, int)) d->cryptoLib->resolve("X509_STORE_CTX_set_error");
+         K_X509_STORE_CTX_get_error = (int (*)(X509_STORE_CTX *)) d->cryptoLib->resolve("X509_STORE_CTX_get_error");
+-#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+         K_OPENSSL_sk_free = (void (*)(STACK *)) d->cryptoLib->resolve("OPENSSL_sk_free");
+         K_OPENSSL_sk_num = (int (*)(STACK *)) d->cryptoLib->resolve("OPENSSL_sk_num");
+         K_OPENSSL_sk_pop = (char *(*)(STACK *)) d->cryptoLib->resolve("OPENSSL_sk_pop");
+@@ -1095,7 +1095,7 @@ void KOpenSSLProxy::X509_STORE_CTX_init(X509_STORE_CTX
+     }
+ }
+ 
+-#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
+ void KOpenSSLProxy::CRYPTO_free(void *x)
+ {
+     if (K_CRYPTO_free) {
+--- src/kssl/kopenssl.h.orig	2024-08-14 07:31:24 UTC
++++ src/kssl/kopenssl.h
+@@ -395,7 +395,7 @@ class KOpenSSLProxy (public)
+     /*
+      *   CRYPTO_free - free up an internally allocated object
+      */
+-#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(LIBRESSL_VERSION_NUMBER)
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
+     void CRYPTO_free(void *x);
+ #else
+     void CRYPTO_free(void *x, const char *file, int line);
