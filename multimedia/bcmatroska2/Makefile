@@ -1,6 +1,5 @@
 PORTNAME=	bcmatroska2
-PORTVERSION=	5.2.1
-PORTREVISION=	1
+PORTVERSION=	5.3.79
 CATEGORIES=	multimedia
 
 MAINTAINER=	bofh@FreeBSD.org
@@ -17,8 +16,10 @@ GL_SITE=	https://gitlab.linphone.org/BC
 GL_ACCOUNT=	public
 USE_LDCONFIG=	yes
 
-CMAKE_ARGS=	-DCMAKE_PREFIX_PATH=${LOCALBASE} \
-		-DENABLE_STATIC=NO
+CMAKE_ARGS=	-DBUILD_SHARED_LIBS=YES \
+		-DCMAKE_PREFIX_PATH=${LOCALBASE}
+
+DATADIR=	${PREFIX}/share/BCMatroska2
 
 .include <bsd.port.pre.mk>
 
