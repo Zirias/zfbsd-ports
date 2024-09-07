@@ -1,5 +1,5 @@
 PORTNAME=	bcunit
-PORTVERSION=	5.2.62
+PORTVERSION=	5.3.79
 CATEGORIES=	devel
 
 MAINTAINER=	bofh@FreeBSD.org
@@ -9,10 +9,11 @@ WWW=		https://gitlab.linphone.org/BC/public/bcunit
 LICENSE=	GPLv2
 LICENSE_FILE=	${WRKSRC}/COPYING
 
-USES=		autoreconf cmake libtool pathfix pkgconfig
+USES=		cmake libtool pathfix pkgconfig
 USE_GITLAB=	yes
 GL_SITE=	https://gitlab.linphone.org/BC
 GL_ACCOUNT=	public
-USE_LDCONFIG=	yes
+
+CFLAGS+=	-fPIC
 
 .include <bsd.port.mk>
