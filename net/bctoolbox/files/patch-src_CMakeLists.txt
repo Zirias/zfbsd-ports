@@ -1,0 +1,11 @@
+--- src/CMakeLists.txt.orig	2024-09-07 07:15:07 UTC
++++ src/CMakeLists.txt
+@@ -161,6 +161,8 @@ endif()
+ 	)
+ endif()
+ 
++target_link_libraries(bctoolbox PRIVATE execinfo)
++
+ if(HAVE_LIBRT)
+ 	target_link_libraries(bctoolbox PRIVATE rt)
+ endif()
