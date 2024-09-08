@@ -1,29 +1,20 @@
---- console/linphonec.c.orig	2023-07-28 13:53:32 UTC
+--- console/linphonec.c.orig	2024-09-08 07:29:54 UTC
 +++ console/linphonec.c
-@@ -4,7 +4,7 @@
-  * Copyright (C) 2002  Florian Winterstein <flox@gmx.net>
-  * Copyright (C) 2000  Simon MORLAT <simon.morlat@free.fr>
-  *
-- * This file is part of Liblinphone 
-+ * This file is part of Liblinphone
-  * (see https://gitlab.linphone.org/BC/public/liblinphone).
-  *
-  * This program is free software: you can redistribute it and/or modify
-@@ -962,7 +962,7 @@ static int
+@@ -921,7 +921,7 @@ static void lpc_apply_video_params(void) {
+  *  - LPC_AUTH_STACK auth_stack;
   *
   */
- static int
--linphonec_idle_call ()
-+linphonec_idle_call (void)
- {
- 	LinphoneCore *opm=linphonec;
+-static int linphonec_idle_call() {
++static int linphonec_idle_call(void) {
+ 	LinphoneCore *opm = linphonec;
  
-@@ -1272,7 +1272,7 @@ static int
+ 	/* Uncomment the following to verify being called */
+@@ -1170,7 +1170,7 @@ static int linphonec_parse_cmdline(int argc, char **ar
+  *	 1 if it migrated successfully
   *	-1 on error
   */
- static int
--handle_configfile_migration()
-+handle_configfile_migration(void)
- {
+-static int handle_configfile_migration() {
++static int handle_configfile_migration(void) {
  #if !defined(_WIN32_WCE)
  	char *old_cfg_gui;
+ 	char *old_cfg_cli;

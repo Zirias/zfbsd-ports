@@ -1,5 +1,5 @@
 PORTNAME=	liblinphone
-DISTVERSION=	5.2.94
+DISTVERSION=	5.3.72
 CATEGORIES=	net
 
 MAINTAINER=	bofh@FreeBSD.org
@@ -15,12 +15,12 @@ BUILD_DEPENDS=	${PYTHON_PKGNAMEPREFIX}pystache>=0:textproc/py-pystache@${PY_FLAV
 		xsd>0:devel/xsd
 LIB_DEPENDS=	libbctoolbox.so:net/bctoolbox \
 		libbelcard.so:deskutils/belcard \
-		libbellesip.so:net/belle-sip \
+		libbelle-sip.so:net/belle-sip \
 		libbelr.so:textproc/belr \
 		libbzrtp.so:security/bzrtp \
 		libjsoncpp.so:devel/jsoncpp \
 		liblime.so:security/lime \
-		libmediastreamer.so:net/mediastreamer \
+		libmediastreamer2.so:net/mediastreamer \
 		libortp.so:net/ortp \
 		libsoci_core.so:databases/soci \
 		libxerces-c.so:textproc/xerces-c3
@@ -32,14 +32,16 @@ GL_ACCOUNT=	public
 USE_GNOME=	libxml2
 USE_LDCONFIG=	yes
 
-CMAKE_ARGS=	-DCMAKE_PREFIX_PATH=${LOCALBASE} \
+CMAKE_ARGS=	-DBUILD_SHARED_LIBS=YES \
+		-DCMAKE_PREFIX_PATH=${LOCALBASE} \
 		-DCMAKE_SKIP_INSTALL_RPATH=ON \
 		-DENABLE_FLEXIAPI=NO \
 		-DENABLE_NLS=NO \
 		-DENABLE_QRCODE=NO \
-		-DENABLE_STATIC=NO \
 		-DENABLE_STRICT=NO \
 		-DENABLE_UNIT_TESTS=NO
+
+DATADIR=	${PREFIX}/share/LibLinphone
 
 OPTIONS_DEFINE=		LDAP VIDEO
 OPTIONS_DEFAULT=	LDAP VIDEO

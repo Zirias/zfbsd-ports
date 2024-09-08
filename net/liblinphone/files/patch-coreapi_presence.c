@@ -1,6 +1,6 @@
---- coreapi/presence.c.orig	2023-03-17 13:29:37 UTC
+--- coreapi/presence.c.orig	2024-09-06 09:44:27 UTC
 +++ coreapi/presence.c
-@@ -200,11 +200,6 @@ static time_t parse_timestamp(const char *timestamp) {
+@@ -199,11 +199,6 @@ static time_t parse_timestamp(const char *timestamp) {
  static time_t parse_timestamp(const char *timestamp) {
  	struct tm ret;
  	time_t seconds;
@@ -11,8 +11,8 @@
 -#endif
  
  	memset(&ret, 0, sizeof(ret));
- 	sscanf(timestamp, "%d-%d-%dT%d:%d:%d",
-@@ -212,17 +207,12 @@ static time_t parse_timestamp(const char *timestamp) {
+ 	sscanf(timestamp, "%d-%d-%dT%d:%d:%d", &ret.tm_year, &ret.tm_mon, &ret.tm_mday, &ret.tm_hour, &ret.tm_min,
+@@ -211,17 +206,12 @@ static time_t parse_timestamp(const char *timestamp) {
  	ret.tm_mon--;
  	ret.tm_year -= 1900;
  	ret.tm_isdst = 0;
@@ -32,4 +32,4 @@
 +	return seconds;
  }
  
- char * linphone_timestamp_to_rfc3339_string(time_t timestamp) {
+ static void presence_person_add_activities_note(LinphonePresencePerson *person, LinphonePresenceNote *note) {
