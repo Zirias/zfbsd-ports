@@ -1,17 +1,17 @@
-include/OpenGL/EGL/egl.h
-include/OpenGL/EGL/eglext.h
-include/OpenGL/EGL/eglplatform.h
-include/OpenGL/GLES2/gl2.h
-include/OpenGL/GLES2/gl2ext.h
-include/OpenGL/GLES2/gl2platform.h
-include/OpenGL/GLES3/gl3.h
-include/OpenGL/GLES3/gl31.h
-include/OpenGL/GLES3/gl32.h
-include/OpenGL/GLES3/gl3platform.h
-include/OpenGL/KHR/khrplatform.h
-include/OpenGL/LICENSE
-include/OpenGL/README.md
-include/OpenGL/angle_windowsstore.h
+%%GLX%%include/OpenGL/EGL/egl.h
+%%GLX%%include/OpenGL/EGL/eglext.h
+%%GLX%%include/OpenGL/EGL/eglplatform.h
+%%GLX%%include/OpenGL/GLES2/gl2.h
+%%GLX%%include/OpenGL/GLES2/gl2ext.h
+%%GLX%%include/OpenGL/GLES2/gl2platform.h
+%%GLX%%include/OpenGL/GLES3/gl3.h
+%%GLX%%include/OpenGL/GLES3/gl31.h
+%%GLX%%include/OpenGL/GLES3/gl32.h
+%%GLX%%include/OpenGL/GLES3/gl3platform.h
+%%GLX%%include/OpenGL/KHR/khrplatform.h
+%%GLX%%include/OpenGL/LICENSE
+%%GLX%%include/OpenGL/README.md
+%%GLX%%include/OpenGL/angle_windowsstore.h
 include/mediastreamer2/allfilters.h
 include/mediastreamer2/android_utils.h
 include/mediastreamer2/bitratecontrol.h
@@ -76,11 +76,21 @@ include/mediastreamer2/stun.h
 include/mediastreamer2/upnp_igd.h
 include/mediastreamer2/x11_helper.h
 include/mediastreamer2/zrtp.h
-lib/libmediastreamer.so
-lib/libmediastreamer.so.11
+lib/libmediastreamer2.so
 %%QTGL%%lib/mediastreamer/plugins/libmsqogl.so
-share/Mediastreamer2/cmake/Mediastreamer2Config.cmake
-share/Mediastreamer2/cmake/Mediastreamer2ConfigVersion.cmake
-share/Mediastreamer2/cmake/Mediastreamer2Targets-%%CMAKE_BUILD_TYPE%%.cmake
-share/Mediastreamer2/cmake/Mediastreamer2Targets.cmake
+@comment %%DATADIR%%/cmake/FindFFMpeg.cmake
+@comment %%DATADIR%%/cmake/FindGSM.cmake
+@comment %%DATADIR%%/cmake/FindOpus.cmake
+@comment %%DATADIR%%/cmake/FindSRTP.cmake
+@comment %%DATADIR%%/cmake/FindSpanDSP.cmake
+@comment %%DATADIR%%/cmake/FindSpeex.cmake
+@comment %%DATADIR%%/cmake/FindSpeexDSP.cmake
+@comment %%DATADIR%%/cmake/FindTheora.cmake
+@comment %%DATADIR%%/cmake/FindV4L.cmake
+@comment %%DATADIR%%/cmake/FindVPX.cmake
+%%DATADIR%%/cmake/Mediastreamer2Config.cmake
+%%DATADIR%%/cmake/Mediastreamer2ConfigVersion.cmake
+%%DATADIR%%/cmake/Mediastreamer2Targets-%%CMAKE_BUILD_TYPE%%.cmake
+%%DATADIR%%/cmake/Mediastreamer2Targets.cmake
 %%VIDEO%%share/images/nowebcamCIF.jpg
+@comment @dir lib/mediastreamer/plugins
