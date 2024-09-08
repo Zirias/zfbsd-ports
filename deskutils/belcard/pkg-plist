@@ -20,7 +20,8 @@ include/belcard/belcard_utils.hpp
 include/belcard/vcard_grammar.hpp
 lib/libbelcard.so
 lib/libbelcard.so.1
-%%DATADIR%%/cmake/belcardConfig.cmake
-%%DATADIR%%/cmake/belcardTargets-%%CMAKE_BUILD_TYPE%%.cmake
-%%DATADIR%%/cmake/belcardTargets.cmake
+%%DATADIR%%/cmake/BelCardConfig.cmake
+%%DATADIR%%/cmake/BelCardConfigVersion.cmake
+%%DATADIR%%/cmake/BelCardTargets-%%CMAKE_BUILD_TYPE%%.cmake
+%%DATADIR%%/cmake/BelCardTargets.cmake
 share/belr/grammars/vcard_grammar
