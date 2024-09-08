@@ -1,5 +1,5 @@
-TIMESTAMP = 1690573288
-SHA256 (mswebrtc-1.1.2.tar.bz2) = fe834f43e624fed65084ee47893a0d18b891af356afa5a005f3227dceb77a6a8
-SIZE (mswebrtc-1.1.2.tar.bz2) = 33711
+TIMESTAMP = 1725792291
+SHA256 (mswebrtc-9615e3eb.tar.bz2) = 27616042a71275ca349e516d9f5665281c6328adce40236ba53e936217c825c2
+SIZE (mswebrtc-9615e3eb.tar.bz2) = 33894
 SHA256 (public/external-webrtc-583acd27665cfadef8ab03eb85a768d308bd29dd_GL0.tar.gz) = ef0be0696253c861e46ffef8de355777e3d91774890b982bcff6adaf2a08750f
 SIZE (public/external-webrtc-583acd27665cfadef8ab03eb85a768d308bd29dd_GL0.tar.gz) = 37770971
