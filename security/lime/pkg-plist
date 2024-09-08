@@ -1,12 +1,14 @@
-bin/lime_tester
+bin/lime-tester
 include/lime/lime.hpp
 lib/liblime.so
 lib/liblime.so.0
-%%DATADIR%%/cmake/limeConfig.cmake
-%%DATADIR%%/cmake/limeTargets-%%CMAKE_BUILD_TYPE%%.cmake
-%%DATADIR%%/cmake/limeTargets.cmake
-%%DATADIR%%_tester/data/cacert.pem
-%%DATADIR%%_tester/data/pattern_getSelfIk.C25519.sqlite3
-%%DATADIR%%_tester/data/pattern_getSelfIk.C448.sqlite3
-%%DATADIR%%_tester/data/sip5.linphone.org.selfsigned-cert.pem
-%%DATADIR%%_tester/data/x3dh-cert.pem
+@comment %%DATADIR%%/cmake/FindSoci.cmake
+%%DATADIR%%/cmake/LimeConfig.cmake
+%%DATADIR%%/cmake/LimeConfigVersion.cmake
+%%DATADIR%%/cmake/LimeTargets-%%CMAKE_BUILD_TYPE%%.cmake
+%%DATADIR%%/cmake/LimeTargets.cmake
+share/lime_tester/data/cacert.pem
+share/lime_tester/data/pattern_getSelfIk.C25519.sqlite3
+share/lime_tester/data/pattern_getSelfIk.C448.sqlite3
+share/lime_tester/data/sip5.linphone.org.selfsigned-cert.pem
+share/lime_tester/data/x3dh-cert.pem
