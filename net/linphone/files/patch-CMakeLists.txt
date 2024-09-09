@@ -1,19 +1,116 @@
---- CMakeLists.txt.orig	2023-06-16 13:29:33 UTC
+--- CMakeLists.txt.orig	2024-07-22 09:08:44 UTC
 +++ CMakeLists.txt
-@@ -20,6 +20,7 @@ cmake_minimum_required(VERSION 3.1)
- #
+@@ -21,8 +21,8 @@ cmake_minimum_required(VERSION 3.22)
  ################################################################################
- cmake_minimum_required(VERSION 3.1)
-+project(linphoneqt)
  
- find_package(bctoolbox CONFIG)
- set(FULL_VERSION )
-@@ -556,7 +557,7 @@ else()
- 		set(MSPLUGINS_DIR "Frameworks/mediastreamer2.framework/Versions/A/Libraries")
- 	endif()
- else()
--	set(MSPLUGINS_DIR "plugins/mediastreamer")
-+	set(MSPLUGINS_DIR "lib/mediastreamer/plugins")
+ cmake_minimum_required(VERSION 3.22)
++project(linphoneqt VERSION %%DISTVERSION%%)
+ 
+-
+ #Linphone targets
+ set(LINPHONE_PACKAGES LinphoneCxx Mediastreamer2 Belcard LibLinphone)
+ 
+@@ -32,19 +32,7 @@ endif()
+ if(NOT BCToolbox_FOUND)
+ 	find_package(bctoolbox CONFIG REQUIRED)
  endif()
- configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake" "${CMAKE_CURRENT_BINARY_DIR}/config.h")
+-if(NOT LINPHONEAPP_VERSION)
+-	bc_compute_full_version(LINPHONEAPP_VERSION)
+-endif()
+-set(version_major)
+-set(version_minor)
+-set(version_patch)
+-set(identifiers )
+-set(metadata )
+-bc_parse_full_version("${LINPHONEAPP_VERSION}" version_major version_minor version_patch identifiers metadata)
+ 
+-
+-project(linphoneqt VERSION "${version_major}.${version_minor}.${version_patch}")
+-
+ if(ENABLE_BUILD_VERBOSE)
+ 	#message("CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
+ 	message("Options : ${ENABLE_UPDATE_CHECK}, ${ENABLE_UNIT_TESTS}, ${ENABLE_TESTS}, ${ENABLE_TESTS_COMPONENTS}, ${ENABLE_TOOLS}, ${ENABLE_STRICT}, ${ENABLE_FFMPEG}, ${ENABLE_OPUS}")
+@@ -59,7 +47,7 @@ if(UNIX AND NOT APPLE)
+ set(CMAKE_CXX_STANDARD 14)
+ 
+ if(UNIX AND NOT APPLE)
+-	set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
++	set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+ endif()
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
+ list(APPEND CMAKE_MODULE_PATH "${LINPHONE_OUTPUT_DIR}/cmake")
+@@ -132,16 +120,6 @@ endif()
+ 	endif()
+ endif()
+ 
+-if(NOT APPLE AND NOT WIN32)
+-	if(NOT ISPELL_TARGET_NAME)
+-		set(ISPELL_TARGET_NAME "ISpell")
+-	endif()
+-	find_package(${ISPELL_TARGET_NAME})
+-	if(NOT ISpell_FOUND)
+-		find_package(${ISPELL_TARGET_NAME} CONFIG REQUIRED)
+-	endif()
+-endif()
+-
+ if(ENABLE_BUILD_VERBOSE)
+ 	message("INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} FRAMEWORK_PATH=${CMAKE_FRAMEWORK_PATH}, PREFIX_PATH=${CMAKE_PREFIX_PATH}")
+ 	message("LINPHONE : ${LINPHONE_INCLUDE_DIRS} => ${LINPHONE_LIBRARIES}")
+@@ -342,7 +320,7 @@ set(SOURCES
+ 	src/components/other/timeZone/TimeZoneListModel.cpp
+ 	src/components/other/timeZone/TimeZoneProxyModel.cpp
+ 	src/components/other/units/Units.cpp
+-	src/components/other/spell-checker/SpellChecker.cpp
++	#src/components/other/spell-checker/SpellChecker.cpp
+ 	src/components/participant/ParticipantModel.cpp
+ 	src/components/participant/ParticipantListModel.cpp
+ 	src/components/participant/ParticipantProxyModel.cpp
+@@ -493,7 +471,7 @@ set(HEADERS
+ 	src/components/other/timeZone/TimeZoneListModel.hpp
+ 	src/components/other/timeZone/TimeZoneProxyModel.hpp
+ 	src/components/other/units/Units.hpp
+-	src/components/other/spell-checker/SpellChecker.hpp
++	#src/components/other/spell-checker/SpellChecker.hpp
+ 	src/components/participant/ParticipantModel.hpp
+ 	src/components/participant/ParticipantListModel.hpp
+ 	src/components/participant/ParticipantProxyModel.hpp
+@@ -595,7 +573,7 @@ else ()
+ 		src/components/other/desktop-tools/DesktopToolsLinux.cpp
+ 		src/components/other/desktop-tools/screen-saver/ScreenSaverDBus.cpp
+ 		src/components/other/desktop-tools/screen-saver/ScreenSaverXdg.cpp
+-		src/components/other/spell-checker/SpellCheckerLinux.cpp
++		#src/components/other/spell-checker/SpellCheckerLinux.cpp
+ 		)
+ 	list(APPEND HEADERS
+ 		#src/app/single-application/SingleApplicationDBusPrivate.hpp
+@@ -728,9 +706,6 @@ include_directories("${QTKEYCHAIN_OUTPUT_DIR}/include/
+ include_directories("${LINPHONE_OUTPUT_DIR}/include/")
+ include_directories("${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/")
+ include_directories("${QTKEYCHAIN_OUTPUT_DIR}/include/")
+-if(NOT APPLE AND NOT WIN32)
+-	include_directories("${ISpell_BINARY_DIR}/include")
+-endif ()
+ 
+ if (CMAKE_INSTALL_RPATH)
+ 	#Retrieve lib path from a know QT executable
+@@ -837,20 +812,10 @@ set(LINPHONE_BUILDER_SIGNING_IDENTITY ${LINPHONE_BUILD
+ set(TOOLS_DIR "${CMAKE_BINARY_DIR}/programs")
+ set(LINPHONE_BUILDER_SIGNING_IDENTITY ${LINPHONE_BUILDER_SIGNING_IDENTITY})
+ 
+-add_custom_command(TARGET ${APP_PLUGIN} POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/")
+-add_custom_command(TARGET ${APP_PLUGIN} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include/" "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/")
+-add_custom_command(TARGET ${APP_PLUGIN} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${APP_PLUGIN}> "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/")
+-add_custom_command(TARGET ${APP_PLUGIN} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_LINKER_FILE:${APP_PLUGIN}> "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/")
+ #add_custom_command(TARGET ${TARGET_NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/include/LinphoneApp/*" "${CMAKE_INSTALL_PREFIX}/include/LinphoneApp/")
+ 
+ #configure_file("${CMAKE_CURRENT_SOURCE_DIR}/include/*" "${CMAKE_INSTALL_PREFIX}/include/LinphoneApp/" COPYONLY)
+ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+-
+-
+-add_subdirectory(build)
+-add_subdirectory(cmake_builder/linphone_package)
+-
+-deployqt_hack(${TARGET_NAME} ${LINPHONE_QML_DIR})
+ 
+ 
  # ------------------------------------------------------------------------------
