@@ -597,6 +597,7 @@
     SUBDIR += xmh
     SUBDIR += xmodmap
     SUBDIR += xmoji
+    SUBDIR += xmoji-devel
     SUBDIR += xmore
     SUBDIR += xmotd
     SUBDIR += xmsg
