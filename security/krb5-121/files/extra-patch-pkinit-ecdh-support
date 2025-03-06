@@ -1,0 +1,935 @@
+--- plugins/preauth/pkinit/pkinit.h.orig	2025-03-06 08:37:29 UTC
++++ plugins/preauth/pkinit/pkinit.h
+@@ -59,6 +59,10 @@
+ 
+ #define PKINIT_DEFAULT_DH_MIN_BITS  2048
+ #define PKINIT_DH_MIN_CONFIG_BITS   1024
++/* Rough finite-field bit strength equivalents for the elliptic curve groups */
++#define PKINIT_DH_P256_BITS         3072
++#define PKINIT_DH_P384_BITS         7680
++#define PKINIT_DH_P521_BITS         15360
+ 
+ #define KRB5_CONF_KDCDEFAULTS                   "kdcdefaults"
+ #define KRB5_CONF_LIBDEFAULTS                   "libdefaults"
+@@ -100,8 +104,6 @@ static inline void pkiDebug (const char *fmt, ...) { }
+     (k5d)->length = (pad)->length; (k5d)->data = (char *)(pad)->contents;
+ #define OCTETDATA_TO_KRB5DATA(octd, k5d) \
+     (k5d)->length = (octd)->length; (k5d)->data = (char *)(octd)->data;
+-
+-extern const krb5_data dh_oid;
+ 
+ /*
+  * notes about crypto contexts:
+--- plugins/preauth/pkinit/pkinit_clnt.c.orig	2025-03-06 08:37:29 UTC
++++ plugins/preauth/pkinit/pkinit_clnt.c
+@@ -681,7 +681,7 @@ pkinit_client_profile(krb5_context context,
+                       const krb5_data *realm)
+ {
+     const char *configured_identity;
+-    char *eku_string = NULL;
++    char *eku_string = NULL, *minbits = NULL;
+ 
+     pkiDebug("pkinit_client_profile %p %p %p %p\n",
+              context, plgctx, reqctx, realm);
+@@ -690,17 +690,10 @@ pkinit_client_profile(krb5_context context,
+                               KRB5_CONF_PKINIT_REQUIRE_CRL_CHECKING,
+                               reqctx->opts->require_crl_checking,
+                               &reqctx->opts->require_crl_checking);
+-    pkinit_libdefault_integer(context, realm,
+-                              KRB5_CONF_PKINIT_DH_MIN_BITS,
+-                              reqctx->opts->dh_size,
+-                              &reqctx->opts->dh_size);
+-    if (reqctx->opts->dh_size != 1024 && reqctx->opts->dh_size != 2048
+-        && reqctx->opts->dh_size != 4096) {
+-        pkiDebug("%s: invalid value (%d) for pkinit_dh_min_bits, "
+-                 "using default value (%d) instead\n", __FUNCTION__,
+-                 reqctx->opts->dh_size, PKINIT_DEFAULT_DH_MIN_BITS);
+-        reqctx->opts->dh_size = PKINIT_DEFAULT_DH_MIN_BITS;
+-    }
++    pkinit_libdefault_string(context, realm, KRB5_CONF_PKINIT_DH_MIN_BITS,
++                             &minbits);
++    reqctx->opts->dh_size = parse_dh_min_bits(context, minbits);
++    free(minbits);
+     pkinit_libdefault_string(context, realm,
+                              KRB5_CONF_PKINIT_EKU_CHECKING,
+                              &eku_string);
+--- plugins/preauth/pkinit/pkinit_constants.c.orig	2024-06-26 20:00:35 UTC
++++ plugins/preauth/pkinit/pkinit_constants.c
+@@ -320,6 +320,33 @@ static const uint8_t o4096[] = {
+     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
+ };
+ 
++/* Named curve prime256v1 (1.2.840.10045.3.1.7) as parameters for RFC 3279
++ * section 2.3.5 id-ecPublicKey */
++static const uint8_t p256[] = {
++    0x06, 0x08, 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07
++};
++
++/* Named curve secp384r1 (1.3.132.0.34, from RFC 5480 section 2.1.1.1) as
++ * parameters for RFC 3279 section 2.3.5 id-ecPublicKey */
++static const uint8_t p384[] = {
++    0x06, 0x05, 0x2B, 0x81, 0x04, 0x00, 0x22
++};
++
++/* Named curve secp521r1 (1.3.132.0.35, from RFC 5480 section 2.1.1.1) as
++ * parameters for RFC 3279 section 2.3.5 id-ecPublicKey */
++static const uint8_t p521[] = {
++    0x06, 0x05, 0x2B, 0x81, 0x04, 0x00, 0x23
++};
++
+ const krb5_data oakley_1024 = { KV5M_DATA, sizeof(o1024), (char *)o1024 };
+ const krb5_data oakley_2048 = { KV5M_DATA, sizeof(o2048), (char *)o2048 };
+ const krb5_data oakley_4096 = { KV5M_DATA, sizeof(o4096), (char *)o4096 };
++const krb5_data ec_p256 = { KV5M_DATA, sizeof(p256), (char *)p256 };
++const krb5_data ec_p384 = { KV5M_DATA, sizeof(p384), (char *)p384 };
++const krb5_data ec_p521 = { KV5M_DATA, sizeof(p521), (char *)p521 };
++
++/* RFC 3279 section 2.3.3 dhpublicnumber (1.2.840.10046.2.1) */
++const krb5_data dh_oid = { 0, 7, "\x2A\x86\x48\xce\x3e\x02\x01" };
++
++/* RFC 3279 section 2.3.5 id-ecPublicKey (1.2.840.10045.2.1) */
++const krb5_data ec_oid = { 0, 7, "\x2A\x86\x48\xCE\x3D\x02\x01" };
+--- plugins/preauth/pkinit/pkinit_crypto.h.orig	2025-03-06 08:37:29 UTC
++++ plugins/preauth/pkinit/pkinit_crypto.h
+@@ -568,6 +568,11 @@ extern const krb5_data oakley_4096;
+ extern const krb5_data oakley_1024;
+ extern const krb5_data oakley_2048;
+ extern const krb5_data oakley_4096;
++extern const krb5_data ec_p256;
++extern const krb5_data ec_p384;
++extern const krb5_data ec_p521;
++extern const krb5_data dh_oid;
++extern const krb5_data ec_oid;
+ 
+ /**
+  * An ordered set of OIDs, stored as krb5_data, of KDF algorithms
+@@ -589,5 +594,7 @@ crypto_req_cert_matching_data(krb5_context context,
+ 			      pkinit_plg_crypto_context plgctx,
+ 			      pkinit_req_crypto_context reqctx,
+ 			      pkinit_cert_matching_data **md_out);
++
++int parse_dh_min_bits(krb5_context context, const char *str);
+ 
+ #endif	/* _PKINIT_CRYPTO_H */
+--- plugins/preauth/pkinit/pkinit_crypto_openssl.c.orig	2025-03-06 08:37:29 UTC
++++ plugins/preauth/pkinit/pkinit_crypto_openssl.c
+@@ -185,6 +185,15 @@ compat_get0_DH(const EVP_PKEY *pkey)
+ 
+ }
+ 
++#define EVP_PKEY_get0_EC_KEY compat_get0_EC
++static EC_KEY *
++compat_get0_EC(const EVP_PKEY *pkey)
++{
++    if (pkey->type != EVP_PKEY_EC)
++        return NULL;
++    return pkey->pkey.ec;
++}
++
+ /* Return true if the cert c includes a key usage which doesn't include u.
+  * Define using direct member access for pre-1.1. */
+ #define ku_reject(c, u)                                                 \
+@@ -265,36 +274,10 @@ decode_bn_der(const uint8_t *der, size_t len)
+ }
+ 
+ #if OPENSSL_VERSION_NUMBER >= 0x10100000L
+-static int
+-params_valid(EVP_PKEY *params)
+-{
+-    EVP_PKEY_CTX *ctx;
+-    int result;
+ 
+-    ctx = EVP_PKEY_CTX_new(params, NULL);
+-    if (ctx == NULL)
+-        return 0;
+-    result = EVP_PKEY_param_check(ctx);
+-    EVP_PKEY_CTX_free(ctx);
+-    return result == 1;
+-}
+-#else
+-static int
+-params_valid(EVP_PKEY *params)
+-{
+-    DH *dh;
+-    int codes;
+-
+-    dh = EVP_PKEY_get0_DH(params);
+-    return (dh == NULL) ? 0 : (DH_check(dh, &codes) && codes == 0);
+-}
+-#endif
+-
+-#if OPENSSL_VERSION_NUMBER >= 0x10100000L
+-
+ #if OPENSSL_VERSION_NUMBER >= 0x30000000L
+ static EVP_PKEY *
+-decode_dh_params(const krb5_data *params_der)
++decode_params(const krb5_data *params_der, const char *type)
+ {
+     EVP_PKEY *pkey = NULL;
+     const uint8_t *inptr = (uint8_t *)params_der->data;
+@@ -302,7 +285,7 @@ decode_dh_params(const krb5_data *params_der)
+     OSSL_DECODER_CTX *dctx;
+     int ok;
+ 
+-    dctx = OSSL_DECODER_CTX_new_for_pkey(&pkey, "DER", "type-specific", "DHX",
++    dctx = OSSL_DECODER_CTX_new_for_pkey(&pkey, "DER", "type-specific", type,
+                                          EVP_PKEY_KEY_PARAMETERS, NULL, NULL);
+     if (dctx == NULL)
+         return NULL;
+@@ -311,7 +294,15 @@ decode_dh_params(const krb5_data *params_der)
+     OSSL_DECODER_CTX_free(dctx);
+     return ok ? pkey : NULL;
+ }
++
++static EVP_PKEY *
++decode_dh_params(const krb5_data *params_der)
++{
++    return decode_params(params_der, "DHX");
++}
++
+ #else
++
+ static EVP_PKEY *
+ decode_dh_params(const krb5_data *params_der)
+ {
+@@ -324,6 +315,7 @@ decode_dh_params(const krb5_data *params_der)
+     DH_free(dh);
+     return pkey;
+ }
++
+ #endif
+ 
+ static krb5_error_code
+@@ -524,6 +516,39 @@ cleanup:
+ 
+ #endif /* OPENSSL_VERSION_NUMBER < 0x10100000L */
+ 
++#if OPENSSL_VERSION_NUMBER >= 0x30000000L
++
++static EVP_PKEY *
++decode_ec_params(const krb5_data *params_der)
++{
++    return decode_params(params_der, "EC");
++}
++
++#else /* OPENSSL_VERSION_NUMBER < 0x30000000L */
++
++static EVP_PKEY *
++decode_ec_params(const krb5_data *params_der)
++{
++    const uint8_t *p = (uint8_t *)params_der->data;
++    EC_KEY *eckey;
++    EVP_PKEY *pkey;
++
++    eckey = d2i_ECParameters(NULL, &p, params_der->length);
++    if (eckey == NULL)
++        return NULL;
++    pkey = EVP_PKEY_new();
++    if (pkey != NULL) {
++        if (!EVP_PKEY_set1_EC_KEY(pkey, eckey)) {
++            EVP_PKEY_free(pkey);
++            pkey = NULL;
++        }
++    }
++    EC_KEY_free(eckey);
++    return pkey;
++}
++
++#endif /* OPENSSL_VERSION_NUMBER < 0x30000000L */
++
+ /* Attempt to specify padded Diffie-Hellman result derivation.  Don't error out
+  * if this fails since we also detect short results and adjust them. */
+ #if OPENSSL_VERSION_NUMBER >= 0x30000000L
+@@ -555,7 +580,8 @@ dh_result(EVP_PKEY *pkey, EVP_PKEY *peer,
+     EVP_PKEY_CTX *derive_ctx = NULL;
+     int ok = 0;
+     uint8_t *buf = NULL;
+-    size_t len, dh_size = EVP_PKEY_get_size(pkey);
++    size_t len, result_size;
++    krb5_boolean ecc = (EVP_PKEY_id(pkey) == EVP_PKEY_EC);
+ 
+     *result_out = NULL;
+     *len_out = 0;
+@@ -565,24 +591,39 @@ dh_result(EVP_PKEY *pkey, EVP_PKEY *peer,
+         goto cleanup;
+     if (EVP_PKEY_derive_init(derive_ctx) <= 0)
+         goto cleanup;
+-    set_padded_derivation(derive_ctx);
++    if (!ecc)
++        set_padded_derivation(derive_ctx);
+     if (EVP_PKEY_derive_set_peer(derive_ctx, peer) <= 0)
+         goto cleanup;
+ 
+-    buf = malloc(dh_size);
++    if (ecc) {
++        if (EVP_PKEY_derive(derive_ctx, NULL, &result_size) <= 0)
++            goto cleanup;
++    } else {
++        /*
++         * For finite-field Diffie-Hellman we must ensure that the result
++         * matches the key size (normally through padded derivation, but that
++         * isn't supported by OpenSSL 1.0 so we must check).
++         */
++        result_size = EVP_PKEY_get_size(pkey);
++    }
++    buf = malloc(result_size);
+     if (buf == NULL)
+         goto cleanup;
+-    len = dh_size;
++    len = result_size;
+     if (EVP_PKEY_derive(derive_ctx, buf, &len) <= 0)
+         goto cleanup;
+-    if (len < dh_size) {        /* only possible without padded derivation */
+-        memmove(buf + (dh_size - len), buf, len);
+-        memset(buf, 0, dh_size - len);
++
++    /* If we couldn't specify padded derivation for finite-field DH we may need
++     * to fix up the result by right-shifting it within the buffer. */
++    if (len < result_size) {
++        memmove(buf + (result_size - len), buf, len);
++        memset(buf, 0, result_size - len);
+     }
+ 
+     ok = 1;
+     *result_out = buf;
+-    *len_out = dh_size;
++    *len_out = result_size;
+     buf = NULL;
+ 
+ cleanup:
+@@ -596,13 +637,21 @@ dh_pubkey_der(EVP_PKEY *pkey, uint8_t **pubkey_out, un
+ dh_pubkey_der(EVP_PKEY *pkey, uint8_t **pubkey_out, unsigned int *len_out)
+ {
+     BIGNUM *pubkey_bn = NULL;
+-    int len, ok;
+-    uint8_t *buf;
++    int len, ok = 0;
++    uint8_t *buf, *outptr;
+ 
+-    if (!EVP_PKEY_get_bn_param(pkey, OSSL_PKEY_PARAM_PUB_KEY, &pubkey_bn))
+-        return 0;
+-    ok = encode_bn_der(pubkey_bn, &buf, &len);
+-    BN_free(pubkey_bn);
++    if (EVP_PKEY_id(pkey) == EVP_PKEY_EC) {
++        len = i2d_PublicKey(pkey, NULL);
++        if (len > 0 && (outptr = buf = malloc(len)) != NULL) {
++            (void)i2d_PublicKey(pkey, &outptr);
++            ok = 1;
++        }
++    } else {
++        if (!EVP_PKEY_get_bn_param(pkey, OSSL_PKEY_PARAM_PUB_KEY, &pubkey_bn))
++            return 0;
++        ok = encode_bn_der(pubkey_bn, &buf, &len);
++        BN_free(pubkey_bn);
++    }
+     if (ok) {
+         *pubkey_out = buf;
+         *len_out = len;
+@@ -614,19 +663,33 @@ dh_pubkey_der(EVP_PKEY *pkey, uint8_t **pubkey_out, un
+ dh_pubkey_der(EVP_PKEY *pkey, uint8_t **pubkey_out, unsigned int *len_out)
+ {
+     const DH *dh;
++    EC_KEY *eckey;              /* can be const when OpenSSL 1.0 dropped */
+     const BIGNUM *pubkey_bn;
+-    uint8_t *buf;
++    uint8_t *buf, *outptr;
+     int len;
+ 
+     dh = EVP_PKEY_get0_DH(pkey);
+-    if (dh == NULL)
+-        return 0;
+-    DH_get0_key(dh, &pubkey_bn, NULL);
+-    if (!encode_bn_der(pubkey_bn, &buf, &len))
+-        return 0;
+-    *pubkey_out = buf;
+-    *len_out = len;
+-    return 1;
++    if (dh != NULL) {
++        DH_get0_key(dh, &pubkey_bn, NULL);
++        if (!encode_bn_der(pubkey_bn, &buf, &len))
++            return 0;
++        *pubkey_out = buf;
++        *len_out = len;
++        return 1;
++    }
++
++    eckey = EVP_PKEY_get0_EC_KEY(pkey);
++    if (eckey != NULL) {
++        len = i2o_ECPublicKey(eckey, NULL);
++        if (len > 0 && (outptr = buf = malloc(len)) != NULL) {
++            (void)i2o_ECPublicKey(eckey, &outptr);
++            *pubkey_out = buf;
++            *len_out = len;
++            return 1;
++        }
++    }
++
++    return 0;
+ }
+ #endif
+ 
+@@ -690,17 +753,23 @@ compose_dh_pkey(EVP_PKEY *params, const uint8_t *pubke
+     if (pkey == NULL)
+         goto cleanup;
+ 
+-    pubkey_bn = decode_bn_der(pubkey_der, der_len);
+-    if (pubkey_bn == NULL)
+-        goto cleanup;
+-    binlen = EVP_PKEY_get_size(pkey);
+-    pubkey_bin = malloc(binlen);
+-    if (pubkey_bin == NULL)
+-        goto cleanup;
+-    if (BN_bn2binpad(pubkey_bn, pubkey_bin, binlen) != binlen)
+-        goto cleanup;
+-    if (EVP_PKEY_set1_encoded_public_key(pkey, pubkey_bin, binlen) != 1)
+-        goto cleanup;
++    if (EVP_PKEY_id(params) == EVP_PKEY_EC) {
++        if (d2i_PublicKey(EVP_PKEY_id(params), &pkey, &pubkey_der,
++                          der_len) == NULL)
++            goto cleanup;
++    } else {
++        pubkey_bn = decode_bn_der(pubkey_der, der_len);
++        if (pubkey_bn == NULL)
++            goto cleanup;
++        binlen = EVP_PKEY_get_size(pkey);
++        pubkey_bin = malloc(binlen);
++        if (pubkey_bin == NULL)
++            goto cleanup;
++        if (BN_bn2binpad(pubkey_bn, pubkey_bin, binlen) != binlen)
++            goto cleanup;
++        if (EVP_PKEY_set1_encoded_public_key(pkey, pubkey_bin, binlen) != 1)
++            goto cleanup;
++    }
+ 
+     pkey_ret = pkey;
+     pkey = NULL;
+@@ -745,29 +814,60 @@ compose_dh_pkey(EVP_PKEY *params, const uint8_t *pubke
+ compose_dh_pkey(EVP_PKEY *params, const uint8_t *pubkey_der, size_t der_len)
+ {
+     DH *dhparams, *dh = NULL;
+-    EVP_PKEY *pkey = NULL;
++    EVP_PKEY *pkey = NULL, *pkey_ret = NULL;
+     BIGNUM *pubkey_bn = NULL;
++    EC_KEY *params_eckey, *eckey = NULL;
++    const EC_GROUP *group;
+ 
+-    pubkey_bn = decode_bn_der(pubkey_der, der_len);
+-    if (pubkey_bn == NULL)
+-        goto cleanup;
++    if (EVP_PKEY_id(params) == EVP_PKEY_EC) {
++        /* We would like to use EVP_PKEY_copy_parameters() and d2i_PublicKey(),
++         * but the latter is broken in OpenSSL 1.1.0-1.1.1a for EC keys. */
++        params_eckey = EVP_PKEY_get0_EC_KEY(params);
++        if (params_eckey == NULL)
++            goto cleanup;
++        group = EC_KEY_get0_group(params_eckey);
++        eckey = EC_KEY_new();
++        if (eckey == NULL)
++            goto cleanup;
++        if (!EC_KEY_set_group(eckey, group))
++            goto cleanup;
++        if (o2i_ECPublicKey(&eckey, &pubkey_der, der_len) == NULL)
++            goto cleanup;
++        pkey = EVP_PKEY_new();
++        if (pkey == NULL)
++            return NULL;
++        if (!EVP_PKEY_assign(pkey, EVP_PKEY_EC, eckey)) {
++            EVP_PKEY_free(pkey);
++            return NULL;
++        }
++        eckey = NULL;
++    } else {
++        pubkey_bn = decode_bn_der(pubkey_der, der_len);
++        if (pubkey_bn == NULL)
++            goto cleanup;
+ 
+-    dhparams = EVP_PKEY_get0_DH(params);
+-    if (dhparams == NULL)
+-        goto cleanup;
+-    dh = dup_dh_params(dhparams);
+-    if (dh == NULL)
+-        goto cleanup;
+-    if (!DH_set0_key(dh, pubkey_bn, NULL))
+-        goto cleanup;
+-    pubkey_bn = NULL;
++        dhparams = EVP_PKEY_get0_DH(params);
++        if (dhparams == NULL)
++            goto cleanup;
++        dh = dup_dh_params(dhparams);
++        if (dh == NULL)
++            goto cleanup;
++        if (!DH_set0_key(dh, pubkey_bn, NULL))
++            goto cleanup;
++        pubkey_bn = NULL;
+ 
+-    pkey = dh_to_pkey(&dh);
++        pkey = dh_to_pkey(&dh);
++    }
+ 
++    pkey_ret = pkey;
++    pkey = NULL;
++
+ cleanup:
+     BN_free(pubkey_bn);
+     DH_free(dh);
+-    return pkey;
++    EC_KEY_free(eckey);
++    EVP_PKEY_free(pkey);
++    return pkey_ret;
+ }
+ 
+ #endif /* OPENSSL_VERSION_NUMBER < 0x30000000L */
+@@ -1036,7 +1136,6 @@ pkinit_init_req_crypto(pkinit_req_crypto_context *cryp
+     memset(ctx, 0, sizeof(*ctx));
+ 
+     ctx->client_pkey = NULL;
+-    ctx->received_params = NULL;
+     ctx->received_cert = NULL;
+ 
+     *cryptoctx = ctx;
+@@ -1058,7 +1157,6 @@ pkinit_fini_req_crypto(pkinit_req_crypto_context req_c
+ 
+     pkiDebug("%s: freeing ctx at %p\n", __FUNCTION__, req_cryptoctx);
+     EVP_PKEY_free(req_cryptoctx->client_pkey);
+-    EVP_PKEY_free(req_cryptoctx->received_params);
+     X509_free(req_cryptoctx->received_cert);
+ 
+     free(req_cryptoctx);
+@@ -1262,9 +1360,9 @@ try_import_group(krb5_context context, const krb5_data
+ 
+ static int
+ try_import_group(krb5_context context, const krb5_data *params,
+-                 const char *name, EVP_PKEY **pkey_out)
++                 const char *name, krb5_boolean ec, EVP_PKEY **pkey_out)
+ {
+-    *pkey_out = decode_dh_params(params);
++    *pkey_out = ec ? decode_ec_params(params) : decode_dh_params(params);
+     if (*pkey_out == NULL)
+         TRACE_PKINIT_DH_GROUP_UNAVAILABLE(context, name);
+     return (*pkey_out != NULL) ? 1 : 0;
+@@ -1275,12 +1373,15 @@ pkinit_init_dh_params(krb5_context context, pkinit_plg
+ {
+     int n = 0;
+ 
+-    n += try_import_group(context, &oakley_1024, "MODP 2 (1024-bit)",
++    n += try_import_group(context, &oakley_1024, "MODP 2 (1024-bit)", FALSE,
+                           &plgctx->dh_1024);
+-    n += try_import_group(context, &oakley_2048, "MODP 14 (2048-bit)",
++    n += try_import_group(context, &oakley_2048, "MODP 14 (2048-bit)", FALSE,
+                           &plgctx->dh_2048);
+-    n += try_import_group(context, &oakley_4096, "MODP 16 (4096-bit)",
++    n += try_import_group(context, &oakley_4096, "MODP 16 (4096-bit)", FALSE,
+                           &plgctx->dh_4096);
++    n += try_import_group(context, &ec_p256, "P-256", TRUE, &plgctx->ec_p256);
++    n += try_import_group(context, &ec_p384, "P-384", TRUE, &plgctx->ec_p384);
++    n += try_import_group(context, &ec_p521, "P-521", TRUE, &plgctx->ec_p521);
+ 
+     if (n == 0) {
+         pkinit_fini_dh_params(plgctx);
+@@ -1298,7 +1399,11 @@ pkinit_fini_dh_params(pkinit_plg_crypto_context plgctx
+     EVP_PKEY_free(plgctx->dh_1024);
+     EVP_PKEY_free(plgctx->dh_2048);
+     EVP_PKEY_free(plgctx->dh_4096);
++    EVP_PKEY_free(plgctx->ec_p256);
++    EVP_PKEY_free(plgctx->ec_p384);
++    EVP_PKEY_free(plgctx->ec_p521);
+     plgctx->dh_1024 = plgctx->dh_2048 = plgctx->dh_4096 = NULL;
++    plgctx->ec_p256 = plgctx->ec_p384 = plgctx->ec_p521 = NULL;
+ }
+ 
+ static krb5_error_code
+@@ -2706,6 +2811,62 @@ cleanup:
+     return ret;
+ }
+ 
++/* Return the equivalent finite-field bit strength of pkey if it matches a
++ * well-known group, or -1 if it doesn't. */
++static int
++check_dh_wellknown(pkinit_plg_crypto_context cryptoctx, EVP_PKEY *pkey)
++{
++    int nbits = EVP_PKEY_get_bits(pkey);
++
++    if (nbits == 1024 && EVP_PKEY_parameters_eq(cryptoctx->dh_1024, pkey) == 1)
++        return nbits;
++    if (nbits == 2048 && EVP_PKEY_parameters_eq(cryptoctx->dh_2048, pkey) == 1)
++        return nbits;
++    if (nbits == 4096 && EVP_PKEY_parameters_eq(cryptoctx->dh_4096, pkey) == 1)
++        return nbits;
++    if (nbits == 256 && EVP_PKEY_parameters_eq(cryptoctx->ec_p256, pkey) == 1)
++        return PKINIT_DH_P256_BITS;
++    if (nbits == 384 && EVP_PKEY_parameters_eq(cryptoctx->ec_p384, pkey) == 1)
++        return PKINIT_DH_P384_BITS;
++    if (nbits == 521 && EVP_PKEY_parameters_eq(cryptoctx->ec_p521, pkey) == 1)
++        return PKINIT_DH_P521_BITS;
++    return -1;
++}
++
++/* Return a short description of the Diffie-Hellman group with the given
++ * finite-field group size equivalent. */
++static const char *
++group_desc(int dh_bits)
++{
++    switch (dh_bits) {
++    case PKINIT_DH_P256_BITS: return "P-256";
++    case PKINIT_DH_P384_BITS: return "P-384";
++    case PKINIT_DH_P521_BITS: return "P-521";
++    case 1024: return "1024-bit DH";
++    case 2048: return "2048-bit DH";
++    case 4096: return "4096-bit DH";
++    }
++    return "(unknown)";
++}
++
++static EVP_PKEY *
++choose_dh_group(pkinit_plg_crypto_context plg_cryptoctx, int dh_size)
++{
++    if (dh_size == 1024)
++        return plg_cryptoctx->dh_1024;
++    if (dh_size == 2048)
++        return plg_cryptoctx->dh_2048;
++    if (dh_size == 4096)
++        return plg_cryptoctx->dh_4096;
++    if (dh_size == PKINIT_DH_P256_BITS)
++        return plg_cryptoctx->ec_p256;
++    if (dh_size == PKINIT_DH_P384_BITS)
++        return plg_cryptoctx->ec_p384;
++    if (dh_size == PKINIT_DH_P521_BITS)
++        return plg_cryptoctx->ec_p521;
++    return NULL;
++}
++
+ krb5_error_code
+ client_create_dh(krb5_context context,
+                  pkinit_plg_crypto_context plg_cryptoctx,
+@@ -2718,16 +2879,10 @@ client_create_dh(krb5_context context,
+ 
+     *spki_out = empty_data();
+ 
+-    if (cryptoctx->received_params != NULL)
+-        params = cryptoctx->received_params;
+-    else if (plg_cryptoctx->dh_1024 != NULL && dh_size == 1024)
+-        params = plg_cryptoctx->dh_1024;
+-    else if (plg_cryptoctx->dh_2048 != NULL && dh_size == 2048)
+-        params = plg_cryptoctx->dh_2048;
+-    else if (plg_cryptoctx->dh_4096 != NULL && dh_size == 4096)
+-        params = plg_cryptoctx->dh_4096;
+-    else
++    params = choose_dh_group(plg_cryptoctx, dh_size);
++    if (params == NULL)
+         goto cleanup;
++    TRACE_PKINIT_DH_PROPOSING_GROUP(context, group_desc(dh_size));
+ 
+     pkey = generate_dh_pkey(params);
+     if (pkey == NULL)
+@@ -2767,8 +2922,11 @@ client_process_dh(krb5_context context,
+     server_pkey = compose_dh_pkey(cryptoctx->client_pkey,
+                                   subjectPublicKey_data,
+                                   subjectPublicKey_length);
+-    if (server_pkey == NULL)
++    if (server_pkey == NULL) {
++        retval = KRB5_PREAUTH_FAILED;
++        k5_setmsg(context, retval, _("Cannot compose PKINIT KDC public key"));
+         goto cleanup;
++    }
+ 
+     if (!dh_result(cryptoctx->client_pkey, server_pkey,
+                    &client_key, &client_key_len))
+@@ -2792,20 +2950,6 @@ cleanup:
+     return retval;
+ }
+ 
+-/* Return 1 if dh is a permitted well-known group, otherwise return 0. */
+-static int
+-check_dh_wellknown(pkinit_plg_crypto_context cryptoctx, EVP_PKEY *pkey,
+-                   int nbits)
+-{
+-    if (nbits == 1024)
+-        return EVP_PKEY_parameters_eq(cryptoctx->dh_1024, pkey) == 1;
+-    else if (nbits == 2048)
+-        return EVP_PKEY_parameters_eq(cryptoctx->dh_2048, pkey) == 1;
+-    else if (nbits == 4096)
+-        return EVP_PKEY_parameters_eq(cryptoctx->dh_4096, pkey) == 1;
+-    return 0;
+-}
+-
+ krb5_error_code
+ server_check_dh(krb5_context context,
+                 pkinit_plg_crypto_context cryptoctx,
+@@ -2815,7 +2959,7 @@ server_check_dh(krb5_context context,
+                 int minbits)
+ {
+     EVP_PKEY *client_pkey = NULL;
+-    int dh_prime_bits;
++    int dh_bits;
+     krb5_error_code retval = KRB5KDC_ERR_DH_KEY_PARAMETERS_NOT_ACCEPTED;
+ 
+     client_pkey = decode_spki(client_spki);
+@@ -2824,16 +2968,15 @@ server_check_dh(krb5_context context,
+         goto cleanup;
+     }
+ 
+-    /* KDC SHOULD check to see if the key parameters satisfy its policy */
+-    dh_prime_bits = EVP_PKEY_get_bits(client_pkey);
+-    if (minbits && dh_prime_bits < minbits) {
+-        pkiDebug("client sent dh params with %d bits, we require %d\n",
+-                 dh_prime_bits, minbits);
++    dh_bits = check_dh_wellknown(cryptoctx, client_pkey);
++    if (dh_bits == -1 || dh_bits < minbits) {
++        TRACE_PKINIT_DH_REJECTING_GROUP(context, group_desc(dh_bits),
++                                        group_desc(minbits));
+         goto cleanup;
+     }
++    TRACE_PKINIT_DH_RECEIVED_GROUP(context, group_desc(dh_bits));
+ 
+-    if (check_dh_wellknown(cryptoctx, client_pkey, dh_prime_bits))
+-        retval = 0;
++    retval = 0;
+ 
+ cleanup:
+     if (retval == 0)
+@@ -3018,9 +3161,20 @@ pkinit_create_td_dh_parameters(krb5_context context,
+     krb5_algorithm_identifier alg_1024 = { dh_oid, oakley_1024 };
+     krb5_algorithm_identifier alg_2048 = { dh_oid, oakley_2048 };
+     krb5_algorithm_identifier alg_4096 = { dh_oid, oakley_4096 };
+-    krb5_algorithm_identifier *alglist[4];
++    krb5_algorithm_identifier alg_p256 = { ec_oid, ec_p256 };
++    krb5_algorithm_identifier alg_p384 = { ec_oid, ec_p384 };
++    krb5_algorithm_identifier alg_p521 = { ec_oid, ec_p521 };
++    krb5_algorithm_identifier *alglist[7];
+ 
+     i = 0;
++    if (plg_cryptoctx->ec_p256 != NULL &&
++        opts->dh_min_bits <= PKINIT_DH_P256_BITS)
++        alglist[i++] = &alg_p256;
++    if (plg_cryptoctx->ec_p384 != NULL &&
++        opts->dh_min_bits <= PKINIT_DH_P384_BITS)
++        alglist[i++] = &alg_p384;
++    if (plg_cryptoctx->ec_p521 != NULL)
++        alglist[i++] = &alg_p521;
+     if (plg_cryptoctx->dh_2048 != NULL && opts->dh_min_bits <= 2048)
+         alglist[i++] = &alg_2048;
+     if (plg_cryptoctx->dh_4096 != NULL && opts->dh_min_bits <= 4096)
+@@ -3105,13 +3259,10 @@ pkinit_process_td_dh_params(krb5_context context,
+ {
+     krb5_error_code retval = KRB5KDC_ERR_DH_KEY_PARAMETERS_NOT_ACCEPTED;
+     EVP_PKEY *params = NULL;
+-    int i, dh_prime_bits, old_dh_size;
++    int i, dh_bits, old_dh_size;
+ 
+     pkiDebug("dh parameters\n");
+ 
+-    EVP_PKEY_free(req_cryptoctx->received_params);
+-    req_cryptoctx->received_params = NULL;
+-
+     old_dh_size = *new_dh_size;
+ 
+     for (i = 0; algId[i] != NULL; i++) {
+@@ -3119,36 +3270,22 @@ pkinit_process_td_dh_params(krb5_context context,
+         EVP_PKEY_free(params);
+         params = NULL;
+ 
+-        /* Skip any parameters for algorithms other than DH. */
+-        if (algId[i]->algorithm.length != dh_oid.length ||
+-            memcmp(algId[i]->algorithm.data, dh_oid.data, dh_oid.length))
++        if (data_eq(algId[i]->algorithm, dh_oid))
++            params = decode_dh_params(&algId[i]->parameters);
++        else if (data_eq(algId[i]->algorithm, ec_oid))
++            params = decode_ec_params(&algId[i]->parameters);
++        if (params == NULL)
+             continue;
+ 
+-        params = decode_dh_params(&algId[i]->parameters);
+-        if (params == NULL)
++        dh_bits = check_dh_wellknown(cryptoctx, params);
++        /* Skip any parameters shorter than the previous size or unknown. */
++        if (dh_bits == -1 || dh_bits < old_dh_size)
+             continue;
+-        dh_prime_bits = EVP_PKEY_get_bits(params);
+-        /* Skip any parameters shorter than the previous size. */
+-        if (dh_prime_bits < old_dh_size)
+-            continue;
+-        pkiDebug("client sent %d DH bits server prefers %d DH bits\n",
+-                 *new_dh_size, dh_prime_bits);
++        TRACE_PKINIT_DH_NEGOTIATED_GROUP(context, group_desc(dh_bits));
+ 
+-        /* If this is one of our well-known groups, just save the new size; we
+-         * will use our own copy of the parameters. */
+-        if (check_dh_wellknown(cryptoctx, params, dh_prime_bits)) {
+-            *new_dh_size = dh_prime_bits;
+-            retval = 0;
+-            goto cleanup;
+-        }
+-
+-        /* If the parameters aren't well-known but check out, save them. */
+-        if (params_valid(params)) {
+-            req_cryptoctx->received_params = params;
+-            params = NULL;
+-            retval = 0;
+-            goto cleanup;
+-        }
++        *new_dh_size = dh_bits;
++        retval = 0;
++        goto cleanup;
+     }
+ 
+ cleanup:
+@@ -5323,4 +5460,41 @@ crypto_req_cert_matching_data(krb5_context context,
+ 
+     return get_matching_data(context, plgctx, reqctx, reqctx->received_cert,
+                              md_out);
++}
++
++/*
++ * Historically, the strength of PKINIT key exchange has been determined by the
++ * pkinit_dh_min_bits variable, which gives a finite field size.  With the
++ * addition of ECDH support, we allow the string values P-256, P-384, and P-521
++ * for this config variable, represented with the rough equivalent bit
++ * strengths for finite fields.
++ */
++int
++parse_dh_min_bits(krb5_context context, const char *str)
++{
++    char *endptr;
++    long n;
++
++    if (str == NULL)
++        return PKINIT_DEFAULT_DH_MIN_BITS;
++
++    n = strtol(str, &endptr, 0);
++    if (endptr == str) {
++        if (strcasecmp(str, "P-256") == 0)
++            return PKINIT_DH_P256_BITS;
++        else if (strcasecmp(str, "P-384") == 0)
++            return PKINIT_DH_P384_BITS;
++        else if (strcasecmp(str, "P-521") == 0)
++            return PKINIT_DH_P521_BITS;
++    } else {
++        if (n == 1024)
++            return 1024;
++        else if (n > 1024 && n <= 2048)
++            return 2048;
++        else if (n > 2048 && n <= 4096)
++            return 4096;
++    }
++
++    TRACE_PKINIT_DH_INVALID_MIN_BITS(context, str);
++    return PKINIT_DEFAULT_DH_MIN_BITS;
+ }
+--- plugins/preauth/pkinit/pkinit_crypto_openssl.h.orig	2024-06-26 20:00:35 UTC
++++ plugins/preauth/pkinit/pkinit_crypto_openssl.h
+@@ -99,6 +99,9 @@ struct _pkinit_plg_crypto_context {
+     EVP_PKEY *dh_1024;
+     EVP_PKEY *dh_2048;
+     EVP_PKEY *dh_4096;
++    EVP_PKEY *ec_p256;
++    EVP_PKEY *ec_p384;
++    EVP_PKEY *ec_p521;
+     ASN1_OBJECT *id_pkinit_authData;
+     ASN1_OBJECT *id_pkinit_DHKeyData;
+     ASN1_OBJECT *id_pkinit_rkeyData;
+@@ -113,7 +116,6 @@ struct _pkinit_req_crypto_context {
+ struct _pkinit_req_crypto_context {
+     X509 *received_cert;
+     EVP_PKEY *client_pkey;
+-    EVP_PKEY *received_params;
+ };
+ 
+ #endif	/* _PKINIT_CRYPTO_OPENSSL_H */
+--- plugins/preauth/pkinit/pkinit_lib.c.orig	2025-03-06 08:37:29 UTC
++++ plugins/preauth/pkinit/pkinit_lib.c
+@@ -33,9 +33,6 @@
+ 
+ #define FAKECERT
+ 
+-const krb5_data dh_oid = { 0, 7, "\x2A\x86\x48\xce\x3e\x02\x01" };
+-
+-
+ krb5_error_code
+ pkinit_init_req_opts(pkinit_req_opts **reqopts)
+ {
+--- plugins/preauth/pkinit/pkinit_srv.c.orig	2025-03-06 08:37:29 UTC
++++ plugins/preauth/pkinit/pkinit_srv.c
+@@ -988,7 +988,7 @@ pkinit_init_kdc_profile(krb5_context context, pkinit_k
+ pkinit_init_kdc_profile(krb5_context context, pkinit_kdc_context plgctx)
+ {
+     krb5_error_code retval;
+-    char *eku_string = NULL, *ocsp_check = NULL;
++    char *eku_string = NULL, *ocsp_check = NULL, *minbits = NULL;
+ 
+     pkiDebug("%s: entered for realm %s\n", __FUNCTION__, plgctx->realmname);
+     retval = pkinit_kdcdefault_string(context, plgctx->realmname,
+@@ -1033,17 +1033,10 @@ pkinit_init_kdc_profile(krb5_context context, pkinit_k
+         goto errout;
+     }
+ 
+-    pkinit_kdcdefault_integer(context, plgctx->realmname,
+-                              KRB5_CONF_PKINIT_DH_MIN_BITS,
+-                              PKINIT_DEFAULT_DH_MIN_BITS,
+-                              &plgctx->opts->dh_min_bits);
+-    if (plgctx->opts->dh_min_bits < PKINIT_DH_MIN_CONFIG_BITS) {
+-        pkiDebug("%s: invalid value (%d < %d) for pkinit_dh_min_bits, "
+-                 "using default value (%d) instead\n", __FUNCTION__,
+-                 plgctx->opts->dh_min_bits, PKINIT_DH_MIN_CONFIG_BITS,
+-                 PKINIT_DEFAULT_DH_MIN_BITS);
+-        plgctx->opts->dh_min_bits = PKINIT_DEFAULT_DH_MIN_BITS;
+-    }
++    pkinit_kdcdefault_string(context, plgctx->realmname,
++                             KRB5_CONF_PKINIT_DH_MIN_BITS, &minbits);
++    plgctx->opts->dh_min_bits = parse_dh_min_bits(context, minbits);
++    free(minbits);
+ 
+     pkinit_kdcdefault_boolean(context, plgctx->realmname,
+                               KRB5_CONF_PKINIT_ALLOW_UPN,
+--- plugins/preauth/pkinit/pkinit_trace.h.orig	2025-03-06 08:37:29 UTC
++++ plugins/preauth/pkinit/pkinit_trace.h
+@@ -83,6 +83,17 @@
+ 
+ #define TRACE_PKINIT_DH_GROUP_UNAVAILABLE(c, name)                      \
+     TRACE(c, "PKINIT key exchange group {str} unsupported", name)
++#define TRACE_PKINIT_DH_INVALID_MIN_BITS(c, str)                        \
++    TRACE(c, "Invalid pkinit_dh_min_bits value {str}, using default", str)
++#define TRACE_PKINIT_DH_NEGOTIATED_GROUP(c, desc)                       \
++    TRACE(c, "PKINIT accepting KDC key exchange group preference {str}", desc)
++#define TRACE_PKINIT_DH_PROPOSING_GROUP(c, desc)                \
++    TRACE(c, "PKINIT using {str} key exchange group", desc)
++#define TRACE_PKINIT_DH_RECEIVED_GROUP(c, desc)                         \
++    TRACE(c, "PKINIT received {str} key from client for key exchange", desc)
++#define TRACE_PKINIT_DH_REJECTING_GROUP(c, desc, mindesc)               \
++    TRACE(c, "PKINIT client key has group {str}, need at least {str}",  \
++          desc, mindesc)
+ 
+ #define TRACE_PKINIT_OPENSSL_ERROR(c, msg)              \
+     TRACE(c, "PKINIT OpenSSL error: {str}", msg)
+--- tests/t_pkinit.py.orig	2025-03-06 08:37:29 UTC
++++ tests/t_pkinit.py
+@@ -172,6 +172,15 @@ realm.run([kvno, realm.host_princ])
+ realm.klist(realm.user_princ)
+ realm.run([kvno, realm.host_princ])
+ 
++# Test each Diffie-Hellman group except 1024-bit (which doesn't work
++# in OpenSSL 3.0) and the default 2048-bit group.
++for g in ('4096', 'P-256', 'P-384', 'P-521'):
++    mark('Diffie-Hellman group ' + g)
++    group_conf = {'realms': {'$realm': {'pkinit_dh_min_bits': g}}}
++    group_env = realm.special_env(g, True, krb5_conf=group_conf)
++    realm.pkinit(realm.user_princ, expected_trace=('PKINIT using ' + g,),
++                 env=group_env)
++
+ # Try using multiple configured pkinit_identities, to make sure we
+ # fall back to the second one when the first one cannot be read.
+ id_conf = {'realms': {'$realm': {'pkinit_identities': [file_identity + 'X',
+@@ -190,11 +199,14 @@ msgs = ('Sending unauthenticated request',
+ msgs = ('Sending unauthenticated request',
+         '/Additional pre-authentication required',
+         'Preauthenticating using KDC method data',
++        'PKINIT using 2048-bit DH key exchange group',
+         'Preauth module pkinit (16) (real) returned: 0/Success',
+         ' preauth for next request: PA-FX-COOKIE (133), PA-PK-AS-REQ (16)',
+         '/Key parameters not accepted',
+         'Preauth tryagain input types (16): 109, PA-FX-COOKIE (133)',
++        'PKINIT accepting KDC key exchange group preference P-384',
+         'trying again with KDC-provided parameters',
++        'PKINIT using P-384 key exchange group',
+         'Preauth module pkinit (16) tryagain returned: 0/Success',
+         ' preauth for next request: PA-PK-AS-REQ (16), PA-FX-COOKIE (133)')
+ realm.pkinit(realm.user_princ, expected_trace=msgs)

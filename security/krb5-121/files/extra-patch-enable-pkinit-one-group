@@ -1,0 +1,178 @@
+--- plugins/preauth/pkinit/pkinit_clnt.c.orig	2025-03-06 08:33:52 UTC
++++ plugins/preauth/pkinit/pkinit_clnt.c
+@@ -1284,7 +1284,7 @@ pkinit_client_plugin_init(krb5_context context,
+     if (retval)
+         goto errout;
+ 
+-    retval = pkinit_init_plg_crypto(&ctx->cryptoctx);
++    retval = pkinit_init_plg_crypto(context, &ctx->cryptoctx);
+     if (retval)
+         goto errout;
+ 
+--- plugins/preauth/pkinit/pkinit_crypto.h.orig	2025-03-06 08:33:52 UTC
++++ plugins/preauth/pkinit/pkinit_crypto.h
+@@ -103,7 +103,8 @@ typedef struct _pkinit_cert_matching_data {
+ /*
+  * Functions to initialize and cleanup crypto contexts
+  */
+-krb5_error_code pkinit_init_plg_crypto(pkinit_plg_crypto_context *);
++krb5_error_code pkinit_init_plg_crypto(krb5_context,
++				       pkinit_plg_crypto_context *);
+ void pkinit_fini_plg_crypto(pkinit_plg_crypto_context);
+ 
+ krb5_error_code pkinit_init_req_crypto(pkinit_req_crypto_context *);
+--- plugins/preauth/pkinit/pkinit_crypto_openssl.c.orig	2025-03-06 08:33:52 UTC
++++ plugins/preauth/pkinit/pkinit_crypto_openssl.c
+@@ -47,7 +47,8 @@ static void pkinit_fini_pkinit_oids(pkinit_plg_crypto_
+ static krb5_error_code pkinit_init_pkinit_oids(pkinit_plg_crypto_context );
+ static void pkinit_fini_pkinit_oids(pkinit_plg_crypto_context );
+ 
+-static krb5_error_code pkinit_init_dh_params(pkinit_plg_crypto_context );
++static krb5_error_code pkinit_init_dh_params(krb5_context,
++                                             pkinit_plg_crypto_context);
+ static void pkinit_fini_dh_params(pkinit_plg_crypto_context );
+ 
+ static krb5_error_code pkinit_init_certs(pkinit_identity_crypto_context ctx);
+@@ -931,7 +932,8 @@ krb5_error_code
+ }
+ 
+ krb5_error_code
+-pkinit_init_plg_crypto(pkinit_plg_crypto_context *cryptoctx)
++pkinit_init_plg_crypto(krb5_context context,
++                       pkinit_plg_crypto_context *cryptoctx)
+ {
+     krb5_error_code retval = ENOMEM;
+     pkinit_plg_crypto_context ctx = NULL;
+@@ -949,7 +951,7 @@ pkinit_init_plg_crypto(pkinit_plg_crypto_context *cryp
+     if (retval)
+         goto out;
+ 
+-    retval = pkinit_init_dh_params(ctx);
++    retval = pkinit_init_dh_params(context, ctx);
+     if (retval)
+         goto out;
+ 
+@@ -1258,30 +1260,36 @@ pkinit_fini_pkinit_oids(pkinit_plg_crypto_context ctx)
+     ASN1_OBJECT_free(ctx->id_kp_serverAuth);
+ }
+ 
++static int
++try_import_group(krb5_context context, const krb5_data *params,
++                 const char *name, EVP_PKEY **pkey_out)
++{
++    *pkey_out = decode_dh_params(params);
++    if (*pkey_out == NULL)
++        TRACE_PKINIT_DH_GROUP_UNAVAILABLE(context, name);
++    return (*pkey_out != NULL) ? 1 : 0;
++}
++
+ static krb5_error_code
+-pkinit_init_dh_params(pkinit_plg_crypto_context plgctx)
++pkinit_init_dh_params(krb5_context context, pkinit_plg_crypto_context plgctx)
+ {
+-    krb5_error_code retval = ENOMEM;
++    int n = 0;
+ 
+-    plgctx->dh_1024 = decode_dh_params(&oakley_1024);
+-    if (plgctx->dh_1024 == NULL)
+-        goto cleanup;
++    n += try_import_group(context, &oakley_1024, "MODP 2 (1024-bit)",
++                          &plgctx->dh_1024);
++    n += try_import_group(context, &oakley_2048, "MODP 14 (2048-bit)",
++                          &plgctx->dh_2048);
++    n += try_import_group(context, &oakley_4096, "MODP 16 (4096-bit)",
++                          &plgctx->dh_4096);
+ 
+-    plgctx->dh_2048 = decode_dh_params(&oakley_2048);
+-    if (plgctx->dh_2048 == NULL)
+-        goto cleanup;
+-
+-    plgctx->dh_4096 = decode_dh_params(&oakley_4096);
+-    if (plgctx->dh_4096 == NULL)
+-        goto cleanup;
+-
+-    retval = 0;
+-
+-cleanup:
+-    if (retval)
++    if (n == 0) {
+         pkinit_fini_dh_params(plgctx);
++        k5_setmsg(context, ENOMEM,
++                  _("PKINIT cannot initialize any key exchange groups"));
++        return ENOMEM;
++    }
+ 
+-    return retval;
++    return 0;
+ }
+ 
+ static void
+@@ -2712,11 +2720,11 @@ client_create_dh(krb5_context context,
+ 
+     if (cryptoctx->received_params != NULL)
+         params = cryptoctx->received_params;
+-    else if (dh_size == 1024)
++    else if (plg_cryptoctx->dh_1024 != NULL && dh_size == 1024)
+         params = plg_cryptoctx->dh_1024;
+-    else if (dh_size == 2048)
++    else if (plg_cryptoctx->dh_2048 != NULL && dh_size == 2048)
+         params = plg_cryptoctx->dh_2048;
+-    else if (dh_size == 4096)
++    else if (plg_cryptoctx->dh_4096 != NULL && dh_size == 4096)
+         params = plg_cryptoctx->dh_4096;
+     else
+         goto cleanup;
+@@ -3012,18 +3020,22 @@ pkinit_create_td_dh_parameters(krb5_context context,
+     krb5_algorithm_identifier alg_4096 = { dh_oid, oakley_4096 };
+     krb5_algorithm_identifier *alglist[4];
+ 
+-    if (opts->dh_min_bits > 4096) {
+-        ret = KRB5KRB_ERR_GENERIC;
+-        goto cleanup;
+-    }
+-
+     i = 0;
+-    if (opts->dh_min_bits <= 2048)
++    if (plg_cryptoctx->dh_2048 != NULL && opts->dh_min_bits <= 2048)
+         alglist[i++] = &alg_2048;
+-    alglist[i++] = &alg_4096;
+-    if (opts->dh_min_bits <= 1024)
++    if (plg_cryptoctx->dh_4096 != NULL && opts->dh_min_bits <= 4096)
++        alglist[i++] = &alg_4096;
++    if (plg_cryptoctx->dh_1024 != NULL && opts->dh_min_bits <= 1024)
+         alglist[i++] = &alg_1024;
+     alglist[i] = NULL;
++
++    if (i == 0) {
++        ret = KRB5KRB_ERR_GENERIC;
++        k5_setmsg(context, ret,
++                  _("OpenSSL has no supported key exchange groups for "
++                    "pkinit_dh_min_bits=%d"), opts->dh_min_bits);
++        goto cleanup;
++    }
+ 
+     ret = k5int_encode_krb5_td_dh_parameters(alglist, &der_alglist);
+     if (ret)
+--- plugins/preauth/pkinit/pkinit_srv.c.orig	2025-03-06 08:33:52 UTC
++++ plugins/preauth/pkinit/pkinit_srv.c
+@@ -1140,7 +1140,7 @@ pkinit_server_plugin_init_realm(krb5_context context, 
+         goto errout;
+     plgctx->realmname_len = strlen(plgctx->realmname);
+ 
+-    retval = pkinit_init_plg_crypto(&plgctx->cryptoctx);
++    retval = pkinit_init_plg_crypto(context, &plgctx->cryptoctx);
+     if (retval)
+         goto errout;
+ 
+--- plugins/preauth/pkinit/pkinit_trace.h.orig	2025-03-06 08:33:52 UTC
++++ plugins/preauth/pkinit/pkinit_trace.h
+@@ -81,6 +81,9 @@
+ #define TRACE_PKINIT_CLIENT_TRYAGAIN(c)                                 \
+     TRACE(c, "PKINIT client trying again with KDC-provided parameters")
+ 
++#define TRACE_PKINIT_DH_GROUP_UNAVAILABLE(c, name)                      \
++    TRACE(c, "PKINIT key exchange group {str} unsupported", name)
++
+ #define TRACE_PKINIT_OPENSSL_ERROR(c, msg)              \
+     TRACE(c, "PKINIT OpenSSL error: {str}", msg)
+ 
