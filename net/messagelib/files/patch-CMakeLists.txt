@@ -1,0 +1,11 @@
+--- CMakeLists.txt.orig	2025-03-10 07:45:36 UTC
++++ CMakeLists.txt
+@@ -29,7 +29,7 @@ set(AKONADI_SEARCH_VERSION "6.3.3")
+ set(GPGME_REQUIRED_VERSION "1.23.2")
+ set(AKONADI_SEARCH_VERSION "6.3.3")
+ 
+-set(OPENSSL_VERSION "3.0.0")
++set(OPENSSL_VERSION "2.0.0")
+ 
+ set(ECM_VERSION ${KF_MIN_VERSION})
+ 
