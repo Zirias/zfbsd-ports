@@ -2,10 +2,10 @@ PORTNAME=	eduke32
 PORTVERSION=	20241216
 PORTREVISION=	1
 CATEGORIES=	games
-MASTER_SITES=	http://dukeworld.com/eduke32/synthesis/${PORTVERSION}-${GITREVISION}/:eduke32 \
+MASTER_SITES=	http://dukeworld.duke4.net/eduke32/synthesis/${PORTVERSION}-${GITREVISION}/:eduke32 \
 		LOCAL/pkubaj/:erp \
 		http://www.duke4.org/files/nightfright/related/:related \
-		http://dukeworld.com/classic%20dukeworld/share/:shareware \
+		http://dukeworld.duke4.net/classic%20dukeworld/share/:shareware \
 		https://image.dosgamesarchive.com/games/:shareware \
 		https://www.quaddicted.com/files/idgames2/planetquake/planetduke/:shareware \
 		https://ftp.swin.edu.au/gentoo/distfiles/:shareware \
