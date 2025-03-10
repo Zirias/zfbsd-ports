@@ -27,7 +27,8 @@ LIB_DEPENDS=	libsoup-2.4.so:devel/libsoup \
 		libnspr4.so:devel/nspr \
 		libsecret-1.so:security/libsecret \
 		libcanberra-gtk3.so:audio/libcanberra-gtk3 \
-		libcanberra.so:audio/libcanberra
+		libcanberra.so:audio/libcanberra \
+		libuuid.so:misc/e2fsprogs-libuuid
 
 PORTSCOUT=	limitw:1,even
 
